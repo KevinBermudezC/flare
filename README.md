@@ -1,5 +1,7 @@
 # Flare
 
-Aceternity-style marketing and motion blocks for Svelte 5.
+Svelte 5 gallery of marketing and motion blocks.
 
-Live preview. Copy the `.svelte`.
+Live preview. Copy the `.svelte`. Yours to keep.
+
+Not a design system. Not Tangram.
