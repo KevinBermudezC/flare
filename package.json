@@ -2,7 +2,7 @@
 	"name": "flare",
 	"private": true,
 	"version": "0.1.0",
-	"description": "Svelte 5 gallery of marketing and motion blocks. Preview, copy the .svelte, it's yours.",
+	"description": "Svelte 5 gallery of scroll chapters. Preview, copy the .svelte, it's yours.",
 	"packageManager": "pnpm@10.33.3",
 	"engines": {
 		"node": ">=22"
@@ -31,5 +31,8 @@
 		"overrides": {
 			"postcss": "8.5.26"
 		}
+	},
+	"dependencies": {
+		"gsap": "^3.15.0"
 	}
 }

@@ -66,5 +66,5 @@ Do not mix GSAP with `framer-motion`, `motion/react`, or `@humanspeak/svelte-mot
 
 - `window.addEventListener('scroll')` driving `$state`
 - Animate `top` / `left` / `width` / `height` (use `transform` and `opacity`)
-- Import GSAP from a Recorte 1 file that the spec says stays CSS-only
-- Add `gsap` to this repo unless the OpenSpec change names it
+- Import GSAP from a file the spec says stays CSS-only
+- Mix GSAP with another animation runtime in the same tree

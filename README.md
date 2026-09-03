@@ -2,7 +2,7 @@
 
 Preview. Copy the `.svelte`. It's yours.
 
-A Svelte 5 gallery of **marketing + motion blocks**. Live previews, not screenshots. Paste a file into your app and it renders.
+A Svelte 5 gallery of **scroll chapters**. Live preview. Copy the `.svelte`.
 
 This is **not** a design system. **Not** an npm kit. No CLI, no registry, no shared `Button`.
 
@@ -12,32 +12,26 @@ This is **not** a design system. **Not** an npm kit. No CLI, no registry, no sha
 pnpm i && pnpm dev
 ```
 
-That’s the gallery. Click a block, watch it move, copy the source.
+That's the gallery. Scroll a chapter. Copy the source.
 
-## Use a block
+## Use a chapter
 
-1. Open a block page (or `src/blocks/<name>/`).
+1. Open a chapter page (or `src/blocks/<slug>/`).
 2. Copy the `.svelte` file.
-3. Paste it into a SvelteKit 5 + Tailwind v4 app and render it.
+3. Paste it into a SvelteKit 5 + Tailwind v4 app, run `pnpm add gsap`, and render it.
 
-Each folder is independent. No cross-imports. No `$lib/ui`. No extra packages unless a block page says `pnpm add …`.
+Each folder is independent. No cross-imports. No `$lib/ui`. Recorte 1 chapters need official `gsap` (ScrollTrigger is in that package). `prefers-reduced-motion` keeps the chapter readable.
 
-## Blocks
+## Chapters
 
 | Folder | What you get |
 | --- | --- |
-| `hero-spotlight` | First screen: grid + spotlight + headline + 2 CTAs |
-| `hero-beams` | Beams, console chrome, dev-tool look |
-| `logo-marquee` | Trusted-by, two rows, pause on hover |
-| `bento-features` | Five cells, one with hover motion |
-| `testimonials-marquee` | Two rows of social proof |
-| `infinite-cards` | Feature / use-case cards in a loop |
-| `card-spotlight` | Card with mouse spotlight (drop it in a bento) |
-| `loaders` | Spinner, dots, bar, multi-step |
-| `sticky-scroll` | Features that stick and reveal on scroll |
-| `text-flip` | Rotating word in a headline |
-
-Recorte 1 blocks use CSS + `svelte/transition`. Future blocks may use official `gsap` (see the block page). `prefers-reduced-motion` keeps layout intact.
+| `split-masthead` | Oversized split type. The frame holds, then it parts. |
+| `type-charge` | Kinetic type that charges the line as you scroll. |
+| `lane-scrub` | Vertical scroll drives a horizontal lane. |
+| `chapter-pin` | Pinned rooms that zoom as the next one arrives. |
+| `mask-reveal` | Type as a mask. The cut opens on scroll. |
+| `deck-pin` | Cards that stick and stack. |
 
 ## Deploy
 

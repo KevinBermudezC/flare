@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.name} preview · Flare</title>
+	<title>{data.name} preview - Flare</title>
 </svelte:head>
 
 {#if block}
@@ -17,11 +17,6 @@
 
 <style>
 	.embed {
-		min-height: 100svh;
 		background: #09090b;
-	}
-
-	.embed :global(section) {
-		min-height: 100svh;
 	}
 </style>

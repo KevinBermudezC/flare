@@ -1,69 +1,60 @@
 ## Purpose
 
-Copyable Flare blocks are independent marketing/motion **sections**. Paste the `.svelte` into a minimal SvelteKit 5 + Tailwind v4 app and it renders with no broken imports.
+Copyable Flare chapters are independent scroll **sections**. Paste the `.svelte` into a minimal SvelteKit 5 + Tailwind v4 app, add `gsap`, and pin / scrub still runs.
 
 ## ADDED Requirements
 
-### Requirement: Ten independent section folders
+### Requirement: Six independent chapter folders
 
-The product MUST ship these ten blocks, each as its own folder with no imports from other blocks and no imports from `$lib`:
+The product MUST ship these six chapters, each as its own folder with no imports from other chapters and no imports from `$lib`:
 
-1. `hero-spotlight` — first screen: grid + spotlight + headline + two CTAs
-2. `hero-beams` — beams and console chrome (dev-tool look)
-3. `logo-marquee` — trusted-by, two rows, pause on hover
-4. `bento-features` — five cells, one with hover motion
-5. `testimonials-marquee` — two rows of social proof
-6. `infinite-cards` — feature / use-case cards in a loop
-7. `card-spotlight` — card with mouse spotlight, usable inside a bento
-8. `loaders` — spinner, dots, bar, and multi-step
-9. `sticky-scroll` — features that stick and reveal on scroll
-10. `text-flip` — rotating word in a headline
+1. `split-masthead` - oversized split type / masthead
+2. `type-charge` - kinetic type on scroll
+3. `lane-scrub` - vertical scroll drives a horizontal lane
+4. `chapter-pin` - pinned chapters that zoom or stack
+5. `mask-reveal` - image as type mask that zooms on scroll
+6. `deck-pin` - sticky stacking header / cards
 
-Each block MUST be a **section**, not a primitive Button/Input/Dialog.
+Each chapter MUST be a **section**, not a primitive Button/Input/Dialog. The repo MUST NOT ship `hero-spotlight`, `hero-beams`, `bento-features`, `logo-marquee`, `testimonials-marquee`, `infinite-cards`, `card-spotlight`, `loaders`, `text-flip`, `sticky-scroll`, or `slat-expand`.
 
 #### Scenario: Folders do not import each other
 
 - **WHEN** a maintainer inspects `src/blocks/**/*.svelte`
-- **THEN** none of those files import `$lib`, another block, `framer-motion`, or `motion/react`
-- **AND** all ten folders listed above exist
+- **THEN** none of those files import `$lib`, another chapter, `framer-motion`, `motion/react`, or `motion-sv`
+- **AND** the six folders listed above exist
+- **AND** the deleted mixed-catalog folders do not exist
 
 #### Scenario: Minimum kinds are present
 
 - **WHEN** a visitor browses the gallery
-- **THEN** they can open at least one hero, one bento, one marquee, and one loader
+- **THEN** they can open at least one pin chapter, one scrub chapter, and one kinetic-type chapter
 
 ### Requirement: Copy-paste renders
 
-A copied block file MUST render in a SvelteKit 5 + Tailwind v4 app that has no Flare-specific packages. All motion CSS used by the block MUST live in that file (or in other files in the same folder that are copied with it).
+A copied chapter file MUST render in a SvelteKit 5 + Tailwind v4 app that has `gsap` installed. All motion used by the chapter MUST live in that file (or in other files in the same folder that are copied with it).
 
-#### Scenario: Hero paste has no missing imports
+#### Scenario: Masthead paste has no missing Flare imports
 
-- **WHEN** `HeroSpotlight.svelte` is pasted into a fresh SvelteKit 5 + Tailwind v4 project and mounted on a page
-- **THEN** the section renders without unresolved imports
-- **AND** the headline and two CTAs are visible
+- **WHEN** `SplitMasthead.svelte` is pasted into a fresh SvelteKit 5 + Tailwind v4 project with `gsap` and mounted on a page
+- **THEN** the section renders without unresolved `$lib` imports
+- **AND** the split type is visible
 
 ### Requirement: Motion and reduced motion
 
-Previews MUST actually move when the user does not prefer reduced motion. When `prefers-reduced-motion: reduce` is set, each block MUST keep a usable layout (no collapsed height, no missing content that the animated state was supposed to show).
+Previews MUST pin, scrub, or charge type when the user does not prefer reduced motion. When `prefers-reduced-motion: reduce` is set, each chapter MUST keep a usable layout (no collapsed height, no missing words).
 
-#### Scenario: Marquee pauses and still lays out
+#### Scenario: Reduced motion keeps the chapter readable
 
-- **WHEN** `prefers-reduced-motion: reduce` is active on logo-marquee or testimonials-marquee
-- **THEN** the track is not required to animate
-- **AND** logos or quotes remain visible in a wrapped or static row
+- **WHEN** `prefers-reduced-motion: reduce` is active on any Recorte 1 chapter
+- **THEN** GSAP pin and scrub do not run
+- **AND** the chapter still shows its type and copy
 
-#### Scenario: Text flip keeps headline width
+### Requirement: Official gsap only as the extra dep
 
-- **WHEN** reduced motion is active on text-flip
-- **THEN** the headline still shows a word in the rotating slot
-- **AND** the line does not jump to an empty gap
+Chapters MUST use official `gsap` + ScrollTrigger for pin, scrub, kinetic type, and horizontal hijack. They MUST call `gsap.context()` and revert that context on `$effect` cleanup. They MUST NOT import `framer-motion`, `motion/react`, or `motion-sv`. There is no shared `Button`. The block page MUST state `pnpm add gsap`.
 
-### Requirement: No kit primitives
+#### Scenario: Cleanup reverts the context
 
-Blocks MUST use plain `<button>` and `<a>` with Tailwind for actions. The Recorte 1 set MUST NOT depend on `framer-motion` or `motion/react`. Recorte 1 files MUST NOT import `gsap`. There is no shared `Button`, `Dialog`, or `Input`, and no registry add.
-
-#### Scenario: CTAs are host-platform elements
-
-- **WHEN** a block shows a call to action
-- **THEN** the markup is a native `button` or `a`
-- **AND** there is no imported `<Button>` component
+- **WHEN** a chapter mounts and then unmounts
+- **THEN** its `$effect` cleanup calls `ctx.revert()`
+- **AND** no `window` scroll listener drives `$state`

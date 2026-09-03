@@ -1,10 +1,10 @@
-# Flare — agent rules
+# Flare - agent rules
 
 Read this before writing code. Then read the skill that matches the task.
 
 ## Product
 
-Flare is a Svelte 5 gallery of marketing and motion blocks. Live preview. Copy the `.svelte`. Own look: ink, ember, spotlight, beams, console chrome.
+Flare is a Svelte 5 gallery of scroll chapters. Live preview. Copy the `.svelte`. Own look: ink, ember, spotlight, beams, console chrome.
 
 It is not a design system. It is not an npm kit. There is no CLI, no registry, no shared `Button`.
 
@@ -33,9 +33,9 @@ CLI skills:
 | Task | Skill |
 | --- | --- |
 | Voice, README, UI copy, commits, PR text | [`.cursor/skills/flare-voice/SKILL.md`](./.cursor/skills/flare-voice/SKILL.md) |
-| New block or catalog entry | [`.cursor/skills/flare-blocks/SKILL.md`](./.cursor/skills/flare-blocks/SKILL.md) |
-| Visual quality of chrome or a new block | [`.cursor/skills/design-taste-frontend/SKILL.md`](./.cursor/skills/design-taste-frontend/SKILL.md) |
-| Lift existing chrome (not block internals) | [`.cursor/skills/redesign-existing/SKILL.md`](./.cursor/skills/redesign-existing/SKILL.md) |
+| New chapter or catalog entry | [`.cursor/skills/flare-blocks/SKILL.md`](./.cursor/skills/flare-blocks/SKILL.md) |
+| Visual quality of chrome or a new chapter | [`.cursor/skills/design-taste-frontend/SKILL.md`](./.cursor/skills/design-taste-frontend/SKILL.md) |
+| Lift existing chrome (not chapter internals) | [`.cursor/skills/redesign-existing/SKILL.md`](./.cursor/skills/redesign-existing/SKILL.md) |
 | Official GSAP in Svelte 5 | [`.cursor/skills/gsap-svelte/SKILL.md`](./.cursor/skills/gsap-svelte/SKILL.md) |
 | Runes, `$effect`, `$props` | [`.cursor/skills/svelte-5/SKILL.md`](./.cursor/skills/svelte-5/SKILL.md) |
 
@@ -43,13 +43,12 @@ CLI skills:
 
 - Svelte 5 + SvelteKit. TypeScript.
 - Tailwind v4 via `@tailwindcss/vite`.
-- Official `gsap` + `gsap.context()` cleanup when a block needs scroll or timeline work. CSS + `svelte/transition` for cheap hover and fade.
-- No `framer-motion`. No `motion/react`. No shared primitive kit. No registry add.
-- Demo CTAs are `<button type="button">` until a real route exists.
+- Official `gsap` + `gsap.context()` cleanup for pin, scrub, kinetic type, and horizontal hijack. CSS + `svelte/transition` for cheap hover and fade.
+- No `framer-motion`. No `motion/react`. No `motion-sv`. No shared primitive kit. No registry add.
 
 ## Do not
 
-- Do not rewrite `src/blocks/*` internals unless the spec names a replacement.
+- Do not invent slugs. Recorte 1 is the six named chapters.
 - Do not add a CLI, registry, or shared `Button`.
 - Do not name other products or sibling projects in any file you write.
 - Do not define Flare by comparison.

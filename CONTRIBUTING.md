@@ -4,7 +4,7 @@ Read [AGENTS.md](./AGENTS.md) first. Product shape is in [README.md](./README.md
 
 ## Product
 
-Flare is a Svelte 5 gallery of marketing and motion blocks. Live preview. Copy the `.svelte`. Own look: ink, ember, spotlight, beams, console chrome.
+Flare is a Svelte 5 gallery of scroll chapters. Live preview. Copy the `.svelte`. Own look: ink, ember, spotlight, beams, console chrome.
 
 It is not a design system. It is not an npm kit. There is no CLI, no registry, no shared `Button`.
 
@@ -21,21 +21,23 @@ Do not name other products or sibling projects. Do not define Flare by compariso
 
 The first change is [`openspec/changes/establish-flare-gallery`](./openspec/changes/establish-flare-gallery/). Do not create a second change for the same gallery. Amend that folder, then `openspec validate establish-flare-gallery`.
 
-## Blocks
+## Chapters
 
-- One folder under `src/blocks/<kebab-name>/`.
+- One folder under `src/blocks/<slug>/`.
 - One public `*.svelte` file that is the copy target.
 - No `$lib` / `@/` imports. No shared `Button` / `Dialog` / `Input`.
-- CSS + `svelte/transition` for cheap motion. Official `gsap` + `gsap.context()` cleanup when a block needs scroll or timeline work.
-- `prefers-reduced-motion: reduce` must not collapse the block.
-- Demo CTAs are `<button type="button">` until real routes exist.
+- Official `gsap` + `gsap.context()` cleanup for pin, scrub, type, and horizontal hijack.
+- CSS + `svelte/transition` for cheap hover.
+- `prefers-reduced-motion: reduce` must not empty the chapter.
+
+Recorte 1 slugs: `split-masthead`, `type-charge`, `lane-scrub`, `chapter-pin`, `mask-reveal`, `deck-pin`.
 
 ## Docs and UI copy
 
 - Name Flare. Describe the gallery. Stop.
-- No other product names. No sibling project names. Do not define Flare by comparison.
+- No other product names. No sibling project names.
 - Allowed product-shape facts: not a design system, not an npm kit, no CLI, no registry, no shared `Button`.
-- Read [`.cursor/skills/design-taste-frontend/SKILL.md`](./.cursor/skills/design-taste-frontend/SKILL.md) before writing chrome or a new block.
+- Read [`.cursor/skills/design-taste-frontend/SKILL.md`](./.cursor/skills/design-taste-frontend/SKILL.md) before writing chrome or a new chapter.
 
 ## Verification
 
@@ -43,5 +45,3 @@ The first change is [`openspec/changes/establish-flare-gallery`](./openspec/chan
 pnpm check
 pnpm build
 ```
-
-`src/blocks` internals stay untouched unless the spec names a new block or a named replacement.

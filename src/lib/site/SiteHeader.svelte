@@ -23,7 +23,7 @@
 					class="hidden text-[13px] text-[#c4bbb0] hover:text-[#f5f0ea] sm:inline"
 					href="/#catalog"
 				>
-					Blocks
+					Chapters
 				</a>
 			{/if}
 			<a

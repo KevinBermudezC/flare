@@ -1,3 +1,3 @@
 # establish-flare-gallery
 
-Recorte 1: Flare gallery and 10 copyable Svelte 5 motion sections
+Recorte 1: Flare gallery and six copyable Svelte 5 scroll chapters

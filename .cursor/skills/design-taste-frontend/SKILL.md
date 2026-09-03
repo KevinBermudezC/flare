@@ -16,7 +16,7 @@ Any visual work on Flare (gallery chrome **or** blocks) follows this skill. Also
 
 State one line: `Reading this as: <page kind> for <audience>, <vibe>, VARIANCE / MOTION / DENSITY.`
 
-Flare default read (gallery blocks): **marketing/motion sections for Svelte builders, VARIANCE 8 / MOTION 7 / DENSITY 3-4.**
+Flare default read (gallery chapters): **scroll chapters for Svelte builders, VARIANCE 8 / MOTION 7 / DENSITY 3-4.**
 
 Do not default to: Inter, AI-purple mesh heroes, three equal feature cards, neon glow, `#000`, Jane Doe / Acme / Unleash copy, version-label eyebrows, infinite-loop everything.
 

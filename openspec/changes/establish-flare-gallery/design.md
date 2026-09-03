@@ -1,88 +1,74 @@
 ## Context
 
-See proposal.md for motivation. The repo on `main` is a README-only stub. Recorte 1 has to be a product a stranger can run with `pnpm i && pnpm dev`, not a kit they install. Blocks must survive copy-paste into a bare SvelteKit 5 + Tailwind v4 app, so every keyframe and every markup decision lives in the file they copy.
+See proposal.md. Recorte 1 is six scroll chapters, not a mixed marketing kit. Each chapter must paste into a bare SvelteKit 5 + Tailwind v4 app with `pnpm add gsap` and keep pin / scrub / type motion.
 
 ## Goals / Non-Goals
 
 **Goals:**
 
 - Current `sv create` bootstrap (Svelte 5, SvelteKit, Tailwind v4 via `@tailwindcss/vite`).
-- Ten section folders that do not import the site or each other.
-- Gallery isolation so CSS `@keyframes` in one block cannot clobber another on the home grid.
-- Copy UI that dumps the real file bytes (`?raw`), not a rewritten sample.
-- Reduced-motion CSS/JS that freezes animation without collapsing layout.
+- Six independent chapter folders under `src/blocks/`.
+- Official `gsap` + ScrollTrigger for pin, scrub, kinetic type, and horizontal hijack.
+- Svelte 5: `gsap.context()` inside `$effect`, revert on cleanup.
+- `prefers-reduced-motion` freezes to a readable static layout. Content stays.
+- Gallery isolation so one chapter cannot clobber another on the home catalog.
+- Copy UI dumps the real file bytes (`?raw`).
+- Catalog iframes are tall enough to pin.
 
 **Non-Goals:**
 
 - Publishing an npm package or a component registry.
-- A theme toggle, i18n, or extra motion libraries for Recorte 1 files.
-- Sharing primitives between blocks “for DRY”. Duplication of a marquee track is correct.
+- A theme toggle or i18n.
+- Shared primitives between chapters.
+- `slat-expand` (click accordion, not a scroll chapter).
+- Extra slugs: `ember-ticker`, `scene-hero`, `index-scatter`.
 
 ## Decisions
 
-### Site is SvelteKit; blocks are loose folders under `src/blocks/`
+### Site is SvelteKit; chapters are loose folders under `src/blocks/`
 
-The gallery imports blocks for preview. The copyable contract is the folder, not `$lib`. Site-only helpers (`catalog`, copy panel, header) live in `src/lib/site` and `src/lib/catalog.ts` and MUST NOT be imported from a block.
+The gallery imports chapters for preview. The copyable contract is the folder, not `$lib`. Site helpers MUST NOT be imported from a chapter.
 
-**Alternatives considered**: npm workspace of packages (rejected - that is a kit), `blocks/` at repo root with a Vite alias (rejected - extra config for no copy-paste gain; `src/blocks` still compiles).
+### Live previews use an embed route in an iframe
 
-### Live previews on the home grid use an embed route in an iframe
+Home cards iframe `/blocks/[slug]/embed`. The iframe is scrollable. Height is near a viewport so pin and scrub can run. The overlay must not eat pointer events on the iframe.
 
-Each block's `<style>` defines keyframes (`slide`, `spin`, …). If all ten rendered on `/` in one document, those names would collide. `/blocks/[slug]/embed` is chrome-free; the home card iframes it. The block page renders the component directly so pointer-follow and hover-pause work on the real section.
+### Motion lives in the copied file
 
-**Alternatives considered**: inline scaled components on `/` (rejected - keyframe collisions), screenshots (rejected - Recorte 1 requires motion).
+GSAP setup, selectors, and styles live inside each `.svelte`. Extra dep is only `gsap` (ScrollTrigger ships with it). The block page states `pnpm add gsap`.
 
-### Motion stays in the copied file
+### GSAP is required for Recorte 1 chapters
 
-Keyframes, marquee tracks, spotlight gradients, and `svelte/transition` usage live inside each `.svelte`. No global `tailwind.config` animation registry, so paste does not miss CSS.
+Pin, scrub, kinetic type, horizontal lane, mask zoom. CSS sticky and `svelte/transition` only for cheap hover. No `framer-motion`, `motion/react`, or `motion-sv`.
 
-**Alternatives considered**: shared `app.css` utilities for beams/marquees (rejected - copy would be incomplete), `@humanspeak/svelte-motion` (allowed later, not needed for these ten).
+**Alternatives considered**: CSS-only Recorte 1 (overridden), `motion-sv` (forbidden).
 
-### Demo CTAs are `<button type="button">`, not hash links
+### Reduced motion
 
-Prerender fails on missing fragment ids, and hash jumps inside gallery iframes are noise. Plain buttons match the “no primitive Button component” rule.
+Skip the GSAP context. Keep the first-state layout and every word. Do not empty the chapter.
 
-**Alternatives considered**: dummy `id` landmarks (rejected - fake page structure), `handleMissingId: ignore` (rejected - hides real broken anchors).
+### Visual language is Flare
 
-### Visual language is Flare, not a theme feature
-
-Ink background, warm paper text, ember accent, Bricolage Grotesque. Dark is the product look. There is no theme toggle.
-
-**Alternatives considered**: light/dark switch (explicitly out of Recorte 1), borrowing class names from another kit (rejected - Flare owns its look).
+Ink (`#09090b`, not `#000`), ember, spotlight, beams, console chrome. Bricolage Grotesque + IBM Plex Mono. No Inter, no purple mesh, no three equal cards, no neon glow, no em-dash garnish, no Jane Doe / Acme / Unleash.
 
 ### OpenSpec lives in-repo; archive is a follow-up PR
 
-Propose, apply, archive. This change stays under `openspec/changes/` until merge.
-
-### Amend this change instead of a silent rewrite
-
-Chrome lift, taste-skill (with GSAP), and CI land in the same PR by amending `establish-flare-gallery`. Recorte 1 block files stay as-is until a later change replaces them.
-
-### GSAP is wanted for future scrolltelling, not for Recorte 1 files
-
-Official `gsap` + ScrollTrigger. In Svelte: `gsap.context()`, revert on `$effect` cleanup. Honor `prefers-reduced-motion`. Do not mix GSAP with another animation runtime in the same tree. Recorte 1 `src/blocks/*` stay CSS + `svelte/transition` in this pass. Gallery chrome uses CSS / `svelte/transition` for cheap hover.
-
-**Alternatives considered**: keep GSAP forbidden (overridden), `@humanspeak/svelte-motion` as the only extra lib (too weak for sticky stacks), `framer-motion` / `motion/react` (forbidden; React animation runtimes).
-
-### Gallery chrome is the product surface
-
-Header, catalog, block page, copy panel, preview iframe. Preview-first catalog, one-click copy, nav that is not a starter kit. Mixed spans (heroes wide, others tight). No three-equal-card catalog. Name Flare. Do not name other products.
+Amend `establish-flare-gallery`. Archive after merge.
 
 ### CI/CD
 
-`packageManager` + `.nvmrc` (Node 22). GitHub Actions: frozen lockfile, check, build. `@sveltejs/adapter-vercel` so Vercel GitHub integration can deploy. Keep `postcss@8.5.26` override. No CI secrets.
+`packageManager` + `.nvmrc` (Node 22). GitHub Actions: frozen lockfile, check, build. `@sveltejs/adapter-vercel`. Keep `postcss@8.5.26`. No CI secrets.
 
 ## Risks / Trade-offs
 
-- **[Risk]** Ten iframes on `/` are heavier than inline cards. → **Mitigation**: `loading="lazy"`; embed pages are the same components, not a second implementation.
-- **[Risk]** Someone copies `$lib/catalog.ts` thinking it is the product. → **Mitigation**: README + block-page copy tell them to copy `src/blocks/<name>/`.
-- **[Trade-off]** Marquee CSS is duplicated across three blocks. That is the independence rule, not slop.
-- **[Risk]** `min-h-[100svh]` heroes feel tall on the detail page. → **Mitigation**: that is the real first-screen section; the gallery iframe crops via card height.
+- **[Risk]** Pin inside a short iframe feels clipped. → **Mitigation**: catalog thumbs are ~88svh and the iframe accepts scroll.
+- **[Risk]** `overflow: hidden` on the detail wrapper kills pin spacers. → **Mitigation**: the live chapter is full-bleed, not clipped.
+- **[Trade-off]** GSAP setup is duplicated in six files. That is the independence rule.
 
 ## Migration Plan
 
-Greenfield. Replace the stub README. No data to migrate.
+Replace the ten mixed sections with the six chapters in this same change.
 
 ## Open Questions
 
-None that block this amend. Block replacements and archive wait on later PRs.
+If a later brief swaps extras among `{deck-pin, mask-reveal, slat-expand, index-scatter}`, change only those slugs. This pass ships `mask-reveal` and `deck-pin`.
