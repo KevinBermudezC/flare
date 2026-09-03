@@ -11,65 +11,62 @@
 		gsap.registerPlugin(ScrollTrigger);
 	}
 
-	const panels = [
+	let {
+		label = 'LANE',
+		accent = 'ember',
+		reduceMotion = false
+	}: {
+		label?: string;
+		accent?: 'ember' | 'paper';
+		reduceMotion?: boolean;
+	} = $props();
+
+	const panels = $derived([
 		{
 			id: '01',
 			kind: 'type',
-			width: '36vw',
-			title: 'Soft ends',
-			body: 'The lane stops when the track is out of width. No loop. Rest is a feature.'
+			width: '44vw',
+			title: label.trim() || 'LANE',
+			body: 'A wide lock. This lane holds the first beat and refuses to share the frame.'
 		},
 		{
 			id: '02',
 			kind: 'photo',
-			width: '18vw',
-			title: 'Photo',
+			width: '20vw',
+			title: 'Still',
 			body: ''
 		},
 		{
 			id: '03',
 			kind: 'type',
-			width: '42vw',
-			title: 'Systemic momentum',
-			body: 'In motion, systems show their edges. We build for a walk you can repeat.'
+			width: '30vw',
+			title: 'Cut',
+			body: 'A short lane. The edit is a hard stop, not a dissolve. The scrub does not loop.'
 		},
 		{
 			id: '04',
 			kind: 'ember',
-			width: '14vw',
-			title: 'Ember',
-			body: ''
-		},
-		{
-			id: '05',
-			kind: 'type',
-			width: '32vw',
-			title: 'Hold the mark',
-			body: 'Vertical distance becomes a horizontal walk. Ease stays none.'
-		},
-		{
-			id: '06',
-			kind: 'photo',
-			width: '22vw',
-			title: 'Still',
-			body: ''
+			width: '38vw',
+			title: 'Release',
+			body: 'The last lane opens the frame. Copy lives after the scrub ends.'
 		}
-	] as const;
+	] as const);
 
 	let root: HTMLElement | undefined = $state();
 	let track: HTMLElement | undefined = $state();
-	let tick = $state(2);
+	let tick = $state(0);
 
 	$effect(() => {
 		const wrap = root;
 		const row = track;
+		const forced = reduceMotion;
 		if (!wrap || !row) return;
 		let ctx: gsap.Context | undefined;
 		let cancelled = false;
 
 		const run = () => {
 			if (cancelled || !root || !track) return;
-			if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+			if (forced || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
 			ctx = gsap.context(() => {
 				const distance = Math.max(row.scrollWidth - window.innerWidth, 0);
@@ -84,7 +81,7 @@
 						scrub: 1,
 						invalidateOnRefresh: true,
 						onUpdate: (self) => {
-							tick = Math.min(5, Math.floor(self.progress * 6));
+							tick = Math.min(3, Math.floor(self.progress * 4));
 						}
 					}
 				});
@@ -99,14 +96,19 @@
 	});
 </script>
 
-<section bind:this={root} class="lane">
+<section
+	bind:this={root}
+	class="lane"
+	class:paper={accent === 'paper'}
+	class:reduce={reduceMotion}
+>
 	<div class="hud">
 		<span>section: lane-scrub</span>
 		<span>pin: true</span>
 	</div>
 
 	<div bind:this={track} class="track">
-		{#each panels as panel}
+		{#each panels as panel (panel.id)}
 			<article class="panel {panel.kind}" style:flex-basis={panel.width}>
 				<p class="tag">{panel.id} / {panel.kind}</p>
 				{#if panel.kind === 'type'}
@@ -115,8 +117,10 @@
 				{:else if panel.kind === 'photo'}
 					<div class="photo" aria-hidden="true"></div>
 				{:else}
+					<h2>{panel.title}</h2>
+					<p class="body">{panel.body}</p>
 					<div class="ember-col" aria-hidden="true">
-						{#each [0, 1, 2, 3, 4, 5, 6, 7, 8] as n}
+						{#each [0, 1, 2, 3, 4, 5, 6, 7, 8] as n (n)}
 							<span class:hot={n === 3}></span>
 						{/each}
 					</div>
@@ -126,7 +130,7 @@
 	</div>
 
 	<div class="ruler" aria-hidden="true">
-		{#each panels as panel, i}
+		{#each panels as panel, i (panel.id)}
 			<span class:on={i === tick}>
 				{#if i === tick}
 					<i></i>
@@ -141,7 +145,7 @@
 	.lane {
 		--ink: #09090b;
 		--paper: #f5f0ea;
-		--ember: #ff5a1f;
+		--accent: #ff5a1f;
 		--card: #111113;
 		position: relative;
 		min-height: 100dvh;
@@ -149,6 +153,10 @@
 		background: var(--ink);
 		color: var(--paper);
 		font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, sans-serif;
+	}
+
+	.lane.paper {
+		--accent: #f5f0ea;
 	}
 
 	.hud {
@@ -182,6 +190,15 @@
 		min-width: 12rem;
 		padding: 1.25rem;
 		background: var(--ink);
+	}
+
+	.panel.photo {
+		background: #111113;
+	}
+
+	.panel.ember {
+		background: #101012;
+		box-shadow: inset 8px 0 0 var(--accent);
 	}
 
 	.tag {
@@ -236,8 +253,8 @@
 	}
 
 	.ember-col span.hot {
-		background: var(--ember);
-		box-shadow: 0 0 0 6px color-mix(in oklab, var(--ember) 18%, transparent);
+		background: var(--accent);
+		box-shadow: 0 0 0 6px color-mix(in oklab, var(--accent) 18%, transparent);
 	}
 
 	.ruler {
@@ -259,7 +276,7 @@
 	}
 
 	.ruler .on {
-		color: var(--ember);
+		color: var(--accent);
 	}
 
 	.ruler i {
@@ -269,8 +286,21 @@
 		width: 0;
 		height: 0;
 		border: 4px solid transparent;
-		border-bottom-color: var(--ember);
+		border-bottom-color: var(--accent);
 		transform: translateX(-50%);
+	}
+
+	.lane.reduce {
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+	}
+
+	.lane.reduce .track {
+		transform: none;
+	}
+
+	.lane.reduce .panel {
+		scroll-snap-align: start;
 	}
 
 	@media (prefers-reduced-motion: reduce) {

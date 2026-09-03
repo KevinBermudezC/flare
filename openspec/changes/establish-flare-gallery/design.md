@@ -13,7 +13,7 @@ See proposal.md. Recorte 1 is six scroll chapters, not a mixed marketing kit. Ea
 - `prefers-reduced-motion` freezes to a readable static layout. Content stays.
 - Gallery isolation so one chapter cannot clobber another on the home catalog.
 - Copy UI dumps the real file bytes (`?raw`).
-- Catalog iframes are tall enough to pin.
+- Home is a product landing: full-viewport hero, two real-height featured chapters, then a compact text index.
 
 **Non-Goals:**
 
@@ -29,9 +29,9 @@ See proposal.md. Recorte 1 is six scroll chapters, not a mixed marketing kit. Ea
 
 The gallery imports chapters for preview. The copyable contract is the folder, not `$lib`. Site helpers MUST NOT be imported from a chapter.
 
-### Live previews use an embed route in an iframe
+### Home mounts featured chapters live; the embed route stays chrome-free
 
-Home cards iframe `/blocks/[slug]/embed`. The iframe is scrollable. Height is near a viewport so pin and scrub can run. The overlay must not eat pointer events on the iframe.
+Home features `type-charge` and `lane-scrub` as live mounts at real height. The compact index is text. `/blocks/[slug]/embed` stays available as a chrome-free mount and is not used as a 200px home thumb.
 
 ### Motion lives in the copied file
 
@@ -61,7 +61,7 @@ Amend `establish-flare-gallery`. Archive after merge.
 
 ## Risks / Trade-offs
 
-- **[Risk]** Pin inside a short iframe feels clipped. → **Mitigation**: catalog thumbs are ~88svh and the iframe accepts scroll.
+- **[Risk]** Pin inside a short iframe feels clipped. → **Mitigation**: home does not use short iframes; featured chapters and `/blocks/[slug]` mount at `min-height: 100dvh`.
 - **[Risk]** `overflow: hidden` on the detail wrapper kills pin spacers. → **Mitigation**: the live chapter is full-bleed, not clipped.
 - **[Trade-off]** GSAP setup is duplicated in six files. That is the independence rule.
 

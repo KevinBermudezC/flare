@@ -11,27 +11,35 @@
 		gsap.registerPlugin(ScrollTrigger);
 	}
 
-	const words = ['Harbor', 'Preview', 'Review', 'Ship'] as const;
+	let {
+		lead = 'Hold',
+		accent = 'ember',
+		reduceMotion = false
+	}: {
+		lead?: string;
+		accent?: 'ember' | 'paper';
+		reduceMotion?: boolean;
+	} = $props();
 
-	const rooms = [
+	const words = $derived([lead.trim() || 'Hold', 'Preview', 'Keep']);
+
+	const rooms = $derived([
 		{
-			title: 'A clearer look before commitment.',
-			body: 'The left column holds the index. The right column is the walk. Nothing else enters the first room.'
+			title: 'The first room is a lock-off.',
+			body: 'The left column holds the index. The right column is the walk. Nothing else enters this room.',
+			shot: 'lock'
 		},
 		{
 			title: 'Preview is the live cut.',
-			body: 'You watch the frame while it is still loose. Share the SHA. Keep the thread on the build you just saw.',
-			shot: true
+			body: 'You watch the frame while it is still loose. Scroll is the only transport. Share what you just saw.',
+			shot: 'cut'
 		},
 		{
-			title: 'Review sits on the artifact.',
-			body: 'Notes pin to the hero, the form, the empty state. The next SHA keeps the same spine.'
-		},
-		{
-			title: 'Ship the frame you already held.',
-			body: 'Promote the preview. Same cut, new hostname. Rollback is the room you just left.'
+			title: 'Keep the file you already held.',
+			body: 'Copy the chapter. Same cut, your tree. The next edit starts from this keep.',
+			shot: 'keep'
 		}
-	];
+	]);
 
 	let root: HTMLElement | undefined = $state();
 	let rail: HTMLElement | undefined = $state();
@@ -42,13 +50,14 @@
 		const el = root;
 		const left = rail;
 		const right = track;
+		const forced = reduceMotion;
 		if (!el || !left || !right) return;
 		let ctx: gsap.Context | undefined;
 		let cancelled = false;
 
 		const run = () => {
 			if (cancelled || !root || !rail || !track) return;
-			if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+			if (forced || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 				active = 0;
 				return;
 			}
@@ -96,21 +105,24 @@
 	});
 </script>
 
-<section bind:this={root} class="mast">
+<section
+	bind:this={root}
+	class="mast"
+	class:paper={accent === 'paper'}
+	class:reduce={reduceMotion}
+>
 	<div class="shell">
 		<aside bind:this={rail} class="rail">
-			{#each words as word, i}
+			{#each words as word, i (word + i)}
 				<p class="word" class:on={i === active}>{word}</p>
 			{/each}
 		</aside>
 		<div bind:this={track} class="track">
-			{#each rooms as room}
+			{#each rooms as room (room.shot)}
 				<article class="room">
 					<h2>{room.title}</h2>
 					<p>{room.body}</p>
-					{#if room.shot}
-						<figure class="shot" aria-hidden="true"></figure>
-					{/if}
+					<figure class="shot" data-shot={room.shot} aria-hidden="true"></figure>
 				</article>
 			{/each}
 		</div>
@@ -121,10 +133,14 @@
 	.mast {
 		--ink: #09090b;
 		--paper: #f5f0ea;
-		--ember: #ff5a1f;
+		--accent: #ff5a1f;
 		background: var(--ink);
 		color: var(--paper);
 		font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, sans-serif;
+	}
+
+	.mast.paper {
+		--accent: #f5f0ea;
 	}
 
 	.shell {
@@ -153,7 +169,7 @@
 	}
 
 	.word.on {
-		color: var(--ember);
+		color: var(--accent);
 	}
 
 	.track {
@@ -187,10 +203,25 @@
 		margin: 2.5rem 0 0;
 		height: min(42vh, 22rem);
 		border: 1px solid rgba(245, 240, 234, 0.2);
+	}
+
+	.shot[data-shot='lock'] {
 		background:
-			radial-gradient(circle at 18% 70%, rgba(255, 90, 31, 0.28), transparent 26%),
-			linear-gradient(180deg, #1a1c22 0%, #0c1014 48%, #14110c 100%),
-			repeating-linear-gradient(90deg, rgba(245, 240, 234, 0.04) 0 12px, transparent 12px 28px);
+			radial-gradient(circle at 22% 70%, color-mix(in oklab, var(--accent) 42%, transparent), transparent 28%),
+			linear-gradient(180deg, #1a1c22 0%, #0c1014 48%, #14110c 100%);
+	}
+
+	.shot[data-shot='cut'] {
+		background:
+			repeating-linear-gradient(90deg, rgba(245, 240, 234, 0.07) 0 10px, transparent 10px 34px),
+			linear-gradient(115deg, #161618, #0c0c0e);
+	}
+
+	.shot[data-shot='keep'] {
+		background:
+			linear-gradient(var(--accent), var(--accent)) 0 0 / 100% 4px no-repeat,
+			radial-gradient(ellipse at 78% 80%, color-mix(in oklab, var(--accent) 28%, transparent), transparent 46%),
+			#101012;
 	}
 
 	@media (max-width: 768px) {
@@ -208,6 +239,15 @@
 		.word {
 			font-size: clamp(2.8rem, 16vw, 4.5rem);
 		}
+	}
+
+	.mast.reduce .rail {
+		position: relative;
+	}
+
+	.mast.reduce .word {
+		opacity: 1;
+		transform: none;
 	}
 
 	@media (prefers-reduced-motion: reduce) {

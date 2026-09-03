@@ -11,17 +11,28 @@
 		gsap.registerPlugin(ScrollTrigger);
 	}
 
+	let {
+		headline = 'Open the cut',
+		accent = 'ember',
+		reduceMotion = false
+	}: {
+		headline?: string;
+		accent?: 'ember' | 'paper';
+		reduceMotion?: boolean;
+	} = $props();
+
 	let root: HTMLElement | undefined = $state();
 
 	$effect(() => {
 		const el = root;
+		const forced = reduceMotion;
 		if (!el) return;
 		let ctx: gsap.Context | undefined;
 		let cancelled = false;
 
 		const run = () => {
 			if (cancelled || !root) return;
-			if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+			if (forced || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
 			ctx = gsap.context(() => {
 				const tl = gsap.timeline({
@@ -51,11 +62,16 @@
 	});
 </script>
 
-<section bind:this={root} class="reveal">
+<section
+	bind:this={root}
+	class="reveal"
+	class:paper={accent === 'paper'}
+	class:reduce={reduceMotion}
+>
 	<div class="media" aria-hidden="true"></div>
 	<div class="window">
 		<div class="inner">
-			<h2>Every push gets a URL.</h2>
+			<h2>{headline.trim() || 'Open the cut'}</h2>
 		</div>
 	</div>
 	<p class="meta">mask-reveal</p>
@@ -65,13 +81,17 @@
 	.reveal {
 		--ink: #09090b;
 		--paper: #f5f0ea;
-		--ember: #ff5a1f;
+		--accent: #ff5a1f;
 		position: relative;
 		min-height: 100dvh;
 		overflow: hidden;
 		background: var(--ink);
 		color: var(--paper);
 		font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, sans-serif;
+	}
+
+	.reveal.paper {
+		--accent: #f5f0ea;
 	}
 
 	.media {
@@ -105,7 +125,7 @@
 		align-items: center;
 		padding: 0 10vw;
 		background: var(--ink);
-		box-shadow: inset 0 0 0 1px var(--ember);
+		box-shadow: inset 0 0 0 1px var(--accent);
 	}
 
 	h2 {
@@ -126,6 +146,14 @@
 		font-family: 'IBM Plex Mono', ui-monospace, monospace;
 		font-size: 11px;
 		color: #8b8278;
+	}
+
+	.reveal.reduce .window {
+		clip-path: inset(0);
+	}
+
+	.reveal.reduce .media {
+		transform: none;
 	}
 
 	@media (prefers-reduced-motion: reduce) {

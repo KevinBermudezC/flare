@@ -11,45 +11,47 @@
 		gsap.registerPlugin(ScrollTrigger);
 	}
 
-	const rooms = [
+	let {
+		lead = 'Capture',
+		accent = 'ember',
+		reduceMotion = false
+	}: {
+		lead?: string;
+		accent?: 'ember' | 'paper';
+		reduceMotion?: boolean;
+	} = $props();
+
+	const rooms = $derived([
 		{
-			word: 'Capture',
+			word: lead.trim() || 'Capture',
+			field: 'lock',
 			lines: ['The work begins', 'when you stop', 'scrolling and start', 'seeing. Capture', 'what matters.']
 		},
 		{
-			word: 'Hold',
-			lines: ['Keep the room still.', 'The next cut can wait.', 'Hold the weight', 'until the rail', 'ticks forward.']
-		},
-		{
 			word: 'Cut',
+			field: 'grid',
 			lines: ['A thin ember line', 'is enough mark.', 'Cut the frame.', 'Leave the rest', 'in ink.']
 		},
 		{
-			word: 'Beam',
-			lines: ['Light walks the', 'stack from the top.', 'The last room', 'starts to thin', 'before it leaves.']
-		},
-		{
-			word: 'Quiet',
-			lines: ['No bounce.', 'No cue to scroll.', 'The pin is the', 'only instruction', 'in the room.']
-		},
-		{
 			word: 'Release',
-			lines: ['The last card', 'keeps spacing.', 'You leave with', 'the rooms you', 'already held.']
+			field: 'flare',
+			lines: ['The last room', 'lets the pin go.', 'You leave with', 'the rooms you', 'already held.']
 		}
-	];
+	]);
 
 	let root: HTMLElement | undefined = $state();
 	let active = $state(0);
 
 	$effect(() => {
 		const el = root;
+		const forced = reduceMotion;
 		if (!el) return;
 		let ctx: gsap.Context | undefined;
 		let cancelled = false;
 
 		const run = () => {
 			if (cancelled || !root) return;
-			if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+			if (forced || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
 			ctx = gsap.context(() => {
 				const cards = gsap.utils.toArray<HTMLElement>('.room');
@@ -90,9 +92,14 @@
 	});
 </script>
 
-<section bind:this={root} class="stack">
+<section
+	bind:this={root}
+	class="stack"
+	class:paper={accent === 'paper'}
+	class:reduce={reduceMotion}
+>
 	<ol class="ticks" aria-label="Chapters">
-		{#each rooms as room, i}
+		{#each rooms as room, i (room.field)}
 			<li>
 				<a href="#room-{i + 1}" class:on={i === active}>
 					<span class="tick"></span>
@@ -103,11 +110,11 @@
 		{/each}
 	</ol>
 
-	{#each rooms as room, i}
-		<article class="room" id="room-{i + 1}">
+	{#each rooms as room, i (room.field)}
+		<article class="room" id="room-{i + 1}" data-field={room.field}>
 			<h2>{room.word}</h2>
 			<p>
-				{#each room.lines as line}
+				{#each room.lines as line (line)}
 					<span>{line}</span>
 				{/each}
 			</p>
@@ -119,11 +126,15 @@
 	.stack {
 		--ink: #09090b;
 		--paper: #f5f0ea;
-		--ember: #ff5a1f;
+		--accent: #ff5a1f;
 		position: relative;
 		background: var(--ink);
 		color: var(--paper);
 		font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, sans-serif;
+	}
+
+	.stack.paper {
+		--accent: #f5f0ea;
 	}
 
 	.ticks {
@@ -153,7 +164,7 @@
 	}
 
 	.ticks .on {
-		color: var(--ember);
+		color: var(--accent);
 	}
 
 	.tick {
@@ -163,7 +174,7 @@
 	}
 
 	.ticks .on .tick {
-		background: var(--ember);
+		background: var(--accent);
 	}
 
 	.sr {
@@ -185,6 +196,27 @@
 		transform-origin: center top;
 	}
 
+	.room[data-field='lock'] {
+		background:
+			radial-gradient(circle at 78% 18%, color-mix(in oklab, var(--accent) 32%, transparent), transparent 32%),
+			var(--ink);
+	}
+
+	.room[data-field='grid'] {
+		background:
+			repeating-linear-gradient(
+				0deg,
+				transparent 0 47px,
+				rgba(245, 240, 234, 0.06) 47px 48px
+			),
+			#111113;
+	}
+
+	.room[data-field='flare'] {
+		background: #101012;
+		box-shadow: inset 0 -8px 0 var(--accent);
+	}
+
 	h2 {
 		margin: 0;
 		font-size: clamp(4rem, 10vw, 7.5rem);
@@ -202,6 +234,20 @@
 		font-size: 14px;
 		line-height: 1.55;
 		color: var(--paper);
+	}
+
+	.stack.reduce .room {
+		position: relative;
+		transform: none;
+		opacity: 1;
+	}
+
+	.stack.reduce .ticks {
+		float: none;
+		height: auto;
+		flex-direction: row;
+		flex-wrap: wrap;
+		padding: 1rem 6vw;
 	}
 
 	@media (prefers-reduced-motion: reduce) {

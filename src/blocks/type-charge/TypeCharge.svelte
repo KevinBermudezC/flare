@@ -11,19 +11,33 @@
 		gsap.registerPlugin(ScrollTrigger);
 	}
 
-	const glyphs = ['C', 'H', 'A', 'R', 'G', 'E'] as const;
+	let {
+		word = 'CHARGE',
+		accent = 'ember',
+		reduceMotion = false
+	}: {
+		word?: string;
+		accent?: 'ember' | 'paper';
+		reduceMotion?: boolean;
+	} = $props();
+
+	const glyphs = $derived([...(word.trim() || 'CHARGE').toUpperCase()]);
+	const heat = $derived(glyphs.find((glyph) => 'AEIOU'.includes(glyph)) ?? glyphs[1] ?? glyphs[0] ?? '');
 
 	let root: HTMLElement | undefined = $state();
 
 	$effect(() => {
 		const el = root;
+		const live = word;
+		const forced = reduceMotion;
 		if (!el) return;
+		void live;
 		let ctx: gsap.Context | undefined;
 		let cancelled = false;
 
 		const run = () => {
 			if (cancelled || !root) return;
-			if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+			if (forced || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
 			ctx = gsap.context(() => {
 				const tl = gsap.timeline({
@@ -55,11 +69,16 @@
 	});
 </script>
 
-<section bind:this={root} class="charge">
+<section
+	bind:this={root}
+	class="charge"
+	class:paper={accent === 'paper'}
+	class:reduce={reduceMotion}
+>
 	<p class="meta">Flare / type-charge</p>
-	<h2 class="line" aria-label="Charge">
-		{#each glyphs as glyph}
-			<span class="glyph" class:ember={glyph === 'A'}>{glyph}</span>
+	<h2 class="line" aria-label={word.trim() || 'CHARGE'}>
+		{#each glyphs as glyph, i (i)}
+			<span class="glyph" class:heat={glyph === heat}>{glyph}</span>
 		{/each}
 	</h2>
 </section>
@@ -68,7 +87,7 @@
 	.charge {
 		--ink: #09090b;
 		--paper: #f5f0ea;
-		--ember: #ff5a1f;
+		--accent: #ff5a1f;
 		position: relative;
 		display: grid;
 		min-height: 100dvh;
@@ -77,6 +96,10 @@
 		background: var(--ink);
 		color: var(--paper);
 		font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, sans-serif;
+	}
+
+	.charge.paper {
+		--accent: #f5f0ea;
 	}
 
 	.meta {
@@ -103,8 +126,14 @@
 		display: inline-block;
 	}
 
-	.ember {
-		color: var(--ember);
+	.heat {
+		color: var(--accent);
+	}
+
+	.charge.reduce .glyph,
+	.charge.reduce .line {
+		transform: none;
+		opacity: 1;
 	}
 
 	@media (prefers-reduced-motion: reduce) {

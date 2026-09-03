@@ -16,31 +16,38 @@ The repository README MUST name the product Flare, tell a stranger to run `pnpm 
 - **AND** they see the six chapter slugs
 - **AND** they do not see other product names
 
-### Requirement: Home catalog of live chapters
+### Requirement: Home is a product landing
 
-The home page MUST list all six Recorte 1 chapters in a catalog of about three columns. Each card MUST show a live thumb (not a static screenshot). The thumb iframe MUST be at most 200px tall. Pins MUST run on the block page canvas (`min-height: 100dvh`), not in the catalog thumb.
+The home page MUST open with a first screen of about `100dvh` that presents Flare itself (ink, ember, Bricolage). It MUST then mount two featured chapters at real height (`type-charge` and `lane-scrub`) so pin and scrub can be felt. It MUST then list all six chapters as a compact text index (name, one line, link). The home page MUST NOT use short (about 200px) iframes of pin or scrub chapters.
 
-#### Scenario: Gallery lists every chapter
+#### Scenario: Landing leads with Flare
 
 - **WHEN** a visitor opens `/`
-- **THEN** they see live previews for split-masthead, type-charge, lane-scrub, chapter-pin, mask-reveal, and deck-pin
-- **AND** each card links to `/blocks/<slug>`
+- **THEN** the first screen is a full-viewport Flare hero with Preview. Copy. and a path into chapters
+- **AND** they can scroll two featured chapters at real height
+- **AND** a compact index names all six slugs and links each to `/blocks/<slug>`
 
-#### Scenario: Thumbs stay short
+#### Scenario: Home does not stamp pin chapters
 
-- **WHEN** a visitor watches the home catalog
-- **THEN** each iframe is at most 200px tall
-- **AND** the card still links to `/blocks/<slug>`
+- **WHEN** a visitor watches the home page
+- **THEN** they do not see a 200px iframe grid of the six chapters
+- **AND** featured chapters are live mounts, not thumbs
 
-### Requirement: Chapter page has preview and copy
+### Requirement: Chapter page is one demo plus copy and edit
 
-Each chapter page MUST render the live section full-bleed (no `overflow: hidden` clip on the live root) and MUST expose the source of every copyable `.svelte` file, with a control that copies the source to the clipboard. If the chapter needs `gsap`, the page MUST show `pnpm add gsap`.
+Each chapter page MUST show the chapter title, one-line tagline, and `extraDep` (`pnpm add gsap`). It MUST mount the live chapter exactly once in a full-width stage tall enough for the gesture (`min-height: 100dvh` for pin and scrub). It MUST then expose the source of every copyable `.svelte` file, with a control that copies the source to the clipboard, and a small edit panel of two to four knobs that change that same live instance. The page MUST NOT mount the chapter a second time (no iframe plus live, no catalog of thumbs of the same slug). A left rail of the six names MAY stay as text navigation.
 
 #### Scenario: Copy is the real file
 
 - **WHEN** a visitor opens `/blocks/split-masthead` and copies the source
 - **THEN** the clipboard contains the contents of `src/blocks/split-masthead/SplitMasthead.svelte`
-- **AND** the same page shows the live masthead
+- **AND** the same page shows the live masthead exactly once
+
+#### Scenario: Knobs bind the live instance
+
+- **WHEN** a visitor changes a title, accent, or reduced-motion knob on `/blocks/type-charge`
+- **THEN** the single live mount updates
+- **AND** a second copy of the chapter is not mounted
 
 ### Requirement: Gallery chrome is not the copyable product
 

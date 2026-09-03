@@ -12,7 +12,17 @@ import splitMastheadSource from '../blocks/split-masthead/SplitMasthead.svelte?r
 import TypeCharge from '../blocks/type-charge/TypeCharge.svelte';
 import typeChargeSource from '../blocks/type-charge/TypeCharge.svelte?raw';
 
+export type ChapterSlug =
+	| 'split-masthead'
+	| 'type-charge'
+	| 'lane-scrub'
+	| 'chapter-pin'
+	| 'mask-reveal'
+	| 'deck-pin';
+
 export type ChapterKind = 'masthead' | 'type' | 'lane' | 'pin' | 'mask' | 'deck';
+
+export type EditField = 'lead' | 'word' | 'label' | 'headline';
 
 export type BlockFile = {
 	name: string;
@@ -20,11 +30,13 @@ export type BlockFile = {
 };
 
 export type BlockEntry = {
-	slug: string;
+	slug: ChapterSlug;
 	name: string;
 	tagline: string;
 	kind: ChapterKind;
 	extraDep: string;
+	editField: EditField;
+	editDefault: string;
 	component: Component;
 	files: BlockFile[];
 };
@@ -36,6 +48,8 @@ export const blocks: BlockEntry[] = [
 		tagline: 'Left column holds. Right column walks.',
 		kind: 'masthead',
 		extraDep: 'pnpm add gsap',
+		editField: 'lead',
+		editDefault: 'Hold',
 		component: SplitMasthead,
 		files: [{ name: 'SplitMasthead.svelte', source: splitMastheadSource }]
 	},
@@ -45,6 +59,8 @@ export const blocks: BlockEntry[] = [
 		tagline: 'One line. One glyph of heat.',
 		kind: 'type',
 		extraDep: 'pnpm add gsap',
+		editField: 'word',
+		editDefault: 'CHARGE',
 		component: TypeCharge,
 		files: [{ name: 'TypeCharge.svelte', source: typeChargeSource }]
 	},
@@ -54,6 +70,8 @@ export const blocks: BlockEntry[] = [
 		tagline: 'Vertical scroll drives the lane.',
 		kind: 'lane',
 		extraDep: 'pnpm add gsap',
+		editField: 'label',
+		editDefault: 'LANE',
 		component: LaneScrub,
 		files: [{ name: 'LaneScrub.svelte', source: laneScrubSource }]
 	},
@@ -63,6 +81,8 @@ export const blocks: BlockEntry[] = [
 		tagline: 'Rooms pin. The rail keeps count.',
 		kind: 'pin',
 		extraDep: 'pnpm add gsap',
+		editField: 'lead',
+		editDefault: 'Capture',
 		component: ChapterPin,
 		files: [{ name: 'ChapterPin.svelte', source: chapterPinSource }]
 	},
@@ -72,6 +92,8 @@ export const blocks: BlockEntry[] = [
 		tagline: 'An ink window opens on the frame.',
 		kind: 'mask',
 		extraDep: 'pnpm add gsap',
+		editField: 'headline',
+		editDefault: 'Open the cut',
 		component: MaskReveal,
 		files: [{ name: 'MaskReveal.svelte', source: maskRevealSource }]
 	},
@@ -81,13 +103,34 @@ export const blocks: BlockEntry[] = [
 		tagline: 'Cards stick. The top one keeps the line.',
 		kind: 'deck',
 		extraDep: 'pnpm add gsap',
+		editField: 'lead',
+		editDefault: 'Hold',
 		component: DeckPin,
 		files: [{ name: 'DeckPin.svelte', source: deckPinSource }]
 	}
 ];
 
+export const featuredSlugs = ['type-charge', 'lane-scrub'] as const satisfies readonly ChapterSlug[];
+
 export function getBlock(slug: string): BlockEntry | undefined {
 	return blocks.find((block) => block.slug === slug);
+}
+
+export function editFieldLabel(field: EditField): string {
+	switch (field) {
+		case 'lead':
+			return 'Title';
+		case 'word':
+			return 'Word';
+		case 'label':
+			return 'Label';
+		case 'headline':
+			return 'Headline';
+		default: {
+			const _never: never = field;
+			return _never;
+		}
+	}
 }
 
 export function kindLabel(kind: ChapterKind): string {

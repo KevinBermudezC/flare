@@ -11,37 +11,47 @@
 		gsap.registerPlugin(ScrollTrigger);
 	}
 
-	const cards = [
+	let {
+		lead = 'Hold',
+		accent = 'ember',
+		reduceMotion = false
+	}: {
+		lead?: string;
+		accent?: 'ember' | 'paper';
+		reduceMotion?: boolean;
+	} = $props();
+
+	const cards = $derived([
 		{
-			title: 'deck-pin',
-			body: 'A focused way to pin thoughts, ink them, and keep them close.'
+			kind: 'front',
+			title: lead.trim() || 'Hold',
+			body: 'Front card. One ember hairline. This is the only face that carries the accent edge.'
 		},
 		{
-			title: 'Hold the head',
-			body: 'The incoming card takes the top. The last one keeps full scale.'
+			kind: 'mid',
+			title: 'Cut',
+			body: 'Middle card. No hairline. A quieter field so the stack can read as depth, not the same card twice.'
 		},
 		{
-			title: 'Keep the line',
-			body: 'One ember hairline on the front card. Nothing else needs to glow.'
-		},
-		{
-			title: 'Release',
-			body: 'When the last card hits the top, the deck is done talking.'
+			kind: 'back',
+			title: 'Keep',
+			body: 'Back card. The keep. When the pin ends, this is the last face on the desk.'
 		}
-	];
+	]);
 
 	let root: HTMLElement | undefined = $state();
 	let front = $state(0);
 
 	$effect(() => {
 		const el = root;
+		const forced = reduceMotion;
 		if (!el) return;
 		let ctx: gsap.Context | undefined;
 		let cancelled = false;
 
 		const run = () => {
 			if (cancelled || !root) return;
-			if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+			if (forced || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
 			ctx = gsap.context(() => {
 				const deck = gsap.utils.toArray<HTMLElement>('.card');
@@ -82,9 +92,14 @@
 	});
 </script>
 
-<section bind:this={root} class="deck">
-	{#each cards as card, i}
-		<article class="card" class:front={i === front}>
+<section
+	bind:this={root}
+	class="deck"
+	class:paper={accent === 'paper'}
+	class:reduce={reduceMotion}
+>
+	{#each cards as card, i (card.kind)}
+		<article class="card" class:front={i === front} data-kind={card.kind}>
 			<h2>{card.title}</h2>
 			<p>{card.body}</p>
 		</article>
@@ -95,11 +110,15 @@
 	.deck {
 		--ink: #09090b;
 		--paper: #f5f0ea;
-		--ember: #ff5a1f;
+		--accent: #ff5a1f;
 		--card: #111113;
 		background: var(--ink);
 		color: var(--paper);
 		font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, sans-serif;
+	}
+
+	.deck.paper {
+		--accent: #f5f0ea;
 	}
 
 	.card {
@@ -116,9 +135,31 @@
 		transform-origin: center top;
 	}
 
+	.card[data-kind='front'] {
+		background:
+			radial-gradient(circle at 88% 12%, color-mix(in oklab, var(--accent) 22%, transparent), transparent 28%),
+			var(--card);
+	}
+
+	.card[data-kind='mid'] {
+		background: #161618;
+	}
+
+	.card[data-kind='back'] {
+		background: linear-gradient(180deg, #1a1a1e, #111113);
+		box-shadow: inset 0 -6px 0 rgba(245, 240, 234, 0.16), 0 -40px 80px rgba(0, 0, 0, 0.35);
+	}
+
 	.card.front {
 		box-shadow:
-			inset 0 1px 0 var(--ember),
+			inset 0 1px 0 var(--accent),
+			0 -40px 80px rgba(0, 0, 0, 0.35);
+	}
+
+	.card.front[data-kind='back'] {
+		box-shadow:
+			inset 0 1px 0 var(--accent),
+			inset 0 -6px 0 rgba(245, 240, 234, 0.16),
 			0 -40px 80px rgba(0, 0, 0, 0.35);
 	}
 
@@ -138,6 +179,12 @@
 		font-size: 14px;
 		line-height: 1.6;
 		color: var(--paper);
+	}
+
+	.deck.reduce .card {
+		position: relative;
+		transform: none;
+		opacity: 1;
 	}
 
 	@media (prefers-reduced-motion: reduce) {

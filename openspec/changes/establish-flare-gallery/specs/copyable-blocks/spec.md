@@ -29,6 +29,16 @@ Each chapter MUST be a **section**, not a primitive Button/Input/Dialog. The rep
 - **WHEN** a visitor browses the gallery
 - **THEN** they can open at least one pin chapter, one scrub chapter, and one kinetic-type chapter
 
+### Requirement: Stacked beats are distinct
+
+`split-masthead`, `lane-scrub`, `chapter-pin`, and `deck-pin` MUST give each stacked room, panel, or card a distinct title, body, and visual field. Repeating the same template beat is not enough. Fewer beats is allowed when it reads clearer.
+
+#### Scenario: Chapter pin rooms do not clone
+
+- **WHEN** a visitor scrolls `chapter-pin`
+- **THEN** they see three rooms with different titles and fields
+- **AND** the pin gesture still runs
+
 ### Requirement: Copy-paste renders
 
 A copied chapter file MUST render in a SvelteKit 5 + Tailwind v4 app that has `gsap` installed. All motion used by the chapter MUST live in that file (or in other files in the same folder that are copied with it).

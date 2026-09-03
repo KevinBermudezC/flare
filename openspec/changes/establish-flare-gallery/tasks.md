@@ -17,9 +17,9 @@
 
 ## 3. Gallery site
 
-- [x] 3.1 Home catalog lists the six chapters with tall scrollable iframes and verify every slug appears
-- [x] 3.2 `/blocks/[slug]` renders the live chapter full-bleed plus copy panel and verify `?raw` copy
-- [x] 3.3 Embed route stays chrome-free and verify home iframes load it
+- [x] 3.1 Home is a full-viewport landing, two real-height featured chapters, and a compact six-slug index
+- [x] 3.2 `/blocks/[slug]` mounts the chapter once, then copy plus edit knobs, and verify `?raw` copy
+- [x] 3.3 Embed route stays chrome-free
 - [x] 3.4 Voice names Flare only and verify README, `package.json`, home, and meta
 
 ## 4. Verification
@@ -36,7 +36,7 @@
 
 ## 6. Gallery chrome
 
-- [x] 6.1 Catalog is preview-first chapters with one-click copy and verify iframe scroll is not blocked
+- [x] 6.1 Landing and chapter docs are preview-first with one-click copy and real-height stages
 - [x] 6.2 Honor prefers-reduced-motion on chrome and verify layout does not collapse
 - [x] 6.3 Keep Flare voice in chrome and verify home + chapter titles
 
