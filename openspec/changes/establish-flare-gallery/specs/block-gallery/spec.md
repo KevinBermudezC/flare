@@ -18,7 +18,7 @@ The repository README MUST name the product Flare, tell a stranger to run `pnpm 
 
 ### Requirement: Home catalog of live chapters
 
-The home page MUST list all six Recorte 1 chapters. Each card MUST show a live preview (not a static screenshot), MUST be tall enough for pin or scrub to run inside the iframe, and MUST let the visitor scroll that iframe.
+The home page MUST list all six Recorte 1 chapters in a catalog of about three columns. Each card MUST show a live thumb (not a static screenshot). The thumb iframe MUST be at most 200px tall. Pins MUST run on the block page canvas (`min-height: 100dvh`), not in the catalog thumb.
 
 #### Scenario: Gallery lists every chapter
 
@@ -26,11 +26,11 @@ The home page MUST list all six Recorte 1 chapters. Each card MUST show a live p
 - **THEN** they see live previews for split-masthead, type-charge, lane-scrub, chapter-pin, mask-reveal, and deck-pin
 - **AND** each card links to `/blocks/<slug>`
 
-#### Scenario: Thumbs can pin
+#### Scenario: Thumbs stay short
 
-- **WHEN** a visitor watches the home catalog without reduced-motion preferences
-- **THEN** each iframe is at least three-quarters of the viewport tall
-- **AND** pointer events reach the iframe so the chapter can be scrolled
+- **WHEN** a visitor watches the home catalog
+- **THEN** each iframe is at most 200px tall
+- **AND** the card still links to `/blocks/<slug>`
 
 ### Requirement: Chapter page has preview and copy
 

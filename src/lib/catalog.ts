@@ -33,7 +33,7 @@ export const blocks: BlockEntry[] = [
 	{
 		slug: 'split-masthead',
 		name: 'Split Masthead',
-		tagline: 'Oversized split type. The frame holds, then it parts.',
+		tagline: 'Left column holds. Right column walks.',
 		kind: 'masthead',
 		extraDep: 'pnpm add gsap',
 		component: SplitMasthead,
@@ -42,7 +42,7 @@ export const blocks: BlockEntry[] = [
 	{
 		slug: 'type-charge',
 		name: 'Type Charge',
-		tagline: 'Kinetic type that charges the line as you scroll.',
+		tagline: 'One line. One glyph of heat.',
 		kind: 'type',
 		extraDep: 'pnpm add gsap',
 		component: TypeCharge,
@@ -51,7 +51,7 @@ export const blocks: BlockEntry[] = [
 	{
 		slug: 'lane-scrub',
 		name: 'Lane Scrub',
-		tagline: 'Vertical scroll drives a horizontal lane.',
+		tagline: 'Vertical scroll drives the lane.',
 		kind: 'lane',
 		extraDep: 'pnpm add gsap',
 		component: LaneScrub,
@@ -60,7 +60,7 @@ export const blocks: BlockEntry[] = [
 	{
 		slug: 'chapter-pin',
 		name: 'Chapter Pin',
-		tagline: 'Pinned rooms that zoom as the next one arrives.',
+		tagline: 'Rooms pin. The rail keeps count.',
 		kind: 'pin',
 		extraDep: 'pnpm add gsap',
 		component: ChapterPin,
@@ -69,7 +69,7 @@ export const blocks: BlockEntry[] = [
 	{
 		slug: 'mask-reveal',
 		name: 'Mask Reveal',
-		tagline: 'Type as a mask. The cut opens on scroll.',
+		tagline: 'An ink window opens on the frame.',
 		kind: 'mask',
 		extraDep: 'pnpm add gsap',
 		component: MaskReveal,
@@ -78,7 +78,7 @@ export const blocks: BlockEntry[] = [
 	{
 		slug: 'deck-pin',
 		name: 'Deck Pin',
-		tagline: 'Cards that stick and stack.',
+		tagline: 'Cards stick. The top one keeps the line.',
 		kind: 'deck',
 		extraDep: 'pnpm add gsap',
 		component: DeckPin,

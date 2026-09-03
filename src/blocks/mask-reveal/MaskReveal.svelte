@@ -1,6 +1,7 @@
 <!--
   Flare · mask-reveal
   Paste into a SvelteKit 5 + Tailwind v4 app. Needs: pnpm add gsap
+  Type: Bricolage Grotesque + IBM Plex Mono (host loads fontsource).
 -->
 <script lang="ts">
 	import { gsap } from 'gsap';
@@ -27,30 +28,22 @@
 					scrollTrigger: {
 						trigger: el,
 						start: 'top top',
-						end: '+=200%',
+						end: '+=160%',
 						pin: true,
-						scrub: 0.7
+						scrub: 0.8
 					}
 				});
 
-				tl.fromTo('.film', { scale: 1.08 }, { scale: 1.45, ease: 'none' }, 0)
-					.fromTo(
-						'.cut-g',
-						{ scale: 1, transformOrigin: '600px 360px' },
-						{ scale: 18, transformOrigin: '600px 360px', ease: 'none' },
-						0
-					)
-					.fromTo('.after', { opacity: 0, y: 16 }, { opacity: 1, y: 0, ease: 'none' }, 0.72);
+				tl.fromTo(
+					'.window',
+					{ clipPath: 'inset(16% 20% round 24px)' },
+					{ clipPath: 'inset(0% round 0px)', ease: 'none' },
+					0
+				).fromTo('.media', { scale: 1.1 }, { scale: 1, ease: 'none' }, 0);
 			}, el);
 		};
 
-		const fonts = document.fonts;
-		if (fonts?.ready) {
-			fonts.ready.then(run);
-		} else {
-			run();
-		}
-
+		run();
 		return () => {
 			cancelled = true;
 			ctx?.revert();
@@ -59,94 +52,89 @@
 </script>
 
 <section bind:this={root} class="reveal">
-	<div class="stage">
-		<div class="film" aria-hidden="true"></div>
-		<svg class="cut" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">
-			<defs>
-				<mask id="flare-mask-reveal">
-					<rect width="1200" height="700" fill="white"></rect>
-					<g class="cut-g">
-						<text
-							x="600"
-							y="430"
-							text-anchor="middle"
-							fill="black"
-							font-size="320"
-							font-weight="700"
-							font-family="Bricolage Grotesque, ui-sans-serif, sans-serif"
-							>Hold</text
-						>
-					</g>
-				</mask>
-			</defs>
-			<rect width="1200" height="700" fill="#09090b" mask="url(#flare-mask-reveal)"></rect>
-		</svg>
-		<p class="after">The cut opens. The frame stays.</p>
+	<div class="media" aria-hidden="true"></div>
+	<div class="window">
+		<div class="inner">
+			<h2>Every push gets a URL.</h2>
+		</div>
 	</div>
+	<p class="meta">mask-reveal</p>
 </section>
 
 <style>
-	@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=IBM+Plex+Mono:wght@400&display=swap');
-
 	.reveal {
+		--ink: #09090b;
+		--paper: #f5f0ea;
+		--ember: #ff5a1f;
 		position: relative;
-		min-height: 100svh;
+		min-height: 100dvh;
 		overflow: hidden;
-		background: #09090b;
-		color: #f5f0ea;
-		font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+		background: var(--ink);
+		color: var(--paper);
+		font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, sans-serif;
 	}
 
-	.stage {
-		position: relative;
-		min-height: 100svh;
-	}
-
-	.film {
-		position: absolute;
-		inset: -12%;
-		background:
-			radial-gradient(circle at 30% 40%, rgba(255, 90, 31, 0.95), transparent 34%),
-			radial-gradient(circle at 72% 60%, rgba(255, 196, 140, 0.55), transparent 28%),
-			repeating-linear-gradient(
-				118deg,
-				transparent 0 18px,
-				rgba(255, 90, 31, 0.18) 18px 20px
-			),
-			linear-gradient(160deg, #2a1108, #09090b 70%);
-		transform-origin: 40% 45%;
-	}
-
-	.cut {
+	.media {
 		position: absolute;
 		inset: 0;
-		width: 100%;
-		height: 100%;
-	}
-
-	.cut-g {
-		transform-box: fill-box;
+		background:
+			radial-gradient(circle at 70% 40%, rgba(90, 96, 104, 0.35), transparent 28%),
+			repeating-linear-gradient(90deg, rgba(245, 240, 234, 0.05) 0 10px, transparent 10px 34px),
+			linear-gradient(180deg, #1c1f24 0%, #0c0e12 46%, #15120e 100%);
 		transform-origin: center;
 	}
 
-	.after {
+	.media::after {
+		content: '';
 		position: absolute;
-		right: 1.5rem;
-		bottom: 1.5rem;
-		left: 1.5rem;
+		inset: 18% 8% auto;
+		height: 28%;
+		background: linear-gradient(90deg, transparent, rgba(180, 186, 196, 0.28), transparent);
+		filter: blur(0.5px);
+	}
+
+	.window {
+		position: absolute;
+		inset: 0;
+		clip-path: inset(16% 20% round 24px);
+	}
+
+	.inner {
+		display: flex;
+		height: 100%;
+		align-items: center;
+		padding: 0 10vw;
+		background: var(--ink);
+		box-shadow: inset 0 0 0 1px var(--ember);
+	}
+
+	h2 {
+		margin: 0;
+		max-width: 12ch;
+		font-size: clamp(2.5rem, 5vw, 3.25rem);
+		font-weight: 700;
+		line-height: 0.95;
+		letter-spacing: -0.04em;
+	}
+
+	.meta {
+		position: absolute;
+		bottom: 1rem;
+		left: 1.25rem;
+		z-index: 2;
 		margin: 0;
 		font-family: 'IBM Plex Mono', ui-monospace, monospace;
-		font-size: 13px;
-		letter-spacing: 0.04em;
-		color: #f5f0ea;
+		font-size: 11px;
+		color: #8b8278;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.film,
-		.cut-g,
-		.after {
+		.window {
+			clip-path: inset(0);
+		}
+
+		.media {
 			transform: none;
-			opacity: 1;
 		}
 	}
 </style>

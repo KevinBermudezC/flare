@@ -1,6 +1,7 @@
 <!--
   Flare · chapter-pin
   Paste into a SvelteKit 5 + Tailwind v4 app. Needs: pnpm add gsap
+  Type: Bricolage Grotesque + IBM Plex Mono (host loads fontsource).
 -->
 <script lang="ts">
 	import { gsap } from 'gsap';
@@ -12,20 +13,33 @@
 
 	const rooms = [
 		{
-			word: 'Ember',
-			line: 'The first room holds the heat. Nothing else is allowed in yet.'
+			word: 'Capture',
+			lines: ['The work begins', 'when you stop', 'scrolling and start', 'seeing. Capture', 'what matters.']
+		},
+		{
+			word: 'Hold',
+			lines: ['Keep the room still.', 'The next cut can wait.', 'Hold the weight', 'until the rail', 'ticks forward.']
+		},
+		{
+			word: 'Cut',
+			lines: ['A thin ember line', 'is enough mark.', 'Cut the frame.', 'Leave the rest', 'in ink.']
 		},
 		{
 			word: 'Beam',
-			line: 'A cut of light walks the stack. The last room starts to thin.'
+			lines: ['Light walks the', 'stack from the top.', 'The last room', 'starts to thin', 'before it leaves.']
 		},
 		{
 			word: 'Quiet',
-			line: 'The pin lets go. You keep the weight of the rooms you passed.'
+			lines: ['No bounce.', 'No cue to scroll.', 'The pin is the', 'only instruction', 'in the room.']
+		},
+		{
+			word: 'Release',
+			lines: ['The last card', 'keeps spacing.', 'You leave with', 'the rooms you', 'already held.']
 		}
 	];
 
 	let root: HTMLElement | undefined = $state();
+	let active = $state(0);
 
 	$effect(() => {
 		const el = root;
@@ -40,18 +54,22 @@
 			ctx = gsap.context(() => {
 				const cards = gsap.utils.toArray<HTMLElement>('.room');
 				cards.forEach((card, i) => {
-					if (i === cards.length - 1) return;
+					const last = i === cards.length - 1;
 					ScrollTrigger.create({
 						trigger: card,
 						start: 'top top',
-						endTrigger: cards[cards.length - 1],
-						end: 'top top',
+						endTrigger: last ? card : cards[cards.length - 1],
+						end: last ? '+=100%' : 'top top',
 						pin: true,
-						pinSpacing: false
+						pinSpacing: last,
+						onToggle: (self) => {
+							if (self.isActive) active = i;
+						}
 					});
+					if (last) return;
 					gsap.to(card, {
-						scale: 0.9,
-						opacity: 0.42,
+						scale: 0.97,
+						opacity: 0.5,
 						ease: 'none',
 						scrollTrigger: {
 							trigger: cards[i + 1],
@@ -64,13 +82,7 @@
 			}, el);
 		};
 
-		const fonts = document.fonts;
-		if (fonts?.ready) {
-			fonts.ready.then(run);
-		} else {
-			run();
-		}
-
+		run();
 		return () => {
 			cancelled = true;
 			ctx?.revert();
@@ -79,72 +91,117 @@
 </script>
 
 <section bind:this={root} class="stack">
+	<ol class="ticks" aria-label="Chapters">
+		{#each rooms as room, i}
+			<li>
+				<a href="#room-{i + 1}" class:on={i === active}>
+					<span class="tick"></span>
+					{String(i + 1).padStart(2, '0')}
+					<span class="sr">{room.word}</span>
+				</a>
+			</li>
+		{/each}
+	</ol>
+
 	{#each rooms as room, i}
-		<article class="room">
-			<p class="kicker">chapter-pin / room {i + 1}</p>
+		<article class="room" id="room-{i + 1}">
 			<h2>{room.word}</h2>
-			<p class="line">{room.line}</p>
+			<p>
+				{#each room.lines as line}
+					<span>{line}</span>
+				{/each}
+			</p>
 		</article>
 	{/each}
 </section>
 
 <style>
-	@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=IBM+Plex+Mono:wght@400&display=swap');
-
 	.stack {
+		--ink: #09090b;
+		--paper: #f5f0ea;
+		--ember: #ff5a1f;
 		position: relative;
-		background: #09090b;
-		color: #f5f0ea;
-		font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+		background: var(--ink);
+		color: var(--paper);
+		font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, sans-serif;
+	}
+
+	.ticks {
+		position: sticky;
+		top: 0;
+		z-index: 3;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 0.85rem;
+		float: right;
+		height: 100dvh;
+		margin: 0;
+		padding: 0 1.25rem 0 0;
+		list-style: none;
+		font-family: 'IBM Plex Mono', ui-monospace, monospace;
+		font-size: 12px;
+		color: #8b8278;
+	}
+
+	.ticks a {
+		display: flex;
+		align-items: center;
+		gap: 0.55rem;
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.ticks .on {
+		color: var(--ember);
+	}
+
+	.tick {
+		width: 1px;
+		height: 0.9rem;
+		background: transparent;
+	}
+
+	.ticks .on .tick {
+		background: var(--ember);
+	}
+
+	.sr {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
 	}
 
 	.room {
-		position: sticky;
-		top: 0;
+		position: relative;
 		display: flex;
-		min-height: 100svh;
+		min-height: 100dvh;
 		flex-direction: column;
-		justify-content: flex-end;
-		padding: 2rem 6vw 3.5rem;
-		background:
-			radial-gradient(70% 60% at 80% 0%, rgba(255, 90, 31, 0.2), transparent 50%),
-			linear-gradient(180deg, #141416 0%, #09090b 58%);
-		border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+		justify-content: center;
+		padding: 12vh 22vw 12vh 8vw;
+		background: var(--ink);
 		transform-origin: center top;
 	}
 
-	.room:nth-child(2) {
-		background:
-			radial-gradient(55% 50% at 10% 20%, rgba(255, 90, 31, 0.22), transparent 46%),
-			#0c0c0e;
-	}
-
-	.room:nth-child(3) {
-		background: #09090b;
-	}
-
-	.kicker {
-		margin: 0;
-		font-family: 'IBM Plex Mono', ui-monospace, monospace;
-		font-size: 10px;
-		letter-spacing: 0.2em;
-		text-transform: uppercase;
-		color: #ff5a1f;
-	}
-
 	h2 {
-		margin: 0.8rem 0 0;
-		font-size: clamp(4.5rem, 16vw, 12rem);
-		font-weight: 780;
-		line-height: 0.78;
-		letter-spacing: -0.07em;
+		margin: 0;
+		font-size: clamp(4rem, 10vw, 7.5rem);
+		font-weight: 760;
+		line-height: 0.86;
+		letter-spacing: -0.05em;
 	}
 
-	.line {
-		margin: 1.25rem 0 0;
-		max-width: 28rem;
-		font-size: 1.15rem;
-		color: #c4bbb0;
+	p {
+		display: flex;
+		flex-direction: column;
+		margin: 1.5rem 0 0;
+		max-width: 22rem;
+		font-family: 'IBM Plex Mono', ui-monospace, monospace;
+		font-size: 14px;
+		line-height: 1.55;
+		color: var(--paper);
 	}
 
 	@media (prefers-reduced-motion: reduce) {
@@ -152,6 +209,14 @@
 			position: relative;
 			transform: none;
 			opacity: 1;
+		}
+
+		.ticks {
+			float: none;
+			height: auto;
+			flex-direction: row;
+			flex-wrap: wrap;
+			padding: 1rem 6vw;
 		}
 	}
 </style>

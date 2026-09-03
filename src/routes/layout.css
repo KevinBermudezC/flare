@@ -1,11 +1,17 @@
+@import '@fontsource-variable/bricolage-grotesque/wght.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
 @import 'tailwindcss';
 
 @theme {
-	--font-sans: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+	--font-sans: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
 	--font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 	--color-ember: #ff5a1f;
 	--color-ink: #09090b;
 	--color-paper: #f5f0ea;
+	--color-card: #111113;
+	--radius-chrome: 12px;
+	--radius-mask: 24px;
 }
 
 html {
@@ -15,7 +21,7 @@ html {
 
 body {
 	margin: 0;
-	min-height: 100svh;
+	min-height: 100dvh;
 	font-family: var(--font-sans);
 	-webkit-font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;

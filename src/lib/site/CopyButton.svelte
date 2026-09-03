@@ -29,7 +29,7 @@
 <button
 	type="button"
 	onclick={copy}
-	class="flare-chrome rounded-full border border-white/12 bg-[#09090b]/80 font-mono text-[11px] text-[#f5f0ea] backdrop-blur-sm hover:border-white/24 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff5a1f] {compact
+	class="flare-chrome rounded-[12px] bg-[#ff5a1f] font-mono text-[11px] text-[#1a0703] hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff5a1f] {compact
 		? 'px-2.5 py-1'
 		: 'px-3 py-1.5'}"
 >

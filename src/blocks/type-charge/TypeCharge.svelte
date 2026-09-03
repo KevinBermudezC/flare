@@ -1,6 +1,7 @@
 <!--
   Flare · type-charge
   Paste into a SvelteKit 5 + Tailwind v4 app. Needs: pnpm add gsap
+  Type: Bricolage Grotesque + IBM Plex Mono (host loads fontsource).
 -->
 <script lang="ts">
 	import { gsap } from 'gsap';
@@ -10,11 +11,7 @@
 		gsap.registerPlugin(ScrollTrigger);
 	}
 
-	const lines = [
-		['Type', 'waits.'],
-		['Then', 'it', 'charges'],
-		['the', 'frame.']
-	];
+	const glyphs = ['C', 'H', 'A', 'R', 'G', 'E'] as const;
 
 	let root: HTMLElement | undefined = $state();
 
@@ -29,36 +26,28 @@
 			if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
 			ctx = gsap.context(() => {
-				const words = gsap.utils.toArray<HTMLElement>('.word');
-				gsap.fromTo(
-					words,
-					{ yPercent: 130, rotate: 10, scale: 1.35, opacity: 0 },
-					{
-						yPercent: 0,
-						rotate: 0,
-						scale: 1,
-						opacity: 1,
-						stagger: 0.08,
-						ease: 'none',
-						scrollTrigger: {
-							trigger: el,
-							start: 'top top',
-							end: '+=170%',
-							pin: true,
-							scrub: 0.45
-						}
+				const tl = gsap.timeline({
+					scrollTrigger: {
+						trigger: el,
+						start: 'top top',
+						end: '+=100%',
+						pin: true,
+						scrub: true
 					}
-				);
+				});
+
+				tl.from('.glyph', {
+					y: '0.55em',
+					opacity: 0,
+					stagger: 0.045,
+					ease: 'power3.out'
+				})
+					.fromTo('.line', { scale: 0.94 }, { scale: 1, ease: 'none' }, 0.15)
+					.to('.glyph', { yPercent: -18, opacity: 0, stagger: 0.02, ease: 'none' }, 0.78);
 			}, el);
 		};
 
-		const fonts = document.fonts;
-		if (fonts?.ready) {
-			fonts.ready.then(run);
-		} else {
-			run();
-		}
-
+		run();
 		return () => {
 			cancelled = true;
 			ctx?.revert();
@@ -67,99 +56,65 @@
 </script>
 
 <section bind:this={root} class="charge">
-	<div class="bar" aria-hidden="true">
-		<span>Flare</span>
-		<span>type-charge</span>
-	</div>
-
-	<h2 class="board">
-		{#each lines as line}
-			<span class="row">
-				{#each line as word}
-					<span class="slot">
-						<span class="word">{word}</span>
-					</span>
-				{/each}
-			</span>
+	<p class="meta">Flare / type-charge</p>
+	<h2 class="line" aria-label="Charge">
+		{#each glyphs as glyph}
+			<span class="glyph" class:ember={glyph === 'A'}>{glyph}</span>
 		{/each}
 	</h2>
-
-	<p class="note">Each word locks as the pin walks the line.</p>
 </section>
 
 <style>
-	@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=IBM+Plex+Mono:wght@400&display=swap');
-
 	.charge {
+		--ink: #09090b;
+		--paper: #f5f0ea;
+		--ember: #ff5a1f;
 		position: relative;
-		min-height: 100svh;
+		display: grid;
+		min-height: 100dvh;
+		place-items: center;
 		overflow: hidden;
-		background: #09090b;
-		color: #f5f0ea;
-		font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+		background: var(--ink);
+		color: var(--paper);
+		font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, sans-serif;
 	}
 
-	.bar {
-		display: flex;
-		justify-content: space-between;
-		padding: 1rem 1.25rem;
-		font-family: 'IBM Plex Mono', ui-monospace, monospace;
-		font-size: 10px;
-		letter-spacing: 0.18em;
-		text-transform: uppercase;
-		color: #8b8278;
-	}
-
-	.board {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		gap: 0.12em;
-		min-height: calc(100svh - 6rem);
-		margin: 0;
-		padding: 0 6vw 4rem;
-		font-size: clamp(2.8rem, 9vw, 7.5rem);
-		font-weight: 780;
-		line-height: 0.92;
-		letter-spacing: -0.06em;
-	}
-
-	.row {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.28em;
-	}
-
-	.slot {
-		overflow: hidden;
-		display: inline-block;
-		padding-bottom: 0.06em;
-	}
-
-	.word {
-		display: inline-block;
-		transform-origin: left bottom;
-	}
-
-	.row:nth-child(2) .word {
-		color: #ff5a1f;
-	}
-
-	.note {
+	.meta {
 		position: absolute;
-		right: 1.25rem;
 		bottom: 1.25rem;
+		left: 1.25rem;
 		margin: 0;
-		max-width: 22rem;
 		font-family: 'IBM Plex Mono', ui-monospace, monospace;
-		font-size: 12px;
-		color: #8b8278;
+		font-size: 11px;
+		color: var(--paper);
+	}
+
+	.line {
+		display: flex;
+		margin: 0;
+		font-size: clamp(4.5rem, 22vw, 26vw);
+		font-weight: 780;
+		line-height: 0.8;
+		letter-spacing: -0.06em;
+		transform-origin: center;
+	}
+
+	.glyph {
+		display: inline-block;
+	}
+
+	.ember {
+		color: var(--ember);
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.word {
+		.glyph {
 			transform: none;
 			opacity: 1;
+		}
+
+		.line {
+			transform: none;
 		}
 	}
 </style>

@@ -1,6 +1,7 @@
 <!--
   Flare · split-masthead
   Paste into a SvelteKit 5 + Tailwind v4 app. Needs: pnpm add gsap
+  Type: Bricolage Grotesque + IBM Plex Mono (host loads fontsource).
 -->
 <script lang="ts">
 	import { gsap } from 'gsap';
@@ -10,43 +11,84 @@
 		gsap.registerPlugin(ScrollTrigger);
 	}
 
+	const words = ['Harbor', 'Preview', 'Review', 'Ship'] as const;
+
+	const rooms = [
+		{
+			title: 'A clearer look before commitment.',
+			body: 'The left column holds the index. The right column is the walk. Nothing else enters the first room.'
+		},
+		{
+			title: 'Preview is the live cut.',
+			body: 'You watch the frame while it is still loose. Share the SHA. Keep the thread on the build you just saw.',
+			shot: true
+		},
+		{
+			title: 'Review sits on the artifact.',
+			body: 'Notes pin to the hero, the form, the empty state. The next SHA keeps the same spine.'
+		},
+		{
+			title: 'Ship the frame you already held.',
+			body: 'Promote the preview. Same cut, new hostname. Rollback is the room you just left.'
+		}
+	];
+
 	let root: HTMLElement | undefined = $state();
+	let rail: HTMLElement | undefined = $state();
+	let track: HTMLElement | undefined = $state();
+	let active = $state(0);
 
 	$effect(() => {
 		const el = root;
-		if (!el) return;
+		const left = rail;
+		const right = track;
+		if (!el || !left || !right) return;
 		let ctx: gsap.Context | undefined;
 		let cancelled = false;
 
 		const run = () => {
-			if (cancelled || !root) return;
-			if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+			if (cancelled || !root || !rail || !track) return;
+			if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+				active = 0;
+				return;
+			}
 
 			ctx = gsap.context(() => {
-				const tl = gsap.timeline({
-					scrollTrigger: {
-						trigger: el,
-						start: 'top top',
-						end: '+=180%',
-						pin: true,
-						scrub: 0.65
-					}
+				gsap.from('.word', {
+					x: -12,
+					opacity: 0,
+					stagger: 0.08,
+					duration: 0.45,
+					ease: 'power2.out'
 				});
 
-				tl.to('.word-a', { xPercent: -14, yPercent: -6, ease: 'none' }, 0)
-					.to('.word-b', { xPercent: 16, yPercent: 8, ease: 'none' }, 0)
-					.fromTo('.rule', { scaleY: 0 }, { scaleY: 1, ease: 'none' }, 0)
-					.fromTo('.line', { opacity: 0, y: 28 }, { opacity: 1, y: 0, stagger: 0.12, ease: 'none' }, 0.25);
+				ScrollTrigger.create({
+					trigger: left,
+					start: 'top top',
+					endTrigger: right,
+					end: 'bottom bottom',
+					pin: true,
+					pinSpacing: false
+				});
+
+				const steps = gsap.utils.toArray<HTMLElement>('.room');
+				steps.forEach((step, i) => {
+					ScrollTrigger.create({
+						trigger: step,
+						start: 'top 45%',
+						end: 'bottom 45%',
+						onEnter: () => {
+							active = i;
+						},
+						onEnterBack: () => {
+							active = i;
+						}
+					});
+				});
 			}, el);
 		};
 
-		const fonts = document.fonts;
-		if (fonts?.ready) {
-			fonts.ready.then(run);
-		} else {
-			run();
-		}
-
+		run();
 		return () => {
 			cancelled = true;
 			ctx?.revert();
@@ -55,130 +97,126 @@
 </script>
 
 <section bind:this={root} class="mast">
-	<div class="bar" aria-hidden="true">
-		<span>Flare</span>
-		<span class="bar-mid">split-masthead</span>
-		<span>hold / still</span>
-	</div>
-
-	<div class="stage">
-		<p class="word word-a">Hold</p>
-		<span class="rule" aria-hidden="true"></span>
-		<p class="word word-b">Still</p>
-	</div>
-
-	<div class="foot">
-		<p class="line">The first frame is a cut.</p>
-		<p class="line mute">Two weights. One pin. Then the room opens.</p>
+	<div class="shell">
+		<aside bind:this={rail} class="rail">
+			{#each words as word, i}
+				<p class="word" class:on={i === active}>{word}</p>
+			{/each}
+		</aside>
+		<div bind:this={track} class="track">
+			{#each rooms as room}
+				<article class="room">
+					<h2>{room.title}</h2>
+					<p>{room.body}</p>
+					{#if room.shot}
+						<figure class="shot" aria-hidden="true"></figure>
+					{/if}
+				</article>
+			{/each}
+		</div>
 	</div>
 </section>
 
 <style>
-	@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=IBM+Plex+Mono:wght@400;500&display=swap');
-
 	.mast {
-		position: relative;
-		min-height: 100svh;
-		overflow: hidden;
-		background: #09090b;
-		color: #f5f0ea;
-		font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+		--ink: #09090b;
+		--paper: #f5f0ea;
+		--ember: #ff5a1f;
+		background: var(--ink);
+		color: var(--paper);
+		font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, sans-serif;
 	}
 
-	.bar {
-		display: flex;
-		justify-content: space-between;
-		gap: 1rem;
-		padding: 1rem 1.25rem;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-		font-family: 'IBM Plex Mono', ui-monospace, monospace;
-		font-size: 10px;
-		letter-spacing: 0.18em;
-		text-transform: uppercase;
-		color: #8b8278;
-	}
-
-	.bar-mid {
-		color: #ff5a1f;
-	}
-
-	.stage {
+	.shell {
 		display: grid;
-		grid-template-columns: 1fr auto 1fr;
-		align-items: center;
-		min-height: calc(100svh - 7.5rem);
-		padding: 0 4vw;
-		gap: 1.5vw;
+		grid-template-columns: minmax(10rem, 38%) 1fr;
+		min-height: 100dvh;
+	}
+
+	.rail {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 0.15em;
+		min-height: 100dvh;
+		padding: 2rem 1.5rem 2rem 6vw;
+		border-right: 1px solid rgba(245, 240, 234, 0.16);
 	}
 
 	.word {
 		margin: 0;
-		font-size: clamp(4.5rem, 18vw, 14rem);
-		font-weight: 760;
-		line-height: 0.78;
-		letter-spacing: -0.07em;
-		text-wrap: pretty;
+		font-size: clamp(4.5rem, 8vw, 6.875rem);
+		font-weight: 720;
+		line-height: 0.9;
+		letter-spacing: -0.04em;
+		color: var(--paper);
 	}
 
-	.word-a {
-		text-align: right;
+	.word.on {
+		color: var(--ember);
 	}
 
-	.word-b {
+	.track {
+		padding: 18vh 8vw 24vh;
+	}
+
+	.room {
+		min-height: 88dvh;
+		padding-bottom: 12vh;
+	}
+
+	h2 {
+		margin: 0;
+		max-width: 18ch;
+		font-size: clamp(1.6rem, 2.4vw, 2.1rem);
+		font-weight: 560;
+		letter-spacing: -0.03em;
+		line-height: 1.15;
+	}
+
+	.room p {
+		margin: 1.25rem 0 0;
+		max-width: 42rem;
+		font-family: 'IBM Plex Mono', ui-monospace, monospace;
+		font-size: 13px;
+		line-height: 1.7;
 		color: #c4bbb0;
 	}
 
-	.rule {
-		width: 1px;
+	.shot {
+		margin: 2.5rem 0 0;
 		height: min(42vh, 22rem);
-		background: #ff5a1f;
-		transform-origin: center top;
+		border: 1px solid rgba(245, 240, 234, 0.2);
+		background:
+			radial-gradient(circle at 18% 70%, rgba(255, 90, 31, 0.28), transparent 26%),
+			linear-gradient(180deg, #1a1c22 0%, #0c1014 48%, #14110c 100%),
+			repeating-linear-gradient(90deg, rgba(245, 240, 234, 0.04) 0 12px, transparent 12px 28px);
 	}
 
-	.foot {
-		position: absolute;
-		right: 1.25rem;
-		bottom: 1.25rem;
-		left: 1.25rem;
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		gap: 0.75rem;
-		font-size: clamp(1rem, 2vw, 1.25rem);
-	}
-
-	.mute {
-		color: #8b8278;
-		font-family: 'IBM Plex Mono', ui-monospace, monospace;
-		font-size: 12px;
-	}
-
-	.line {
-		margin: 0;
-	}
-
-	@media (max-width: 720px) {
-		.stage {
+	@media (max-width: 768px) {
+		.shell {
 			grid-template-columns: 1fr;
-			justify-items: start;
-			min-height: calc(100svh - 9rem);
-			padding-top: 8vh;
 		}
 
-		.word-a,
-		.word-b {
-			text-align: left;
+		.rail {
+			min-height: auto;
+			padding: 2rem 6vw 1rem;
+			border-right: 0;
+			border-bottom: 1px solid rgba(245, 240, 234, 0.16);
 		}
 
-		.rule {
-			height: 1px;
-			width: min(48vw, 12rem);
-			transform-origin: left center;
+		.word {
+			font-size: clamp(2.8rem, 16vw, 4.5rem);
 		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.rule {
+		.rail {
+			position: relative;
+		}
+
+		.word {
+			opacity: 1;
 			transform: none;
 		}
 	}

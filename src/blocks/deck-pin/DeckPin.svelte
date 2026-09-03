@@ -1,6 +1,7 @@
 <!--
   Flare · deck-pin
   Paste into a SvelteKit 5 + Tailwind v4 app. Needs: pnpm add gsap
+  Type: Bricolage Grotesque + IBM Plex Mono (host loads fontsource).
 -->
 <script lang="ts">
 	import { gsap } from 'gsap';
@@ -12,24 +13,25 @@
 
 	const cards = [
 		{
+			title: 'deck-pin',
+			body: 'A focused way to pin thoughts, ink them, and keep them close.'
+		},
+		{
 			title: 'Hold the head',
-			body: 'The kicker stays. Each card arrives under it, not beside it.'
+			body: 'The incoming card takes the top. The last one keeps full scale.'
 		},
 		{
-			title: 'Stack the weight',
-			body: 'The last card keeps full scale. The ones before it recede.'
+			title: 'Keep the line',
+			body: 'One ember hairline on the front card. Nothing else needs to glow.'
 		},
 		{
-			title: 'Keep the edge',
-			body: 'A one-pixel ember line is enough. No glow, no mesh.'
-		},
-		{
-			title: 'Release the pin',
+			title: 'Release',
 			body: 'When the last card hits the top, the deck is done talking.'
 		}
 	];
 
 	let root: HTMLElement | undefined = $state();
+	let front = $state(0);
 
 	$effect(() => {
 		const el = root;
@@ -44,18 +46,22 @@
 			ctx = gsap.context(() => {
 				const deck = gsap.utils.toArray<HTMLElement>('.card');
 				deck.forEach((card, i) => {
-					if (i === deck.length - 1) return;
+					const last = i === deck.length - 1;
 					ScrollTrigger.create({
 						trigger: card,
 						start: 'top top',
-						endTrigger: deck[deck.length - 1],
-						end: 'top top',
-						pin: true,
-						pinSpacing: false
+						endTrigger: last ? card : deck[deck.length - 1],
+						end: last ? 'bottom bottom' : 'top top',
+						pin: last ? false : true,
+						pinSpacing: false,
+						onToggle: (self) => {
+							if (self.isActive) front = i;
+						}
 					});
+					if (last) return;
 					gsap.to(card, {
 						scale: 0.92,
-						opacity: 0.5,
+						opacity: 0.55,
 						ease: 'none',
 						scrollTrigger: {
 							trigger: deck[i + 1],
@@ -68,13 +74,7 @@
 			}, el);
 		};
 
-		const fonts = document.fonts;
-		if (fonts?.ready) {
-			fonts.ready.then(run);
-		} else {
-			run();
-		}
-
+		run();
 		return () => {
 			cancelled = true;
 			ctx?.revert();
@@ -83,9 +83,8 @@
 </script>
 
 <section bind:this={root} class="deck">
-	<p class="head">deck-pin</p>
-	{#each cards as card}
-		<article class="card">
+	{#each cards as card, i}
+		<article class="card" class:front={i === front}>
 			<h2>{card.title}</h2>
 			<p>{card.body}</p>
 		</article>
@@ -93,65 +92,52 @@
 </section>
 
 <style>
-	@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=IBM+Plex+Mono:wght@400&display=swap');
-
 	.deck {
-		position: relative;
-		background: #09090b;
-		color: #f5f0ea;
-		font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
-	}
-
-	.head {
-		position: sticky;
-		top: 0;
-		z-index: 3;
-		margin: 0;
-		padding: 1rem 6vw;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-		background: color-mix(in oklab, #09090b 88%, transparent);
-		font-family: 'IBM Plex Mono', ui-monospace, monospace;
-		font-size: 11px;
-		letter-spacing: 0.22em;
-		text-transform: uppercase;
-		color: #ff5a1f;
+		--ink: #09090b;
+		--paper: #f5f0ea;
+		--ember: #ff5a1f;
+		--card: #111113;
+		background: var(--ink);
+		color: var(--paper);
+		font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, sans-serif;
 	}
 
 	.card {
 		position: sticky;
 		top: 0;
 		display: flex;
-		min-height: 100svh;
+		min-height: 100dvh;
 		flex-direction: column;
-		justify-content: center;
-		padding: 5rem 6vw 3rem;
-		border-top: 1px solid rgba(255, 90, 31, 0.35);
-		background:
-			linear-gradient(180deg, rgba(255, 90, 31, 0.08), transparent 28%),
-			#111113;
+		justify-content: flex-end;
+		padding: 8vh 8vw 12vh;
+		border-radius: 12px 12px 0 0;
+		background: var(--card);
+		box-shadow: 0 -40px 80px rgba(0, 0, 0, 0.35);
 		transform-origin: center top;
 	}
 
-	.card:nth-child(odd) {
-		background:
-			linear-gradient(180deg, rgba(255, 90, 31, 0.12), transparent 32%),
-			#0c0c0e;
+	.card.front {
+		box-shadow:
+			inset 0 1px 0 var(--ember),
+			0 -40px 80px rgba(0, 0, 0, 0.35);
 	}
 
 	h2 {
 		margin: 0;
-		max-width: 14ch;
-		font-size: clamp(3rem, 9vw, 7rem);
+		max-width: 12ch;
+		font-size: clamp(3.2rem, 8vw, 6.5rem);
 		font-weight: 760;
 		line-height: 0.86;
-		letter-spacing: -0.06em;
+		letter-spacing: -0.05em;
 	}
 
 	p {
-		margin: 1.25rem 0 0;
-		max-width: 32rem;
-		font-size: 1.15rem;
-		color: #a59c91;
+		margin: 1.1rem 0 0;
+		max-width: 36rem;
+		font-family: 'IBM Plex Mono', ui-monospace, monospace;
+		font-size: 14px;
+		line-height: 1.6;
+		color: var(--paper);
 	}
 
 	@media (prefers-reduced-motion: reduce) {

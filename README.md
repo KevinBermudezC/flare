@@ -26,12 +26,12 @@ Each folder is independent. No cross-imports. No `$lib/ui`. Recorte 1 chapters n
 
 | Folder | What you get |
 | --- | --- |
-| `split-masthead` | Oversized split type. The frame holds, then it parts. |
-| `type-charge` | Kinetic type that charges the line as you scroll. |
-| `lane-scrub` | Vertical scroll drives a horizontal lane. |
-| `chapter-pin` | Pinned rooms that zoom as the next one arrives. |
-| `mask-reveal` | Type as a mask. The cut opens on scroll. |
-| `deck-pin` | Cards that stick and stack. |
+| `split-masthead` | Left column holds. Right column walks. |
+| `type-charge` | One line. One glyph of heat. |
+| `lane-scrub` | Vertical scroll drives the lane. |
+| `chapter-pin` | Rooms pin. The rail keeps count. |
+| `mask-reveal` | An ink window opens on the frame. |
+| `deck-pin` | Cards stick. The top one keeps the line. |
 
 ## Deploy
 

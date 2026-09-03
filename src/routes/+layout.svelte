@@ -16,7 +16,7 @@
 {#if embed}
 	{@render children()}
 {:else}
-	<div class="min-h-svh bg-[#09090b]">
+	<div class="min-h-dvh bg-[#09090b]">
 		<SiteHeader />
 		{@render children()}
 	</div>
