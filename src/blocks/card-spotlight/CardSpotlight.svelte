@@ -37,7 +37,7 @@
 		</p>
 		<div class="relative mt-8 flex items-center justify-between text-sm">
 			<span class="font-mono text-[#8b8278]">us-east-1 · 18ms</span>
-			<a href="#edge" class="text-[#ff5a1f]">Open the map</a>
+			<button type="button" class="text-[#ff5a1f]">Open the map</button>
 		</div>
 	</article>
 </section>

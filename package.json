@@ -2,7 +2,7 @@
 	"name": "flare",
 	"private": true,
 	"version": "0.1.0",
-	"description": "Aceternity-style marketing and motion sections for Svelte 5. Preview, copy the .svelte, it's yours.",
+	"description": "Svelte 5 gallery of marketing and motion blocks. Preview, copy the .svelte, it's yours.",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",

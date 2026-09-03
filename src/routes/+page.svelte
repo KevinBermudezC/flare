@@ -15,8 +15,8 @@
 			<span class="block text-[#c4bbb0]">It’s yours.</span>
 		</h1>
 		<p class="mt-5 max-w-xl text-lg text-[#a59c91]">
-			Aceternity-style marketing + motion sections for Svelte 5. Live previews, not screenshots. Not
-			a design system. Not shadcn. Not Tangram.
+			A Svelte 5 gallery of marketing + motion blocks. Live previews, not screenshots. Not a design
+			system. Not shadcn. Not Tangram.
 		</p>
 	</section>
 

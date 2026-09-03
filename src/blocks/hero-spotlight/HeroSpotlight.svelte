@@ -18,6 +18,7 @@
 <section
 	bind:this={root}
 	onmousemove={onMove}
+	aria-label="Hero"
 	class="relative isolate min-h-[100svh] overflow-hidden bg-[#09090b] text-[#f5f0ea]"
 	style="--mx: {mx}%; --my: {my}%"
 >
@@ -43,18 +44,18 @@
 			moving.
 		</p>
 		<div class="mt-10 flex flex-wrap items-center justify-center gap-3">
-			<a
-				href="#get-started"
+			<button
+				type="button"
 				class="rounded-full bg-[#ff5a1f] px-5 py-2.5 text-sm font-medium text-[#1a0703] transition-transform duration-200 hover:-translate-y-0.5"
 			>
 				Get started
-			</a>
-			<a
-				href="#preview"
+			</button>
+			<button
+				type="button"
 				class="rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-medium text-[#f5f0ea] transition-colors duration-200 hover:border-white/30"
 			>
 				See a preview
-			</a>
+			</button>
 		</div>
 	</div>
 </section>
@@ -93,7 +94,7 @@
 			animation: none;
 		}
 
-		a {
+		button {
 			transition: none;
 		}
 	}

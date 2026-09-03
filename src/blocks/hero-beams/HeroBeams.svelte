@@ -39,18 +39,18 @@
 				A hero for tools, not templates. Beams, a live console, and two actions. No purple blobs.
 			</p>
 			<div class="mt-8 flex flex-wrap gap-3">
-				<a
-					href="#install"
+				<button
+					type="button"
 					class="rounded-md bg-[#e8edf2] px-4 py-2 text-sm font-medium text-[#0b0d10]"
 				>
 					Install the agent
-				</a>
-				<a
-					href="#docs"
+				</button>
+				<button
+					type="button"
 					class="rounded-md border border-white/15 px-4 py-2 text-sm font-medium text-[#e8edf2]"
 				>
 					Read the docs
-				</a>
+				</button>
 			</div>
 		</div>
 
