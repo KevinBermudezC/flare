@@ -15,11 +15,11 @@
 	let mode = $state<Mode>('preview');
 	let viewport = $state<Viewport>(1440);
 	let replay = $state(0);
-	let title = $state(getBlock(data.slug)?.editDefault ?? '');
+	let title = $state('');
 	let accent = $state<Accent>('ember');
 	let reduceMotion = $state(false);
 
-	$effect(() => {
+	$effect.pre(() => {
 		const next = getBlock(data.slug);
 		untrack(() => {
 			title = next?.editDefault ?? '';
