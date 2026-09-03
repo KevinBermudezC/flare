@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+	<title>Flare</title>
+	<rect width="32" height="32" rx="8" fill="#09090b" />
+	<path d="M16 5l2.4 7.4L26 16l-7.6 3.6L16 27l-2.4-7.4L6 16l7.6-3.6L16 5z" fill="#ff5a1f" />
+	<circle cx="16" cy="16" r="2.2" fill="#fff4e8" />
+</svg>

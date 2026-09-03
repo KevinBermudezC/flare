@@ -1,0 +1,27 @@
+@import 'tailwindcss';
+
+@theme {
+	--font-sans: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+	--font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+	--color-ember: #ff5a1f;
+	--color-ink: #09090b;
+	--color-paper: #f5f0ea;
+}
+
+html {
+	background: var(--color-ink);
+	color: var(--color-paper);
+}
+
+body {
+	margin: 0;
+	min-height: 100svh;
+	font-family: var(--font-sans);
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+::selection {
+	background: color-mix(in oklab, var(--color-ember) 80%, white);
+	color: #1a0703;
+}
