@@ -95,7 +95,7 @@ export const blocks: BlockEntry[] = [
 	{
 		slug: 'card-spotlight',
 		name: 'Card Spotlight',
-		tagline: 'Card with mouse spotlight — usable inside a bento',
+		tagline: 'Card with mouse spotlight, usable inside a bento',
 		kind: 'cards',
 		extraDep: null,
 		component: CardSpotlight,
@@ -150,6 +150,52 @@ export function kindLabel(kind: BlockKind): string {
 			return 'Scroll';
 		case 'text':
 			return 'Text';
+		default: {
+			const _never: never = kind;
+			return _never;
+		}
+	}
+}
+
+export function catalogSpan(slug: string): string {
+	switch (slug) {
+		case 'hero-spotlight':
+			return 'md:col-span-7';
+		case 'hero-beams':
+			return 'md:col-span-5';
+		case 'logo-marquee':
+			return 'md:col-span-6';
+		case 'bento-features':
+			return 'md:col-span-6';
+		case 'testimonials-marquee':
+			return 'md:col-span-7';
+		case 'infinite-cards':
+			return 'md:col-span-5';
+		case 'card-spotlight':
+			return 'md:col-span-4';
+		case 'loaders':
+			return 'md:col-span-4';
+		case 'sticky-scroll':
+			return 'md:col-span-8';
+		case 'text-flip':
+			return 'md:col-span-4';
+		default:
+			return 'md:col-span-6';
+	}
+}
+
+export function catalogPreviewHeight(kind: BlockKind): string {
+	switch (kind) {
+		case 'hero':
+			return 'h-72 md:h-[22rem]';
+		case 'bento':
+		case 'scroll':
+			return 'h-64 md:h-80';
+		case 'marquee':
+		case 'cards':
+		case 'loader':
+		case 'text':
+			return 'h-56 md:h-64';
 		default: {
 			const _never: never = kind;
 			return _never;

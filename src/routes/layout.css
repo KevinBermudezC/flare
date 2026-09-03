@@ -25,3 +25,13 @@ body {
 	background: color-mix(in oklab, var(--color-ember) 80%, white);
 	color: #1a0703;
 }
+
+@media (prefers-reduced-motion: reduce) {
+	.flare-chrome,
+	.flare-chrome * {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}

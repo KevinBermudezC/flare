@@ -8,9 +8,9 @@ license: MIT
 
 Adapted from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) v2 (`skills/taste-skill/SKILL.md`, install name `design-taste-frontend`). Copyright (c) 2026 Leonxlnx. MIT.
 
-This is **not** a React/GSAP port of that skill. Keep the design intent. Drop their stack recipes.
+Keep the design intent. Recipes below are official `gsap` + Svelte 5.
 
-Any visual work on Flare (gallery chrome **or** blocks) follows this skill. Also read [flare-voice](../flare-voice/SKILL.md), [flare-blocks](../flare-blocks/SKILL.md), [svelte-5](../svelte-5/SKILL.md). Changing the block roster needs an OpenSpec change. Do not silently rewrite Recorte 1 in a taste pass.
+Any visual work on Flare (gallery chrome **or** blocks) follows this skill. Also read [flare-voice](../flare-voice/SKILL.md), [flare-blocks](../flare-blocks/SKILL.md), [gsap-svelte](../gsap-svelte/SKILL.md), [svelte-5](../svelte-5/SKILL.md). Changing the block roster needs an OpenSpec change. Do not silently rewrite Recorte 1 in a taste pass.
 
 ## 0. Design read (before code)
 
@@ -41,34 +41,142 @@ If `MOTION_INTENSITY > 4`, the surface must actually move. If you cannot ship wo
 ## 2. Flare stack (hard)
 
 - Svelte 5 + SvelteKit + Tailwind v4.
-- Motion: **CSS** + `svelte/transition` + `svelte/animate`. View Transition API for shared-element / route morphs. CSS `animation-timeline: view()` / `scroll()` when you need scroll-tied motion.
+- Cheap motion: **CSS** + `svelte/transition` + `svelte/animate`. View Transition API for shared-element / route morphs. CSS `animation-timeline: view()` / `scroll()` when a cheap scroll tie is enough.
+- Scrolltelling, sticky stacks, kinetic type, marquees with intent: official **`gsap`** + **ScrollTrigger**. Isolate in a leaf. `gsap.context()`, revert on `$effect` cleanup. See [gsap-svelte](../gsap-svelte/SKILL.md).
 - Optional, few blocks only: `@humanspeak/svelte-motion`, and the block page documents `pnpm add`.
-- **FORBIDDEN:** GSAP, ScrollTrigger, framer-motion, `motion/react`, Three.js as defaults, bits-ui, shadcn-svelte, Dialog/Input/Button primitives.
-- Copyable blocks: own folder, zero `$lib` / cross-imports. Keyframes live in the copied file.
+- **FORBIDDEN:** `framer-motion`, `motion/react`, Three.js as defaults, shared `Button` / `Dialog` / `Input` primitives, registry add.
+- Do not mix GSAP with another animation runtime in the same component tree.
+- Copyable blocks: own folder, zero `$lib` / cross-imports. Keyframes (or the GSAP setup) live in the copied file.
 - `prefers-reduced-motion`: freeze motion, keep layout and content. No collapsed height.
 - Animate `transform` and `opacity` only. No `window.addEventListener("scroll")` driving `$state`.
 - Flare look: ink (not `#000`), ember, spotlight, beams, console chrome. Dark ink is the product look, not a theme-toggle feature.
-- Voice: never describe Flare as a clone, port, or "X-style" / "X for Svelte". See [flare-voice](../flare-voice/SKILL.md).
+- Voice: name Flare. Do not name other products or sibling projects. Do not define Flare by comparison. See [flare-voice](../flare-voice/SKILL.md).
 
-Do not install Fluent, Carbon, Material, Primer, or shadcn to "have a system." Flare is not a design system.
+Do not install a primitive kit to "have a system." Flare is not a design system.
 
-## 3. Motion recipes (intent kept, GSAP/React stripped)
+## 3. Motion recipes (Svelte 5 + official gsap)
+
+Register plugins once on the client. Scope every tween with `gsap.context(fn, root)` and `return () => ctx.revert()` from `$effect`.
 
 ### Sticky stack
 
-Pin cards with `position: sticky; top: 0; min-height: 100dvh`. As the next card arrives, scale/fade the previous via `animation-timeline: view()` or an IntersectionObserver that only writes CSS variables. Last card is not pinned. Pin starts when the section top hits the viewport top, not "top 80%."
+A card stack on scroll is a real sticky-stack, not a sequential reveal list. Pin at viewport top (`start: "top top"`), not `"top 80%"`. Every card except the last is pinned. The previous card scales/fades as the next one arrives.
+
+```svelte
+<script lang="ts">
+	import { gsap } from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+	if (typeof window !== 'undefined') {
+		gsap.registerPlugin(ScrollTrigger);
+	}
+
+	let root: HTMLElement | undefined = $state();
+
+	$effect(() => {
+		const el = root;
+		if (!el) return;
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+		const ctx = gsap.context(() => {
+			const cards = gsap.utils.toArray<HTMLElement>('.stack-card');
+			cards.forEach((card, i) => {
+				if (i === cards.length - 1) return;
+				ScrollTrigger.create({
+					trigger: card,
+					start: 'top top',
+					endTrigger: cards[cards.length - 1],
+					end: 'top top',
+					pin: true,
+					pinSpacing: false
+				});
+				gsap.to(card, {
+					scale: 0.92,
+					opacity: 0.55,
+					ease: 'none',
+					scrollTrigger: {
+						trigger: cards[i + 1],
+						start: 'top bottom',
+						end: 'top top',
+						scrub: true
+					}
+				});
+			});
+		}, el);
+
+		return () => ctx.revert();
+	});
+</script>
+
+<div bind:this={root} class="relative">
+	<!-- each card: class="stack-card sticky top-0 min-h-[100dvh]" -->
+</div>
+```
 
 ### Horizontal pan (scroll-tied)
 
-Sticky wrapper, inner flex track. Horizontal `translateX` from scroll progress (`animation-timeline: scroll()` on the wrapper, or observer + `--pan`). Scroll length equals track overflow. Not a second CSS marquee.
+Sticky wrapper, inner flex track. Pin when the section top hits the viewport top. Scroll length equals track overflow. Not a second CSS marquee.
 
-### Scroll-reveal stagger
+```svelte
+<script lang="ts">
+	import { gsap } from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-`svelte/transition` (`fly` / `fade`) when an IntersectionObserver flips a flag, **or** CSS view-timeline with `animation-delay: calc(var(--i) * 80ms)`. Once only. Use for lists that should enter in order. Not for every card.
+	if (typeof window !== 'undefined') {
+		gsap.registerPlugin(ScrollTrigger);
+	}
+
+	let wrap: HTMLElement | undefined = $state();
+	let track: HTMLElement | undefined = $state();
+
+	$effect(() => {
+		const section = wrap;
+		const row = track;
+		if (!section || !row) return;
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+		const ctx = gsap.context(() => {
+			const distance = row.scrollWidth - window.innerWidth;
+			gsap.to(row, {
+				x: -distance,
+				ease: 'none',
+				scrollTrigger: {
+					trigger: section,
+					start: 'top top',
+					end: () => `+=${distance}`,
+					pin: true,
+					scrub: 1,
+					invalidateOnRefresh: true
+				}
+			});
+		}, section);
+
+		return () => ctx.revert();
+	});
+</script>
+
+<section bind:this={wrap} class="relative overflow-hidden">
+	<div bind:this={track} class="flex h-[100dvh] items-center">
+		<!-- slides -->
+	</div>
+</section>
+```
+
+### Marquee with intent
+
+One marquee per composed page. Prefer CSS keyframes for a trusted-by row. Reach for GSAP when the track must pause, reverse, or sync to scroll. Same cleanup: `gsap.context()` + `ctx.revert()`.
+
+### Kinetic type
+
+GSAP timelines for word/char reveals that tell a story. CSS / `svelte/transition` for a cheap flip or fade. Do not animate every headline.
+
+### Scroll-reveal stagger (cheap path)
+
+No pin needed: `svelte/transition` (`fly` / `fade`) when an IntersectionObserver flips a flag, **or** CSS view-timeline with `animation-delay: calc(var(--i) * 80ms)`. Once only. Save GSAP for pin/scrub work.
 
 ### Shared-element / route morph
 
-View Transition API (`document.startViewTransition`, `view-transition-name`). Not Motion `layoutId`.
+View Transition API (`document.startViewTransition`, `view-transition-name`).
 
 ### Magnetic / pointer follow
 
@@ -103,13 +211,13 @@ Pointer on the host element, CSS variables `--mx` `--my`, `radial-gradient` or `
 
 - [ ] Design read + dials stated
 - [ ] Real references used (not LLM-default spotlight / logo-marquee / equal bento)
-- [ ] Flare stack only (no GSAP / Motion / Bits / shadcn)
+- [ ] Flare stack only (`framer-motion` / `motion/react` out; GSAP only via `gsap.context()`)
 - [ ] Motion motivated and actually running if MOTION > 4
 - [ ] `prefers-reduced-motion` keeps layout
 - [ ] No em-dash, no Inter-default, no purple mesh, no 3-equal cards, no neon, no `#000`
 - [ ] No Jane Doe / Acme / Unleash / version eyebrows
 - [ ] Copyable block still pastes (if you touched `src/blocks/`)
 - [ ] Roster change has an OpenSpec proposal in the same PR
-- [ ] Flare named as Flare, not as a clone
+- [ ] Flare named as Flare. No other product names.
 
 If a box fails, the pass is not done.

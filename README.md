@@ -4,7 +4,7 @@ Preview. Copy the `.svelte`. It's yours.
 
 A Svelte 5 gallery of **marketing + motion blocks**. Live previews, not screenshots. Paste a file into your app and it renders.
 
-This is **not** a design system. **Not** shadcn. **Not** Tangram. **Not** an npm kit. No CLI, no registry, no shared `Button`.
+This is **not** a design system. **Not** an npm kit. No CLI, no registry, no shared `Button`.
 
 ## Run
 
@@ -37,7 +37,11 @@ Each folder is independent. No cross-imports. No `$lib/ui`. No extra packages un
 | `sticky-scroll` | Features that stick and reveal on scroll |
 | `text-flip` | Rotating word in a headline |
 
-Motion is CSS + `svelte/transition`. `prefers-reduced-motion` keeps layout intact.
+Recorte 1 blocks use CSS + `svelte/transition`. Future blocks may use official `gsap` (see the block page). `prefers-reduced-motion` keeps layout intact.
+
+## Deploy
+
+Connect this GitHub repo to Vercel. Root = repo. Framework = SvelteKit. Install command = `pnpm i`. Preview deploys come from that GitHub integration.
 
 ## Contribute
 

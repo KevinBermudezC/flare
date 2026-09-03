@@ -1,40 +1,29 @@
+# Change: Establish the Flare gallery
+
 ## Why
 
-Kevin builds Svelte 5 landings and needs marketing + motion **sections** he can preview live and paste as a `.svelte` file. Recorte 1 ships Flare as that gallery: ten independent blocks, a site to browse them, and a README a stranger understands in under a minute.
+Flare needs a public Svelte 5 gallery of marketing and motion blocks that visitors can preview live and copy as a single `.svelte` file. The first cut ships ten Recorte 1 blocks, a catalog, copy-source pages, and a look that is ink, ember, spotlight, beams, and console chrome.
 
 ## What Changes
 
-- A SvelteKit site whose home is a grid of **live** block previews (not screenshots).
-- A page per block with the live section plus copyable source.
-- Ten independent folders under `src/blocks/<name>/`. Each folder is the copyable unit. No cross-imports. No `$lib/ui`.
-- A one-minute README: preview, copy the `.svelte`, it's yours. Product name **Flare**. Not a design system. Not Tangram. Not an npm kit.
-- Stack: Svelte 5 + SvelteKit + Tailwind v4. Motion in CSS + `svelte/transition` (+ `svelte/animate` if needed). Zero extra runtime deps unless a block documents `pnpm add`.
-- MIT license. No secrets.
+- SvelteKit 2 + Svelte 5 site with a home catalog and one page per block
+- Ten Recorte 1 blocks under `src/blocks/<name>/`, each a single copyable `.svelte` file
+- Catalog metadata and raw sources in `src/lib/catalog.ts` (`?raw`)
+- Site chrome: header, mixed catalog grid, live preview, one-click copy
+- Taste skill (VARIANCE 8 / MOTION 7 / DENSITY 3–4) with official GSAP recipes for Svelte 5
+- GitHub Actions on PR and `main`: `pnpm i --frozen-lockfile`, `pnpm check`, `pnpm build`
+- `@sveltejs/adapter-vercel` for deploy
 
-This proposal does **not** add:
+## Non-goals
 
-- An npm package, CLI, or component registry
-- A design system or shared Button / Dialog / Input primitives
-- Auth, pricing, FAQ, or a marketing footer
-- Dark mode as a feature, i18n, shaders / globes / dither
-- Full landing templates
-- Mixing Tangram into this repo
+- Not a design system
+- Not an npm kit
+- No CLI
+- No registry
+- No shared `Button`
+- No rewrite of Recorte 1 `src/blocks/*` internals in this change (chrome and docs only after the first ten land)
+- No second OpenSpec change for the same gallery
 
-## Capabilities
+## Voice
 
-### New Capabilities
-
-- `block-gallery`: The Flare site — home grid of live previews, a page per block (preview + copy), and a README that explains preview/copy in under a minute.
-- `copyable-blocks`: The ten marketing/motion **sections** as loose folders. Paste a `.svelte` into a minimal SvelteKit 5 + Tailwind v4 app and it renders. Motion keeps layout under `prefers-reduced-motion`.
-
-### Modified Capabilities
-
-- None. This is the first product change; `openspec/specs/` is empty.
-
-## Impact
-
-- **Code**: SvelteKit app at the repo root (`src/routes`, `src/blocks`, `src/lib/site`). Site chrome is not the copyable product.
-- **Dependencies**: Svelte 5, SvelteKit, Tailwind v4, Vite. No framer-motion, GSAP, shadcn-svelte, or bits-ui.
-- **Documentation**: README (one minute), CONTRIBUTING (propose → apply → archive), this OpenSpec change.
-- **Visual language**: Flare's own — dark ink, ember accent, spotlight, beams, console chrome. Not a port of another kit.
-- **Archive**: after this PR merges, `openspec archive establish-flare-gallery` folds these specs into `openspec/specs/`.
+Name Flare. Describe the gallery. Stop. Do not name other products or sibling projects. Do not define Flare by comparison.

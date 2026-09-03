@@ -13,7 +13,7 @@ This repo is Svelte 5 + SvelteKit. Vite forces runes outside `node_modules`.
 - State: `$state`, `$derived`, `$effect`
 - Events: `onclick`, `onmousemove` (not `on:click`)
 - Children: snippets / `{@render children()}`, not `<slot>`
-- Motion: `svelte/transition`, `svelte/animate`
+- Motion: `svelte/transition`, `svelte/animate` for cheap hover/fade. Official `gsap` + `gsap.context()` for timelines and scroll. See [gsap-svelte](../gsap-svelte/SKILL.md).
 
 ## Do not
 

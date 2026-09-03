@@ -3,6 +3,10 @@
 	"private": true,
 	"version": "0.1.0",
 	"description": "Svelte 5 gallery of marketing and motion blocks. Preview, copy the .svelte, it's yours.",
+	"packageManager": "pnpm@10.33.3",
+	"engines": {
+		"node": ">=22"
+	},
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
@@ -13,7 +17,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^7.0.1",
+		"@sveltejs/adapter-vercel": "^6.3.4",
 		"@sveltejs/kit": "^2.63.0",
 		"@sveltejs/vite-plugin-svelte": "^7.1.2",
 		"@tailwindcss/vite": "^4.3.0",

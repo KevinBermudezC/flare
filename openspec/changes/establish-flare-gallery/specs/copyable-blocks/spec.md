@@ -24,7 +24,7 @@ Each block MUST be a **section**, not a primitive Button/Input/Dialog.
 #### Scenario: Folders do not import each other
 
 - **WHEN** a maintainer inspects `src/blocks/**/*.svelte`
-- **THEN** none of those files import `$lib`, another block, shadcn-svelte, or bits-ui
+- **THEN** none of those files import `$lib`, another block, `framer-motion`, or `motion/react`
 - **AND** all ten folders listed above exist
 
 #### Scenario: Minimum kinds are present
@@ -60,7 +60,7 @@ Previews MUST actually move when the user does not prefer reduced motion. When `
 
 ### Requirement: No kit primitives
 
-Blocks MUST use plain `<button>` and `<a>` with Tailwind for actions. The Recorte 1 set MUST NOT depend on framer-motion, GSAP, shadcn-svelte, or bits-ui.
+Blocks MUST use plain `<button>` and `<a>` with Tailwind for actions. The Recorte 1 set MUST NOT depend on `framer-motion` or `motion/react`. Recorte 1 files MUST NOT import `gsap`. There is no shared `Button`, `Dialog`, or `Input`, and no registry add.
 
 #### Scenario: CTAs are host-platform elements
 

@@ -1,27 +1,6 @@
 schema: spec-driven
 
+# Project context (optional)
+# This is shown to AI to help understand the project's conventions.
 context: |
-  Flare is a Svelte 5 gallery of marketing and motion blocks.
-  Product line: live preview, copy the .svelte, it's yours.
-  Visual language is Flare's own (dev-tool chrome, spotlight, beams). This is not a port of another UI kit.
-  Not a design system. Not Tangram. Not an npm kit. No CLI, no registry, no shared Button primitive.
-  Stack: Svelte 5 + SvelteKit + Tailwind v4. Motion default: CSS + svelte/transition + svelte/animate.
-  Extra motion libs only if a block documents `pnpm add`, and at most a few of the ten.
-  Forbidden in this product: shadcn-svelte, bits-ui, framer-motion, GSAP, npm component kits.
-  Copyable units live in src/blocks/<name>/ and MUST NOT import $lib. Site chrome may use $lib/site.
-  Do not compare Flare to other galleries in README, UI copy, comments, commits, or OpenSpec artifacts.
-
-rules:
-  proposal:
-    - Always include a Non-goals list (in What Changes or a dedicated section).
-    - Name the product Flare. Do not frame it as a port, clone, or “X-style” product.
-  tasks:
-    - Each task states how to verify it.
-
-operations:
-  apply:
-    guidance:
-      - Implement against the change's specs and tasks. Keep blocks independent.
-  archive:
-    guidance:
-      - Archive only after the PR merges. Open a tiny chore PR for the archive.
+  Flare is a Svelte 5 gallery of marketing and motion blocks. Live preview. Copy the .svelte. Own look: ink, ember, spotlight, beams, console chrome. It is not a design system, not an npm kit, no CLI, no registry, no shared Button. Do not name other products or sibling projects. Do not define Flare by comparison. Every new behavior starts as an OpenSpec change. Recorte 1 lives in openspec/changes/establish-flare-gallery — amend that folder, do not create a second change for the same gallery. Archive only after merge.

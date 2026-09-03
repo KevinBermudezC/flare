@@ -8,11 +8,11 @@ license: MIT
 
 Adapted from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) `skills/redesign-skill/SKILL.md`. Copyright (c) 2026 Leonxlnx. MIT.
 
-Sequence: **Scan → Diagnose → Fix.** Do not rewrite from scratch. After the audit, apply [design-taste-frontend](../design-taste-frontend/SKILL.md). Changing which blocks exist is an OpenSpec change, not a silent rewrite.
+Sequence: **Scan → Diagnose → Fix.** Do not rewrite from scratch. After the audit, apply [design-taste-frontend](../design-taste-frontend/SKILL.md). Official GSAP follows [gsap-svelte](../gsap-svelte/SKILL.md). Changing which blocks exist is an OpenSpec change, not a silent rewrite.
 
 ## 1. Scan
 
-- Stack: Svelte 5, SvelteKit, Tailwind v4, CSS + `svelte/transition`.
+- Stack: Svelte 5, SvelteKit, Tailwind v4. Cheap motion is CSS + `svelte/transition`. Scrolltelling may use official `gsap`.
 - Is this gallery chrome (`src/routes`, `src/lib/site`) or a copyable block (`src/blocks/<name>/`)?
 - Current type, color, motion, copy, layout family.
 
@@ -30,7 +30,7 @@ List every generic pattern. Typical Recorte 1 first-cut smells:
 - `#000` or purple mesh
 - Motion with no job (loops that do not tell hierarchy or state)
 
-Also run the typography / color / layout / states / content checks from taste-skill redesign: weak headlines, body too wide, 3 equal cards, missing hover/focus, Lorem, Unleash-copy.
+Also check type, color, layout, states, and content: weak headlines, body too wide, 3 equal cards, missing hover/focus, Lorem, Unleash-copy.
 
 ## 3. Fix (in place)
 
@@ -39,7 +39,7 @@ Priority:
 1. Type and color (ink, ember, no `#000`)
 2. Hover / active / focus
 3. Layout rhythm (asymmetric grid, not 3-up equals)
-4. Motion: CSS / `svelte/transition` / view-timeline only. No GSAP, ScrollTrigger, framer-motion, `motion/react`, Three.js, Bits, shadcn-svelte
+4. Motion: CSS / `svelte/transition` for cheap work. Official `gsap` + `gsap.context()` for pin/scrub. No `framer-motion`, `motion/react`, or shared primitives
 5. Copy: specific, sentence case, no em-dash garnish
 6. Replace a block only if the audit says it is unsalvageable, and only with an OpenSpec change if the roster or contract changes
 
@@ -47,7 +47,7 @@ Preserve:
 
 - Copy-paste contract (block folder, no `$lib` imports)
 - `prefers-reduced-motion` layout
-- Flare voice (not a clone, not Tangram, not a design system)
+- Flare voice (name Flare; not a design system)
 
 ## 4. Done
 

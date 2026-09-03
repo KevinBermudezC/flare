@@ -7,7 +7,7 @@ description: Use when adding, editing, or copying a Flare block under src/blocks
 
 A block is a **section**, not a Button/Input/Dialog primitive.
 
-Recorte 1 is a **first cut**. Several blocks still read generic. Future block work must start from **real references**, not LLM-default patterns (spotlight card, infinite logo marquee, equal bento). Visual work follows [design-taste-frontend](../design-taste-frontend/SKILL.md). Redesigns of existing blocks run [redesign-existing](../redesign-existing/SKILL.md) first. Changing the roster is an OpenSpec change, not a silent rewrite.
+Recorte 1 is a **first cut**. Several blocks still read generic. Future block work must start from **real references**, not LLM-default patterns (spotlight card, infinite logo marquee, equal bento). Visual work follows [design-taste-frontend](../design-taste-frontend/SKILL.md). Official GSAP follows [gsap-svelte](../gsap-svelte/SKILL.md). Redesigns of existing blocks run [redesign-existing](../redesign-existing/SKILL.md) first. Changing the roster is an OpenSpec change, not a silent rewrite.
 
 ## Layout
 
@@ -23,11 +23,13 @@ Recorte 1 is a **first cut**. Several blocks still read generic. Future block wo
 
 ## Motion
 
-- CSS + `svelte/transition` (+ `svelte/animate` if needed).
-- No framer-motion, GSAP, shadcn-svelte, bits-ui.
+- Cheap hover and fade: CSS + `svelte/transition` (+ `svelte/animate` if needed).
+- Scrolltelling, sticky stacks, kinetic type, marquees with intent: official `gsap` + `gsap.context()` cleanup. See [gsap-svelte](../gsap-svelte/SKILL.md).
+- Recorte 1 files stay CSS + `svelte/transition` unless a later change replaces them.
+- No `framer-motion`. No `motion/react`. No shared `Button` / `Dialog` / `Input`. No registry add.
 - Actions: plain `<button>` / `<a>` + Tailwind.
 - `prefers-reduced-motion` MUST NOT collapse layout. Freeze animation; keep content and height.
 
 ## Check
 
-Grep the folder for `$lib`, other blocks, shadcn, bits-ui, framer-motion, GSAP. Expect zero hits.
+Grep the folder for `$lib`, other blocks, `framer-motion`, `motion/react`, and imported `Button`. Expect zero hits.
