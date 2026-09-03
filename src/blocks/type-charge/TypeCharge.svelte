@@ -50,14 +50,8 @@
 					}
 				});
 
-				tl.from('.glyph', {
-					y: '0.55em',
-					opacity: 0,
-					stagger: 0.045,
-					ease: 'power3.out'
-				})
-					.fromTo('.line', { scale: 0.94 }, { scale: 1, ease: 'none' }, 0.15)
-					.to('.glyph', { yPercent: -18, opacity: 0, stagger: 0.02, ease: 'none' }, 0.78);
+				tl.fromTo('.line', { scale: 0.94 }, { scale: 1, ease: 'none' }, 0)
+					.to('.glyph', { yPercent: -18, opacity: 0, stagger: 0.02, ease: 'none' }, 0.72);
 			}, el);
 		};
 
