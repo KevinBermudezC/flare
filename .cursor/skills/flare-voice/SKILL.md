@@ -21,4 +21,8 @@ Flare is a **Svelte 5 gallery of marketing and motion blocks**. Live preview. Co
 
 ## Surfaces
 
-README, `package.json` description, `<meta name="description">`, home intro, block comments, OpenSpec artifacts, commit messages, PR text — all of the above.
+README, `package.json` description, `<meta name="description">`, home intro, block comments, OpenSpec artifacts, commit messages, PR text. All of the above.
+
+## Visual work
+
+Pixels follow [design-taste-frontend](../design-taste-frontend/SKILL.md). Redesigns of existing surfaces start with [redesign-existing](../redesign-existing/SKILL.md). Taste does not excuse clone framing.

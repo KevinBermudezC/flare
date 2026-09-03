@@ -7,6 +7,8 @@ description: Use when adding, editing, or copying a Flare block under src/blocks
 
 A block is a **section**, not a Button/Input/Dialog primitive.
 
+Recorte 1 is a **first cut**. Several blocks still read generic. Future block work must start from **real references**, not LLM-default patterns (spotlight card, infinite logo marquee, equal bento). Visual work follows [design-taste-frontend](../design-taste-frontend/SKILL.md). Redesigns of existing blocks run [redesign-existing](../redesign-existing/SKILL.md) first. Changing the roster is an OpenSpec change, not a silent rewrite.
+
 ## Layout
 
 - One folder: `src/blocks/<name>/`.
