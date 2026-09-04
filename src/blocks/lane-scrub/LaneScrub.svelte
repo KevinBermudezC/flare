@@ -176,7 +176,7 @@
 	.hud {
 		position: absolute;
 		z-index: 2;
-		top: 1rem;
+		top: 1.15rem;
 		right: 1.25rem;
 		left: 1.25rem;
 		display: flex;

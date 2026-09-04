@@ -5,7 +5,9 @@
 </script>
 
 <header
-	class="flare-chrome sticky top-0 z-50 border-b border-white/8 bg-[#09090b]"
+	class="flare-chrome z-50 border-b border-white/8 bg-[#09090b] {onCatalog
+		? 'absolute inset-x-0 top-0'
+		: 'sticky top-0'}"
 >
 	<div class="mx-auto flex h-[52px] max-w-[1400px] items-center justify-between gap-6 px-4 sm:px-6">
 		<a href="/" class="text-[15px] font-semibold tracking-tight text-[#f5f0ea]">Flare</a>

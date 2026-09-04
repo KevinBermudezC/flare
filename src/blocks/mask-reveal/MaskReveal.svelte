@@ -51,23 +51,23 @@
 				tl.fromTo(
 					'.window',
 					{ clipPath: 'inset(16% 20% round 24px)' },
-					{ clipPath: 'inset(0% 0% round 0px)', ease: 'none' },
+					{ clipPath: 'inset(0% 0% round 0px)', duration: 1, ease: 'none' },
 					0
 				)
 					.fromTo(
 						'.rim',
 						{ top: '16%', right: '20%', bottom: '16%', left: '20%', borderRadius: 24 },
-						{ top: 0, right: 0, bottom: 0, left: 0, borderRadius: 0, ease: 'none' },
+						{ top: 0, right: 0, bottom: 0, left: 0, borderRadius: 0, duration: 1, ease: 'none' },
 						0
 					)
-					.fromTo('.media', { scale: 1.1 }, { scale: 1, ease: 'none' }, 0)
+					.fromTo('.media', { scale: 1.1 }, { scale: 1, duration: 1, ease: 'none' }, 0)
 					.fromTo(
 						'.copy h2',
 						{ letterSpacing: '0.08em' },
-						{ letterSpacing: '-0.04em', ease: 'none' },
+						{ letterSpacing: '-0.04em', duration: 1, ease: 'none' },
 						0
 					)
-					.fromTo('.caption', { opacity: 0 }, { opacity: 1, ease: 'none' }, 0.28);
+					.fromTo('.caption', { opacity: 0 }, { opacity: 1, duration: 0.42, ease: 'none' }, 0.2);
 			}, el);
 		};
 
@@ -145,9 +145,9 @@
 		display: flex;
 		height: 100dvh;
 		flex-direction: column;
-		justify-content: flex-end;
-		padding: 0 8vw 10vh;
-		max-width: 42rem;
+		justify-content: center;
+		padding: 0 7vw;
+		max-width: 22rem;
 	}
 
 	.kicker {
