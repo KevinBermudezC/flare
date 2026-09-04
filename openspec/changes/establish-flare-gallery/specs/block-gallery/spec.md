@@ -18,20 +18,22 @@ The repository README MUST name the product Flare, tell a stranger to run `pnpm 
 
 ### Requirement: Home is a product landing
 
-The home page MUST open with a first screen of about `100dvh` that presents Flare itself (ink, ember, Bricolage). It MUST then mount two featured chapters at real height (`type-charge` and `lane-scrub`) so pin and scrub can be felt. It MUST then list all six chapters as a compact text index (name, one line, link). The home page MUST NOT use short (about 200px) iframes of pin or scrub chapters.
+The home page MUST mount at most three live chapters from `src/blocks/`, never all six. The first viewport MUST be a real chapter at full height (type-charge with word FLARE, or split-masthead with Flare words), not a fake marketing section. It MAY then mount at most two more chapters at real height (lane-scrub plus one of chapter-pin, mask-reveal, or deck-pin). It MUST then list all six chapters as a compact text index (name, one line, link) with no further live mounts and no 200px iframes. Demo copy on the landing MUST use Flare voice (ink, ember, preview, copy), not placeholder words such as CHARGE or Harbor.
 
-#### Scenario: Landing leads with Flare
+#### Scenario: Landing is three live chapters
 
 - **WHEN** a visitor opens `/`
-- **THEN** the first screen is a full-viewport Flare hero with Preview. Copy. and a path into chapters
-- **AND** they can scroll two featured chapters at real height
+- **THEN** the first screen is a live type-charge (or split-masthead) chapter at real height
+- **AND** they can scroll at most two more live chapters at real height
+- **AND** the page mounts three or fewer chapter components
 - **AND** a compact index names all six slugs and links each to `/blocks/<slug>`
 
 #### Scenario: Home does not stamp pin chapters
 
 - **WHEN** a visitor watches the home page
 - **THEN** they do not see a 200px iframe grid of the six chapters
-- **AND** featured chapters are live mounts, not thumbs
+- **AND** they do not see a fake marketing hero in place of a chapter
+- **AND** featured chapters are live mounts of `src/blocks/*`
 
 ### Requirement: Chapter page is one demo plus copy and edit
 

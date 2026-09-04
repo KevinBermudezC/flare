@@ -17,7 +17,7 @@
 
 ## 3. Gallery site
 
-- [x] 3.1 Home is a full-viewport landing, two real-height featured chapters, and a compact six-slug index
+- [x] 3.1 Home mounts at most three live chapters (type-charge with FLARE, lane-scrub, mask-reveal) plus a compact six-slug index
 - [x] 3.2 `/blocks/[slug]` mounts the chapter once, then copy plus edit knobs, and verify `?raw` copy
 - [x] 3.3 Embed route stays chrome-free
 - [x] 3.4 Voice names Flare only and verify README, `package.json`, home, and meta

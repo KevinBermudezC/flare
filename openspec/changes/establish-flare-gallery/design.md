@@ -13,7 +13,7 @@ See proposal.md. Recorte 1 is six scroll chapters, not a mixed marketing kit. Ea
 - `prefers-reduced-motion` freezes to a readable static layout. Content stays.
 - Gallery isolation so one chapter cannot clobber another on the home catalog.
 - Copy UI dumps the real file bytes (`?raw`).
-- Home is a product landing: full-viewport hero, two real-height featured chapters, then a compact text index.
+- Home is a product landing: at most three live chapter mounts (hero chapter, then up to two more), then a compact text index.
 
 **Non-Goals:**
 
@@ -31,7 +31,7 @@ The gallery imports chapters for preview. The copyable contract is the folder, n
 
 ### Home mounts featured chapters live; the embed route stays chrome-free
 
-Home features `type-charge` and `lane-scrub` as live mounts at real height. The compact index is text. `/blocks/[slug]/embed` stays available as a chrome-free mount and is not used as a 200px home thumb.
+Home mounts at most three live chapters from `src/blocks/` at real height. The first viewport is a real chapter (type-charge with FLARE). The compact index is text. `/blocks/[slug]/embed` stays available as a chrome-free mount and is not used as a 200px home thumb.
 
 ### Motion lives in the copied file
 

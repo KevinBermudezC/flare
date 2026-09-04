@@ -12,7 +12,7 @@
 	}
 
 	let {
-		word = 'CHARGE',
+		word = 'FLARE',
 		accent = 'ember',
 		reduceMotion = false
 	}: {
@@ -21,7 +21,7 @@
 		reduceMotion?: boolean;
 	} = $props();
 
-	const glyphs = $derived([...(word.trim() || 'CHARGE').toUpperCase()]);
+	const glyphs = $derived([...(word.trim() || 'FLARE').toUpperCase()]);
 	const heat = $derived(glyphs.find((glyph) => 'AEIOU'.includes(glyph)) ?? glyphs[1] ?? glyphs[0] ?? '');
 
 	let root: HTMLElement | undefined = $state();
@@ -70,7 +70,7 @@
 	class:reduce={reduceMotion}
 >
 	<p class="meta">Flare / type-charge</p>
-	<h2 class="line" aria-label={word.trim() || 'CHARGE'}>
+	<h2 class="line" aria-label={word.trim() || 'FLARE'}>
 		{#each glyphs as glyph, i (i)}
 			<span class="glyph" class:heat={glyph === heat}>{glyph}</span>
 		{/each}

@@ -12,7 +12,7 @@
 	}
 
 	let {
-		lead = 'Hold',
+		lead = 'Preview',
 		accent = 'ember',
 		reduceMotion = false
 	}: {
@@ -24,18 +24,18 @@
 	const cards = $derived([
 		{
 			kind: 'front',
-			title: lead.trim() || 'Hold',
-			body: 'Front card. One ember hairline. This is the only face that carries the accent edge.'
+			title: lead.trim() || 'Preview',
+			body: 'Front card. One ember hairline. Live on the page. This is Flare.'
 		},
 		{
 			kind: 'mid',
-			title: 'Cut',
-			body: 'Middle card. No hairline. A quieter field so the stack can read as depth, not the same card twice.'
+			title: 'Copy',
+			body: 'The unit is the .svelte. Preview, then copy. No kit, no registry.'
 		},
 		{
 			kind: 'back',
-			title: 'Keep',
-			body: 'Back card. The keep. When the pin ends, this is the last face on the desk.'
+			title: 'Yours',
+			body: 'When the pin ends, the chapter is yours. Paste it. Add gsap.'
 		}
 	]);
 

@@ -12,7 +12,7 @@
 	}
 
 	let {
-		lead = 'Capture',
+		lead = 'Ink',
 		accent = 'ember',
 		reduceMotion = false
 	}: {
@@ -23,19 +23,19 @@
 
 	const rooms = $derived([
 		{
-			word: lead.trim() || 'Capture',
+			word: lead.trim() || 'Ink',
 			field: 'lock',
-			lines: ['The work begins', 'when you stop', 'scrolling and start', 'seeing. Capture', 'what matters.']
+			lines: ['The field is ink.', 'The rail keeps count.', 'Scroll pins the room.', 'Nothing else', 'enters here.']
 		},
 		{
-			word: 'Cut',
+			word: 'Ember',
 			field: 'grid',
-			lines: ['A thin ember line', 'is enough mark.', 'Cut the frame.', 'Leave the rest', 'in ink.']
+			lines: ['A thin ember line', 'is enough mark.', 'Leave the rest', 'in ink.', 'Preview holds.']
 		},
 		{
-			word: 'Release',
+			word: 'Copy',
 			field: 'flare',
-			lines: ['The last room', 'lets the pin go.', 'You leave with', 'the rooms you', 'already held.']
+			lines: ['Copy the chapter.', 'When the pin', 'lets go, the file', 'is yours.', 'Paste and run.']
 		}
 	]);
 

@@ -12,7 +12,7 @@
 	}
 
 	let {
-		headline = 'Open the cut',
+		headline = 'Preview. Copy.',
 		accent = 'ember',
 		reduceMotion = false
 	}: {
@@ -71,7 +71,7 @@
 	<div class="media" aria-hidden="true"></div>
 	<div class="window">
 		<div class="inner">
-			<h2>{headline.trim() || 'Open the cut'}</h2>
+			<h2>{headline.trim() || 'Preview. Copy.'}</h2>
 		</div>
 	</div>
 	<p class="meta">mask-reveal</p>

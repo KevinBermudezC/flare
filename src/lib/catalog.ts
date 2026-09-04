@@ -49,7 +49,7 @@ export const blocks: BlockEntry[] = [
 		kind: 'masthead',
 		extraDep: 'pnpm add gsap',
 		editField: 'lead',
-		editDefault: 'Hold',
+		editDefault: 'Flare',
 		component: SplitMasthead,
 		files: [{ name: 'SplitMasthead.svelte', source: splitMastheadSource }]
 	},
@@ -60,7 +60,7 @@ export const blocks: BlockEntry[] = [
 		kind: 'type',
 		extraDep: 'pnpm add gsap',
 		editField: 'word',
-		editDefault: 'CHARGE',
+		editDefault: 'FLARE',
 		component: TypeCharge,
 		files: [{ name: 'TypeCharge.svelte', source: typeChargeSource }]
 	},
@@ -71,7 +71,7 @@ export const blocks: BlockEntry[] = [
 		kind: 'lane',
 		extraDep: 'pnpm add gsap',
 		editField: 'label',
-		editDefault: 'LANE',
+		editDefault: 'INK',
 		component: LaneScrub,
 		files: [{ name: 'LaneScrub.svelte', source: laneScrubSource }]
 	},
@@ -82,7 +82,7 @@ export const blocks: BlockEntry[] = [
 		kind: 'pin',
 		extraDep: 'pnpm add gsap',
 		editField: 'lead',
-		editDefault: 'Capture',
+		editDefault: 'Ink',
 		component: ChapterPin,
 		files: [{ name: 'ChapterPin.svelte', source: chapterPinSource }]
 	},
@@ -93,7 +93,7 @@ export const blocks: BlockEntry[] = [
 		kind: 'mask',
 		extraDep: 'pnpm add gsap',
 		editField: 'headline',
-		editDefault: 'Open the cut',
+		editDefault: 'Preview. Copy.',
 		component: MaskReveal,
 		files: [{ name: 'MaskReveal.svelte', source: maskRevealSource }]
 	},
@@ -104,13 +104,11 @@ export const blocks: BlockEntry[] = [
 		kind: 'deck',
 		extraDep: 'pnpm add gsap',
 		editField: 'lead',
-		editDefault: 'Hold',
+		editDefault: 'Preview',
 		component: DeckPin,
 		files: [{ name: 'DeckPin.svelte', source: deckPinSource }]
 	}
 ];
-
-export const featuredSlugs = ['type-charge', 'lane-scrub'] as const satisfies readonly ChapterSlug[];
 
 export function getBlock(slug: string): BlockEntry | undefined {
 	return blocks.find((block) => block.slug === slug);

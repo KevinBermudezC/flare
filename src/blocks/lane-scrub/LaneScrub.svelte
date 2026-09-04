@@ -12,7 +12,7 @@
 	}
 
 	let {
-		label = 'LANE',
+		label = 'INK',
 		accent = 'ember',
 		reduceMotion = false
 	}: {
@@ -26,8 +26,8 @@
 			id: '01',
 			kind: 'type',
 			width: '44vw',
-			title: label.trim() || 'LANE',
-			body: 'A wide lock. This lane holds the first beat and refuses to share the frame.'
+			title: label.trim() || 'INK',
+			body: 'The field is ink. Vertical scroll drives the walk. Nothing else shares this lane.'
 		},
 		{
 			id: '02',
@@ -40,15 +40,15 @@
 			id: '03',
 			kind: 'type',
 			width: '30vw',
-			title: 'Cut',
-			body: 'A short lane. The edit is a hard stop, not a dissolve. The scrub does not loop.'
+			title: 'Ember',
+			body: 'One line of heat. The scrub is a hard stop. It does not loop.'
 		},
 		{
 			id: '04',
 			kind: 'ember',
 			width: '38vw',
-			title: 'Release',
-			body: 'The last lane opens the frame. Copy lives after the scrub ends.'
+			title: 'Copy',
+			body: 'Copy the file after the scrub ends. The chapter is yours.'
 		}
 	] as const);
 

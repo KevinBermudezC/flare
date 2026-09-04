@@ -1,44 +1,44 @@
 <script lang="ts">
-	import { blocks, featuredSlugs, getBlock } from '$lib/catalog';
-
-	const featured = featuredSlugs.map((slug) => getBlock(slug)).filter((block) => block != null);
+	import { blocks } from '$lib/catalog';
+	import LaneScrub from '../blocks/lane-scrub/LaneScrub.svelte';
+	import MaskReveal from '../blocks/mask-reveal/MaskReveal.svelte';
+	import TypeCharge from '../blocks/type-charge/TypeCharge.svelte';
 </script>
 
 <svelte:head>
 	<title>Flare - Preview. Copy.</title>
 </svelte:head>
 
-<section class="hero" aria-label="Flare">
-	<div class="hero-wash" aria-hidden="true"></div>
-	<div class="hero-copy">
-		<p class="hero-meta">Svelte 5 scroll chapters</p>
-		<h1>
-			Fl<span>a</span>re
-		</h1>
-		<p class="hero-line">Preview. Copy.</p>
-		<p class="hero-body">A gallery of pin, scrub, and type. Live on the page. The file is yours.</p>
-		<div class="hero-cta">
-			<a class="cta" href="#featured">See a chapter</a>
-			<a class="ghost" href="#catalog">All six</a>
-		</div>
-	</div>
+<section id="hero" aria-label="Type Charge">
+	<TypeCharge word="FLARE" />
 </section>
 
 <section id="featured" class="featured" aria-label="Featured chapters">
-	{#each featured as block (block.slug)}
-		<article class="feature">
-			<header class="feature-bar">
-				<div>
-					<h2>{block.name}</h2>
-					<p>{block.tagline}</p>
-				</div>
-				<a href="/blocks/{block.slug}">Open</a>
-			</header>
-			<div class="feature-stage">
-				<block.component />
+	<article class="feature">
+		<header class="feature-bar">
+			<div>
+				<h2>Lane Scrub</h2>
+				<p>Vertical scroll drives the lane.</p>
 			</div>
-		</article>
-	{/each}
+			<a href="/blocks/lane-scrub">Open</a>
+		</header>
+		<div class="feature-stage">
+			<LaneScrub label="INK" />
+		</div>
+	</article>
+
+	<article class="feature">
+		<header class="feature-bar">
+			<div>
+				<h2>Mask Reveal</h2>
+				<p>An ink window opens on the frame.</p>
+			</div>
+			<a href="/blocks/mask-reveal">Open</a>
+		</header>
+		<div class="feature-stage">
+			<MaskReveal headline="Preview. Copy." />
+		</div>
+	</article>
 </section>
 
 <section id="catalog" class="index" aria-label="All chapters">
@@ -56,101 +56,6 @@
 </section>
 
 <style>
-	.hero {
-		position: relative;
-		display: flex;
-		min-height: calc(100dvh - 52px);
-		flex-direction: column;
-		justify-content: flex-end;
-		overflow: hidden;
-		padding: 4rem 1.5rem 3.5rem;
-		background: #09090b;
-	}
-
-	.hero-wash {
-		position: absolute;
-		inset: 0;
-		background:
-			radial-gradient(circle at 12% 78%, color-mix(in oklab, #ff5a1f 38%, transparent), transparent 34%),
-			radial-gradient(circle at 88% 18%, rgba(245, 240, 234, 0.08), transparent 26%),
-			linear-gradient(180deg, #09090b 0%, #0c0c0e 100%);
-	}
-
-	.hero-copy {
-		position: relative;
-		z-index: 1;
-		max-width: 1400px;
-		width: 100%;
-		margin: 0 auto;
-	}
-
-	.hero-meta {
-		margin: 0;
-		font-family: var(--font-mono);
-		font-size: 11px;
-		letter-spacing: 0.14em;
-		text-transform: uppercase;
-		color: #8b8278;
-	}
-
-	h1 {
-		margin: 0.4rem 0 0;
-		max-width: 8ch;
-		font-size: clamp(5.5rem, 20vw, 14rem);
-		font-weight: 800;
-		line-height: 0.78;
-		letter-spacing: -0.07em;
-		text-wrap: pretty;
-	}
-
-	h1 span {
-		color: #ff5a1f;
-	}
-
-	.hero-line {
-		margin: 1.75rem 0 0;
-		font-size: clamp(1.6rem, 3vw, 2.25rem);
-		font-weight: 560;
-		letter-spacing: -0.03em;
-	}
-
-	.hero-body {
-		margin: 0.75rem 0 0;
-		max-width: 36ch;
-		font-size: 1.05rem;
-		line-height: 1.5;
-		color: #a59c91;
-	}
-
-	.hero-cta {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 1.25rem;
-		margin-top: 2.25rem;
-	}
-
-	.cta {
-		border-radius: 12px;
-		background: #ff5a1f;
-		padding: 0.7rem 1rem;
-		font-family: var(--font-mono);
-		font-size: 12px;
-		color: #1a0703;
-		text-decoration: none;
-	}
-
-	.ghost {
-		font-family: var(--font-mono);
-		font-size: 12px;
-		color: #c4bbb0;
-		text-decoration: none;
-	}
-
-	.ghost:hover {
-		color: #f5f0ea;
-	}
-
 	.featured {
 		background: #09090b;
 	}
@@ -245,10 +150,6 @@
 	}
 
 	@media (max-width: 700px) {
-		.hero {
-			padding: 3rem 1.25rem 2.5rem;
-		}
-
 		.index a {
 			grid-template-columns: 1fr;
 			gap: 0.35rem;

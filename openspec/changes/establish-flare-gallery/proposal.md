@@ -10,7 +10,7 @@ Flare needs a public Svelte 5 gallery of scroll chapters. A stranger clones, run
 - Six Recorte 1 chapters under `src/blocks/<slug>/`, each a single copyable `.svelte` file
 - Official `gsap` + ScrollTrigger for pin, scrub, kinetic type, and horizontal hijack
 - Catalog metadata and raw sources in `src/lib/catalog.ts` (`?raw`)
-- Site chrome: header, full-viewport landing, two featured live chapters, compact index, docs page with one live mount plus copy and edit
+- Site chrome: header, landing of at most three live chapters from `src/blocks/`, compact index, docs page with one live mount plus copy and edit
 - Featured and chapter pages mount at real height so pin and scrub can actually run
 - Taste skill (VARIANCE 8 / MOTION 7 / DENSITY 3-4) with official GSAP recipes for Svelte 5
 - GitHub Actions on PR and `main`: `pnpm i --frozen-lockfile`, `pnpm check`, `pnpm build`

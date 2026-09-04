@@ -12,7 +12,7 @@
 	}
 
 	let {
-		lead = 'Hold',
+		lead = 'Flare',
 		accent = 'ember',
 		reduceMotion = false
 	}: {
@@ -21,22 +21,22 @@
 		reduceMotion?: boolean;
 	} = $props();
 
-	const words = $derived([lead.trim() || 'Hold', 'Preview', 'Keep']);
+	const words = $derived([lead.trim() || 'Flare', 'Preview', 'Copy']);
 
 	const rooms = $derived([
 		{
-			title: 'The first room is a lock-off.',
-			body: 'The left column holds the index. The right column is the walk. Nothing else enters this room.',
+			title: 'Flare is the spine.',
+			body: 'The left column holds the word. The right column is the walk. Ink stays put.',
 			shot: 'lock'
 		},
 		{
-			title: 'Preview is the live cut.',
-			body: 'You watch the frame while it is still loose. Scroll is the only transport. Share what you just saw.',
+			title: 'Preview is the live chapter.',
+			body: 'Scroll is the only transport. You watch the frame while it is still loose.',
 			shot: 'cut'
 		},
 		{
-			title: 'Keep the file you already held.',
-			body: 'Copy the chapter. Same cut, your tree. The next edit starts from this keep.',
+			title: 'Copy the file. It is yours.',
+			body: 'Paste the .svelte. Add gsap. The pin still runs.',
 			shot: 'keep'
 		}
 	]);
