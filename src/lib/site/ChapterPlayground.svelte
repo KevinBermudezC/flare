@@ -30,11 +30,11 @@
 	{:else if slug === 'type-charge'}
 		<TypeCharge word={title} {accent} {reduceMotion} />
 	{:else if slug === 'lane-scrub'}
-		<LaneScrub label={title} {accent} {reduceMotion} />
+		<LaneScrub label={title} {accent} {reduceMotion} photoSrc="/blocks/lane-still.jpg" />
 	{:else if slug === 'chapter-pin'}
 		<ChapterPin lead={title} {accent} {reduceMotion} />
 	{:else if slug === 'mask-reveal'}
-		<MaskReveal headline={title} {accent} {reduceMotion} />
+		<MaskReveal headline={title} {accent} {reduceMotion} mediaSrc="/blocks/mask-yard.jpg" />
 	{:else if slug === 'deck-pin'}
 		<DeckPin lead={title} {accent} {reduceMotion} />
 	{/if}

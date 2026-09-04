@@ -18,12 +18,12 @@
 		<header class="feature-bar">
 			<div>
 				<h2>Lane Scrub</h2>
-				<p>Vertical scroll drives the lane.</p>
+				<p>Scroll down. The track pans sideways. Four beats, then it stops.</p>
 			</div>
 			<a href="/blocks/lane-scrub">Open</a>
 		</header>
 		<div class="feature-stage">
-			<LaneScrub label="INK" />
+			<LaneScrub label="INK" photoSrc="/blocks/lane-still.jpg" />
 		</div>
 	</article>
 
@@ -31,12 +31,12 @@
 		<header class="feature-bar">
 			<div>
 				<h2>Mask Reveal</h2>
-				<p>An ink window opens on the frame.</p>
+				<p>An ink window opens. The still goes full bleed.</p>
 			</div>
 			<a href="/blocks/mask-reveal">Open</a>
 		</header>
 		<div class="feature-stage">
-			<MaskReveal headline="Preview. Copy." />
+			<MaskReveal headline="Preview. Copy." mediaSrc="/blocks/mask-yard.jpg" />
 		</div>
 	</article>
 </section>

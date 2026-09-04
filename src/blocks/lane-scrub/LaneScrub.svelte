@@ -2,6 +2,7 @@
   Flare · lane-scrub
   Paste into a SvelteKit 5 + Tailwind v4 app. Needs: pnpm add gsap
   Type: Bricolage Grotesque + IBM Plex Mono (host loads fontsource).
+  Photo: pass photoSrc, or this picsum still.
 -->
 <script lang="ts">
 	import { gsap } from 'gsap';
@@ -14,47 +15,56 @@
 	let {
 		label = 'INK',
 		accent = 'ember',
-		reduceMotion = false
+		reduceMotion = false,
+		photoSrc = 'https://picsum.photos/id/1031/900/1400'
 	}: {
 		label?: string;
 		accent?: 'ember' | 'paper';
 		reduceMotion?: boolean;
+		photoSrc?: string;
 	} = $props();
 
 	const panels = $derived([
 		{
 			id: '01',
-			kind: 'type',
-			width: '44vw',
+			mark: (label.trim() || 'INK').toUpperCase(),
+			kind: 'type' as const,
+			width: '42vw',
 			title: label.trim() || 'INK',
-			body: 'The field is ink. Vertical scroll drives the walk. Nothing else shares this lane.'
+			body: 'Scroll down. The track pans sideways. Four beats, then it stops.'
 		},
 		{
 			id: '02',
-			kind: 'photo',
-			width: '20vw',
+			mark: 'STILL',
+			kind: 'photo' as const,
+			width: '34vw',
 			title: 'Still',
-			body: ''
+			body: 'A photographic lock. Not a box. The lane holds this frame while you scrub.'
 		},
 		{
 			id: '03',
-			kind: 'type',
+			mark: 'EMBER',
+			kind: 'type' as const,
 			width: '30vw',
 			title: 'Ember',
 			body: 'One line of heat. The scrub is a hard stop. It does not loop.'
 		},
 		{
 			id: '04',
-			kind: 'ember',
-			width: '38vw',
+			mark: 'COPY',
+			kind: 'ember' as const,
+			width: '40vw',
 			title: 'Copy',
 			body: 'Copy the file after the scrub ends. The chapter is yours.'
 		}
-	] as const);
+	]);
 
 	let root: HTMLElement | undefined = $state();
 	let track: HTMLElement | undefined = $state();
 	let tick = $state(0);
+	let playhead = $state(0);
+
+	const active = $derived(panels[tick] ?? panels[0]);
 
 	$effect(() => {
 		const wrap = root;
@@ -81,7 +91,8 @@
 						scrub: 1,
 						invalidateOnRefresh: true,
 						onUpdate: (self) => {
-							tick = Math.min(3, Math.floor(self.progress * 4));
+							playhead = self.progress;
+							tick = self.progress >= 1 ? 3 : Math.min(3, Math.floor(self.progress * 4));
 						}
 					}
 				});
@@ -103,25 +114,28 @@
 	class:reduce={reduceMotion}
 >
 	<div class="hud">
-		<span>section: lane-scrub</span>
-		<span>pin: true</span>
+		<p>lane-scrub · scroll Y · pan X</p>
+		<p>{active.id} / {active.mark}</p>
 	</div>
 
 	<div bind:this={track} class="track">
-		{#each panels as panel (panel.id)}
-			<article class="panel {panel.kind}" style:flex-basis={panel.width}>
-				<p class="tag">{panel.id} / {panel.kind}</p>
-				{#if panel.kind === 'type'}
+		{#each panels as panel, i (panel.id)}
+			<article class="panel {panel.kind}" class:on={i === tick} style:flex-basis={panel.width}>
+				<p class="tag">{panel.id} / {panel.mark}</p>
+				{#if panel.kind === 'photo'}
+					<figure>
+						<img src={photoSrc} alt="Ink still. Dark facade, grid of glass." />
+						<figcaption>{panel.body}</figcaption>
+					</figure>
+				{:else if panel.kind === 'type'}
 					<h2>{panel.title}</h2>
 					<p class="body">{panel.body}</p>
-				{:else if panel.kind === 'photo'}
-					<div class="photo" aria-hidden="true"></div>
 				{:else}
 					<h2>{panel.title}</h2>
 					<p class="body">{panel.body}</p>
 					<div class="ember-col" aria-hidden="true">
-						{#each [0, 1, 2, 3, 4, 5, 6, 7, 8] as n (n)}
-							<span class:hot={n === 3}></span>
+						{#each panels as step, n (step.id)}
+							<span class:hot={n === tick}>{step.id}</span>
 						{/each}
 					</div>
 				{/if}
@@ -130,14 +144,14 @@
 	</div>
 
 	<div class="ruler" aria-hidden="true">
-		{#each panels as panel, i (panel.id)}
-			<span class:on={i === tick}>
-				{#if i === tick}
-					<i></i>
-				{/if}
-				{panel.id}
-			</span>
-		{/each}
+		<div class="rail">
+			<span class="playhead" style:left="{playhead * 100}%"></span>
+		</div>
+		<div class="stops">
+			{#each panels as panel, i (panel.id)}
+				<span class:on={i === tick}>{panel.id} {panel.mark}</span>
+			{/each}
+		</div>
 	</div>
 </section>
 
@@ -167,9 +181,20 @@
 		left: 1.25rem;
 		display: flex;
 		justify-content: space-between;
+		gap: 1rem;
 		font-family: 'IBM Plex Mono', ui-monospace, monospace;
 		font-size: 11px;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
 		color: #8b8278;
+	}
+
+	.hud p {
+		margin: 0;
+	}
+
+	.hud p:last-child {
+		color: var(--accent);
 	}
 
 	.track {
@@ -177,9 +202,9 @@
 		height: 100dvh;
 		width: max-content;
 		align-items: stretch;
-		padding: 3.5rem 0 3rem;
+		padding: 3.6rem 0 4.2rem;
 		gap: 1px;
-		background: rgba(245, 240, 234, 0.08);
+		background: rgba(245, 240, 234, 0.1);
 	}
 
 	.panel {
@@ -187,13 +212,14 @@
 		flex-shrink: 0;
 		display: flex;
 		flex-direction: column;
-		min-width: 12rem;
+		min-width: 14rem;
 		padding: 1.25rem;
 		background: var(--ink);
 	}
 
 	.panel.photo {
-		background: #111113;
+		padding: 1.25rem 1.25rem 1.1rem;
+		background: #101012;
 	}
 
 	.panel.ember {
@@ -205,9 +231,13 @@
 		margin: 0;
 		font-family: 'IBM Plex Mono', ui-monospace, monospace;
 		font-size: 11px;
-		letter-spacing: 0.08em;
+		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		color: #8b8278;
+	}
+
+	.panel.on .tag {
+		color: var(--accent);
 	}
 
 	h2 {
@@ -228,13 +258,29 @@
 		color: #c4bbb0;
 	}
 
-	.photo {
+	figure {
+		display: flex;
 		flex: 1;
-		margin-top: 1rem;
-		background:
-			linear-gradient(180deg, rgba(9, 9, 11, 0.15), rgba(9, 9, 11, 0.55)),
-			radial-gradient(circle at 50% 20%, #8b8278, transparent 42%),
-			linear-gradient(180deg, #2a2d33, #111318 60%, #09090b);
+		flex-direction: column;
+		min-height: 0;
+		margin: 1rem 0 0;
+	}
+
+	img {
+		display: block;
+		width: 100%;
+		flex: 1;
+		object-fit: cover;
+		background: #161618;
+	}
+
+	figcaption {
+		margin: 0.7rem 0 0;
+		max-width: 28rem;
+		font-family: 'IBM Plex Mono', ui-monospace, monospace;
+		font-size: 12px;
+		line-height: 1.5;
+		color: #c4bbb0;
 	}
 
 	.ember-col {
@@ -242,52 +288,62 @@
 		flex: 1;
 		flex-direction: column;
 		justify-content: center;
-		gap: 0.65rem;
-		margin-top: 1rem;
+		gap: 0.85rem;
+		margin-top: 1.1rem;
+		font-family: 'IBM Plex Mono', ui-monospace, monospace;
+		font-size: 11px;
+		letter-spacing: 0.14em;
+		color: rgba(245, 240, 234, 0.28);
 	}
 
 	.ember-col span {
 		display: block;
-		height: 1px;
-		background: rgba(245, 240, 234, 0.22);
+		padding-bottom: 0.45rem;
+		border-bottom: 1px solid rgba(245, 240, 234, 0.18);
 	}
 
 	.ember-col span.hot {
-		background: var(--accent);
-		box-shadow: 0 0 0 6px color-mix(in oklab, var(--accent) 18%, transparent);
+		color: var(--accent);
+		border-bottom-color: var(--accent);
 	}
 
 	.ruler {
 		position: absolute;
+		z-index: 2;
 		right: 1.25rem;
-		bottom: 1rem;
+		bottom: 0.85rem;
 		left: 1.25rem;
-		display: flex;
-		justify-content: space-between;
 		font-family: 'IBM Plex Mono', ui-monospace, monospace;
 		font-size: 10px;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
 		color: #8b8278;
-		border-top: 1px solid rgba(245, 240, 234, 0.12);
-		padding-top: 0.45rem;
 	}
 
-	.ruler span {
+	.rail {
 		position: relative;
+		height: 2px;
+		margin-bottom: 0.55rem;
+		background: rgba(245, 240, 234, 0.16);
 	}
 
-	.ruler .on {
-		color: var(--accent);
-	}
-
-	.ruler i {
+	.playhead {
 		position: absolute;
-		top: -0.7rem;
-		left: 50%;
-		width: 0;
-		height: 0;
-		border: 4px solid transparent;
+		top: 50%;
+		width: 10px;
+		height: 10px;
+		border: 5px solid transparent;
 		border-bottom-color: var(--accent);
-		transform: translateX(-50%);
+		transform: translate(-50%, calc(-50% - 6px));
+	}
+
+	.stops {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.stops .on {
+		color: var(--accent);
 	}
 
 	.lane.reduce {

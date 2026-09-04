@@ -67,7 +67,7 @@ export const blocks: BlockEntry[] = [
 	{
 		slug: 'lane-scrub',
 		name: 'Lane Scrub',
-		tagline: 'Vertical scroll drives the lane.',
+		tagline: 'Scroll down. The track pans sideways.',
 		kind: 'lane',
 		extraDep: 'pnpm add gsap',
 		editField: 'label',
@@ -89,7 +89,7 @@ export const blocks: BlockEntry[] = [
 	{
 		slug: 'mask-reveal',
 		name: 'Mask Reveal',
-		tagline: 'An ink window opens on the frame.',
+		tagline: 'An ink window opens to full bleed.',
 		kind: 'mask',
 		extraDep: 'pnpm add gsap',
 		editField: 'headline',
