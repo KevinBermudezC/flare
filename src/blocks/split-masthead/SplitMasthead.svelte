@@ -27,19 +27,19 @@
 		{
 			title: 'Flare is the spine.',
 			body: 'The left column holds the word. The right column is the walk. Ink stays put.',
-			shot: 'lock',
+			shot: 'lock' as const,
 			fig: 'FIG 01'
 		},
 		{
 			title: 'Preview is the live chapter.',
 			body: 'Scroll is the only transport. You watch the frame while it is still loose.',
-			shot: 'cut',
+			shot: 'cut' as const,
 			fig: 'FIG 02'
 		},
 		{
 			title: 'Copy the file. It is yours.',
 			body: 'Paste the .svelte. Add gsap. The pin still runs.',
-			shot: 'keep',
+			shot: 'keep' as const,
 			fig: 'FIG 03'
 		}
 	]);
@@ -141,7 +141,7 @@
 		<div bind:this={track} class="track">
 			{#each rooms as room, i (room.shot)}
 				<article class="room">
-					<p class="room-idx">{String(i + 1).padStart(2, '0')} / 03</p>
+					<p class="room-idx">{String(i + 1).padStart(2, '0')}</p>
 					<h2>{room.title}</h2>
 					<p class="lede">{room.body}</p>
 					<figure class="shot" data-shot={room.shot}>
@@ -150,11 +150,14 @@
 							<span class="grid"></span>
 							<span class="rule"></span>
 							{#if room.shot === 'lock'}
-								<span class="orb"></span>
+								<span class="crop"></span>
 								<span class="cross"></span>
+								<span class="specimen">FLARE</span>
 							{:else if room.shot === 'cut'}
 								<span class="slats"></span>
 								<span class="head"></span>
+								<span class="window"></span>
+								<span class="specimen">LIVE</span>
 							{:else}
 								<span class="bar"></span>
 								<span class="ghost">COPY</span>
@@ -186,7 +189,7 @@
 
 	.shell {
 		display: grid;
-		grid-template-columns: minmax(12rem, 44%) 1fr;
+		grid-template-columns: minmax(11rem, 38%) 1fr;
 		min-height: 100dvh;
 	}
 
@@ -209,7 +212,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		gap: 1.5rem;
-		padding: 1.25rem 1.15rem 1.35rem 1.35rem;
+		padding: 1.25rem max(12px, 1rem) 1.35rem 1.25rem;
 		background: var(--ink);
 	}
 
@@ -237,12 +240,12 @@
 
 	.line {
 		display: grid;
-		grid-template-columns: 1.7rem minmax(0, 1fr);
+		grid-template-columns: 1.55rem minmax(0, 1fr);
 		align-items: baseline;
-		gap: 0.45rem;
+		gap: 0.4rem;
 		margin: 0;
 		min-width: 0;
-		padding-bottom: 0.2rem;
+		padding-bottom: 0.22rem;
 		border-bottom: 1px solid transparent;
 	}
 
@@ -250,19 +253,33 @@
 		border-bottom-color: var(--accent);
 	}
 
+	.line.on .idx::before {
+		content: '';
+		position: absolute;
+		left: -0.45rem;
+		top: 0.55em;
+		width: 5px;
+		height: 5px;
+		background: var(--accent);
+	}
+
 	.line.on .idx,
 	.progress span:first-child {
 		color: var(--accent);
+	}
+
+	.idx {
+		position: relative;
 	}
 
 	.word {
 		display: block;
 		min-width: 0;
 		overflow: hidden;
-		font-size: clamp(2.25rem, 15cqi, 4.6rem);
+		font-size: clamp(2.25rem, 18cqi, 5rem);
 		font-weight: 720;
 		line-height: 0.92;
-		letter-spacing: -0.045em;
+		letter-spacing: -0.05em;
 		white-space: nowrap;
 		opacity: 1;
 		color: var(--paper);
@@ -284,11 +301,13 @@
 	.room {
 		position: relative;
 		min-height: 88dvh;
-		padding-bottom: 12vh;
+		padding: 0.2rem 0 12vh;
 	}
 
 	.room-idx {
-		margin: 0 0 1.4rem;
+		position: absolute;
+		top: 0;
+		right: 0;
 	}
 
 	h2 {
@@ -325,10 +344,12 @@
 	.wash,
 	.grid,
 	.rule,
-	.orb,
+	.crop,
 	.cross,
 	.slats,
 	.head,
+	.window,
+	.specimen,
 	.bar,
 	.ghost,
 	.strip {
@@ -362,22 +383,37 @@
 		opacity: 0.7;
 	}
 
-	.shot[data-shot='lock'] .orb {
-		width: 7.5rem;
-		height: 7.5rem;
-		left: 18%;
-		bottom: 18%;
-		border-radius: 50%;
-		background: radial-gradient(circle at 40% 38%, color-mix(in oklab, var(--accent) 70%, #fff), var(--accent) 28%, transparent 68%);
-		filter: blur(10px);
+	.shot[data-shot='lock'] .crop {
+		inset: 12% 14%;
+		border: 1px solid rgba(245, 240, 234, 0.28);
+		background:
+			linear-gradient(var(--accent), var(--accent)) 0 0 / 18px 1px no-repeat,
+			linear-gradient(var(--accent), var(--accent)) 0 0 / 1px 18px no-repeat,
+			linear-gradient(var(--accent), var(--accent)) 100% 0 / 18px 1px no-repeat,
+			linear-gradient(var(--accent), var(--accent)) 100% 0 / 1px 18px no-repeat,
+			linear-gradient(var(--accent), var(--accent)) 0 100% / 18px 1px no-repeat,
+			linear-gradient(var(--accent), var(--accent)) 0 100% / 1px 18px no-repeat,
+			linear-gradient(var(--accent), var(--accent)) 100% 100% / 18px 1px no-repeat,
+			linear-gradient(var(--accent), var(--accent)) 100% 100% / 1px 18px no-repeat;
 	}
 
 	.shot[data-shot='lock'] .cross {
-		inset: 18% 22%;
+		inset: 22% 24%;
 		background:
 			linear-gradient(var(--paper), var(--paper)) 50% 0 / 1px 100% no-repeat,
 			linear-gradient(var(--paper), var(--paper)) 0 50% / 100% 1px no-repeat;
-		opacity: 0.18;
+		opacity: 0.16;
+	}
+
+	.shot[data-shot='lock'] .specimen {
+		right: 1rem;
+		bottom: 0.15rem;
+		left: 1rem;
+		font-size: clamp(2.8rem, 7vw, 4.6rem);
+		font-weight: 760;
+		line-height: 0.78;
+		letter-spacing: -0.06em;
+		color: color-mix(in oklab, var(--paper) 22%, transparent);
 	}
 
 	.shot[data-shot='cut'] .slats {
@@ -396,6 +432,24 @@
 		left: 38%;
 		width: 2px;
 		background: var(--accent);
+	}
+
+	.shot[data-shot='cut'] .window {
+		top: 18%;
+		bottom: 18%;
+		left: 22%;
+		width: 36%;
+		border: 1px solid color-mix(in oklab, var(--accent) 55%, rgba(245, 240, 234, 0.2));
+		background: color-mix(in oklab, var(--ink) 55%, transparent);
+	}
+
+	.shot[data-shot='cut'] .specimen {
+		top: 42%;
+		left: 26%;
+		font-size: 11px;
+		font-family: 'IBM Plex Mono', ui-monospace, monospace;
+		letter-spacing: 0.16em;
+		color: var(--accent);
 	}
 
 	.shot[data-shot='cut'] .wash {
@@ -452,7 +506,7 @@
 		.rail-lock {
 			position: relative;
 			height: auto;
-			padding: 1.25rem 1.1rem 1.1rem;
+			padding: 1.25rem max(12px, 1.1rem) 1.1rem;
 		}
 
 		.word {

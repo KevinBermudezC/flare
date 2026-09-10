@@ -76,4 +76,5 @@
 - [x] 9.7 Stage clips the iframe. 390 vs 1440 change lane-scrub pin width and scrub travel. split-masthead stacks from the chapter frame (`@container` / `clientWidth`), not the host window. Replay remounts and scrolls the frame to top.
 - [x] 9.8 Densify lane-scrub type/ember fields (hatch, corners, FIG, specimen). Visual pass of all six chapter embeds.
 - [x] 9.9 split-masthead: scale Flare/Preview/Copy to the rail (no hairline overflow). HUD 01–03 + progress. Rooms get FIG fields. Pin walk stays.
+- [x] 9.11 split-masthead enrich: ~38% rail, `clamp(2.25rem, 18cqi, 5rem)`, overflow hidden + padding-right ≥12px. HUD 01–03 + SPLIT + tick. Three FIG rooms. Pin intact.
 - [ ] 9.10 HoverPreview stacks above the chapter toolbar and clears it. No Replay button. Native OS cursor (do not hide the system pointer).
