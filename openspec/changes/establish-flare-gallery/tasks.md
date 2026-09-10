@@ -62,5 +62,5 @@
 - [x] 8.11 ChapterNav groups Start (Introduction) and Chapters (catalog slugs). Muted labels. Ember only on the active row. Mobile `select` uses `optgroup`.
 - [x] 8.12 Footer love bar is `Created with <3 by KevinBermudezC` (name only links to portfolio). Project column is GitHub + MIT.
 - [x] 8.13 Home hero atmosphere CSS drift is clearly visible in a few seconds. Reduced motion freezes it. No JS tween on `/`.
-- [x] 8.14 `/chapters` Introduction has lede, How it works (Preview / Copy / Paste), Browse chapters, and What Flare is.
+- [x] 8.14 `/chapters` Introduction has two-para lede, How it works (Preview / Copy / Paste), Browse chapters, What Flare is, and Ship notes.
 - [x] 8.15 Home adds `#inside` (What you get) and `#motion` (three stills). `#chapters` stays the six-row index.

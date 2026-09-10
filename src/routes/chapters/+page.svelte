@@ -24,14 +24,10 @@
 		<div class="body">
 			<div class="lede">
 				<p>
-					Flare is a Svelte 5 gallery of scroll chapters. Six chapters. Live preview. Copy the
-					whole <code>.svelte</code>. It is yours.
+					Flare is a Svelte 5 gallery of scroll chapters. Live preview. Copy the whole
+					<code>.svelte</code>. Six chapters.
 				</p>
-				<p>
-					Open a chapter at real height. Pin and scrub read true. Official gsap where the gesture
-					earns it. Paste into a SvelteKit 5 + Tailwind v4 app.
-				</p>
-				<p>No kit. No registry. One file at a time.</p>
+				<p>Official gsap where the gesture earns it. Open a chapter. Pin and scrub at real height.</p>
 			</div>
 
 			<section class="how" aria-labelledby="how-h">
@@ -66,32 +62,34 @@
 
 			<div class="actions">
 				<a class="browse" href="/chapters/split-masthead">Browse chapters →</a>
-				<a class="catalog" href="/#chapters">Home catalog</a>
+				<a class="catalog" href="/#chapters">All chapters</a>
 			</div>
 
 			<section class="mission" aria-labelledby="is-h">
 				<h2 id="is-h">What Flare is</h2>
-				<p class="mission-lede">
-					A gallery of scroll chapters. Preview one. Copy the file. Leave the rest.
-				</p>
+				<p class="mission-lede">A gallery you preview and copy from. That is the whole product.</p>
 				<ul>
 					<li>
-						<strong>Yours to keep</strong>
-						<span> - you own the copied <code>.svelte</code></span>
+						<strong>Gallery site</strong>
+						<span> - six scroll chapters, live at real height</span>
 					</li>
 					<li>
-						<strong>Scroll-first</strong>
-						<span> - chapters teach pin, scrub, kinetic type</span>
+						<strong>Preview + Copy</strong>
+						<span> - one click takes the whole <code>.svelte</code></span>
 					</li>
 					<li>
-						<strong>Modular</strong>
-						<span> - take one chapter, leave the rest</span>
-					</li>
-					<li>
-						<strong>Stack free</strong>
-						<span> - SvelteKit 5 + Tailwind v4 + official gsap</span>
+						<strong>Not a design system</strong>
+						<span> - no kit, no registry, no shared Button</span>
 					</li>
 				</ul>
+			</section>
+
+			<section class="notes" aria-labelledby="notes-h">
+				<h2 id="notes-h">Ship notes</h2>
+				<p>
+					Paste into an existing SvelteKit 5 app. Tailwind v4 is the chrome. Add official gsap when
+					the chapter asks for it.
+				</p>
 			</section>
 
 			<p class="next">Next <a href="/chapters/split-masthead">split-masthead</a></p>
@@ -188,6 +186,7 @@
 
 	.lede p,
 	.mission-lede,
+	.notes p,
 	.next {
 		margin: 0;
 	}
@@ -328,6 +327,11 @@
 	.mission strong {
 		font-weight: 600;
 		color: var(--color-paper);
+	}
+
+	.notes p {
+		max-width: 38rem;
+		color: #8b8278;
 	}
 
 	.next {
