@@ -29,7 +29,6 @@
 	--z-toolbar: 30;
 	--z-nav: 40;
 	--z-hover: 80;
-	--z-cursor: 90;
 }
 
 @media (max-width: 390px) {
