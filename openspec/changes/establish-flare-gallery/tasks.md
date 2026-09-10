@@ -17,7 +17,7 @@
 
 ## 3. Gallery site
 
-- [x] 3.1 Home mounts TypeCharge (word FLARE) inset in SiteShell plus a vertical chapter index
+- [x] 3.1 Home mounts a static FLARE hero in SiteShell plus a vertical chapter index
 - [x] 3.2 `/chapters/[slug]` mounts the chapter once, then copy plus edit knobs, and verify `?raw` copy
 - [x] 3.3 Embed route stays chrome-free
 - [x] 3.4 Voice names Flare only and verify README, `package.json`, home, and meta
@@ -54,3 +54,4 @@
 - [x] 8.3 Nav mark slot plus `static/brand/flare-mark.svg` and `/favicon.svg` (not F, not flame)
 - [x] 8.4 HoverPreview: ~100ms exit fade, Escape, vertical center, 8px gap
 - [x] 8.5 Site nav is Chapters (`/#chapters`), GitHub, and Open (first chapter). No flame icon.
+- [x] 8.6 Home hero is static FLARE (Preview. Copy., Open, Chapters). TypeCharge stays a catalog chapter.

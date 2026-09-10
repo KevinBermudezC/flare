@@ -13,7 +13,7 @@ See proposal.md. Recorte 1 is six scroll chapters, not a mixed marketing kit. Ea
 - `prefers-reduced-motion` freezes to a readable static layout. Content stays.
 - Gallery isolation so one chapter cannot clobber another on the home catalog.
 - Copy UI dumps the real file bytes (`?raw`).
-- Home is a framed product landing: live type-charge (word FLARE) inset in the shell, then a vertical chapter index (01-06), not an equal card grid.
+- Home is a framed product landing: static FLARE hero (no GSAP), then a vertical chapter index (01-06), not an equal card grid.
 
 **Non-Goals:**
 
@@ -29,9 +29,9 @@ See proposal.md. Recorte 1 is six scroll chapters, not a mixed marketing kit. Ea
 
 The gallery imports chapters for preview. The copyable contract is the folder, not `$lib`. Site helpers MUST NOT be imported from a chapter.
 
-### Home mounts TypeCharge inset; chapter pages live at `/chapters/[slug]`
+### Home is a static brand hero; chapter pages live at `/chapters/[slug]`
 
-Home wraps type-charge (word FLARE) inset in the SiteShell frame, then a vertical chapter index. Each row is `01`-`06`, Unbounded title, one-line tagline, a still, and SCROLL. The whole row links to `/chapters/<slug>`. SiteShell carries a swap-friendly geometric mark beside the wordmark, favicon from `static/`, and a framed landing footer: mark + tagline, Chapters and Project columns, then `with love <3` and `© 2026 Flare · MIT`. `/chapters/[slug]/embed` stays available as a chrome-free mount and is not used as a home thumb. Chapter pages at `/chapters/[slug]` use a ChapterNav rail with still HoverPreview on fine pointer (CSS only; never a live GSAP/iframe mount). Escape closes the preview. Exit fade is about 100ms. The card is vertically centered on the row with an 8px gap.
+Home shows a static FLARE hero (ticks mark, `Preview. Copy.`, Open + Chapters) inset in the SiteShell frame, then a vertical chapter index. No GSAP or ScrollTrigger on `/`. TypeCharge stays a catalog chapter at `/chapters/type-charge`. Each index row is `01`-`06`, Unbounded title, one-line tagline, a still, and SCROLL. The whole row links to `/chapters/<slug>`. SiteShell carries a swap-friendly ticks mark beside the wordmark, favicon from `static/`, and a framed landing footer: mark + `Preview. Copy.`, Chapters and Project columns, then `with love <3` and `© 2026 Flare · MIT`. `/chapters/[slug]/embed` stays available as a chrome-free mount and is not used as a home thumb. Chapter pages at `/chapters/[slug]` use a ChapterNav rail with still HoverPreview on fine pointer (CSS only; never a live GSAP/iframe mount). Escape closes the preview. Exit fade is about 100ms. The card is vertically centered on the row with an 8px gap.
 
 ### Motion lives in the copied file
 

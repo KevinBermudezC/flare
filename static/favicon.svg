@@ -1,6 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
 	<title>Flare</title>
 	<rect width="32" height="32" rx="6" fill="#09090b" />
-	<rect x="6" y="15" width="20" height="2" rx="1" fill="#f5f0ea" fill-opacity="0.18" />
-	<rect x="14.5" y="7" width="3" height="18" rx="1.5" fill="#ff5a1f" />
+	<rect x="8" y="7" width="3" height="18" rx="1.5" fill="#f5f0ea" />
+	<rect x="14.5" y="7" width="3" height="18" rx="1.5" fill="#f5f0ea" />
+	<rect x="21" y="7" width="3" height="18" rx="1.5" fill="#f5f0ea" />
 </svg>

@@ -18,21 +18,21 @@ The repository README MUST name the product Flare, tell a stranger to run `pnpm 
 
 ### Requirement: Home is a product landing
 
-The home page MUST wrap a live type-charge chapter (word FLARE) inset in the SiteShell frame. It MUST then list all six chapters as a vertical still index (`#chapters`): kicker `CHAPTERS` plus a zero-padded count, rows `01`-`06`, Unbounded title, one-line tagline from `catalog.ts`, a still, and a SCROLL chip. The whole row MUST link to `/chapters/<slug>`. The catalog MUST NOT be an equal multi-column card grid. It MUST NOT mount lane-scrub or mask-reveal as loose full-viewport stages outside the frame. It MUST NOT use 200px live iframes as thumbs. Demo copy on the landing MUST use Flare voice (ink, ember, preview, copy), not placeholder words such as CHARGE or Harbor.
+The home page MUST show a static brand hero inset in the SiteShell frame: ticks mark, Unbounded FLARE, the line `Preview. Copy.`, an Open CTA to the first catalog chapter, and a Chapters link to `/#chapters`. The hero MUST NOT mount TypeCharge, MUST NOT use ScrollTrigger or GSAP, and MUST stay about 40-55vh (min ~280px). It MUST then list all six chapters as a vertical still index (`#chapters`): kicker `CHAPTERS` plus a zero-padded count, rows `01`-`06`, Unbounded title, one-line tagline from `catalog.ts`, a still, and a SCROLL chip. The whole row MUST link to `/chapters/<slug>`. The catalog MUST NOT be an equal multi-column card grid. It MUST NOT mount lane-scrub or mask-reveal as loose full-viewport stages outside the frame. It MUST NOT use 200px live iframes as thumbs. TypeCharge MUST remain a catalog chapter at `/chapters/type-charge`. Demo copy on the landing MUST use Flare voice (ink, ember, preview, copy), not placeholder words such as CHARGE or Harbor.
 
-#### Scenario: Landing is framed TypeCharge plus catalog
+#### Scenario: Landing is framed brand hero plus catalog
 
 - **WHEN** a visitor opens `/`
-- **THEN** the first chapter they meet is a live type-charge (word FLARE) inset in the shell frame
+- **THEN** they see a static FLARE hero with Open and Chapters
 - **AND** they can open all six chapters from a vertical still index
-- **AND** the page mounts one live chapter component
+- **AND** the home page does not mount a live chapter component
 - **AND** each index row links to `/chapters/<slug>`
 
 #### Scenario: Home does not stamp pin chapters
 
 - **WHEN** a visitor watches the home page
 - **THEN** they do not see a 200px iframe grid of the six chapters
-- **AND** they do not see a fake marketing hero in place of a chapter
+- **AND** they do not see a live TypeCharge scrub on `/`
 - **AND** catalog thumbs are still images, not live GSAP mounts
 
 ### Requirement: Chapter page is one demo plus copy and edit

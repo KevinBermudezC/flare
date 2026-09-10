@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { CHAPTER_STILLS, blocks } from '$lib/catalog';
-	import TypeCharge from '../blocks/type-charge/TypeCharge.svelte';
+	import HomeHero from '$lib/site/HomeHero.svelte';
 
 	const count = String(blocks.length).padStart(2, '0');
 
@@ -13,9 +13,7 @@
 	<title>Flare - Preview. Copy.</title>
 </svelte:head>
 
-<section id="hero" class="hero" aria-label="Type Charge">
-	<TypeCharge word="FLARE" />
-</section>
+<HomeHero />
 
 <section id="chapters" class="catalog" aria-label="Chapters">
 	<header class="kicker">
@@ -50,10 +48,6 @@
 </section>
 
 <style>
-	.hero {
-		min-height: 0;
-	}
-
 	.catalog {
 		position: relative;
 		z-index: 1;

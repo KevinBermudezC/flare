@@ -37,20 +37,18 @@
 						<img class="foot-mark" src={mark} alt="" width="28" height="28" />
 						<span class="foot-word">FLARE</span>
 					</a>
-					<p class="pitch">Scroll chapters. Preview. Copy.</p>
+					<p class="pitch">Preview. Copy.</p>
 				</div>
 				<div class="cols">
 					<nav aria-label="Chapter index">
 						<p class="col-h">Chapters</p>
-						<a href="/#chapters">Index</a>
-						{#each blocks as block (block.slug)}
-							<a href="/chapters/{block.slug}">{block.name}</a>
-						{/each}
+						<a href="/#chapters">Chapters</a>
+						<a href={github} rel="noreferrer">GitHub</a>
 					</nav>
 					<nav aria-label="Project">
 						<p class="col-h">Project</p>
-						<a href={github} rel="noreferrer">GitHub</a>
 						<a href={portfolio} rel="noreferrer">Portfolio</a>
+						<a href={license} rel="noreferrer">MIT</a>
 					</nav>
 				</div>
 			</div>
