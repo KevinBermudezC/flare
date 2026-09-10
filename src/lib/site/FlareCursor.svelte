@@ -6,6 +6,8 @@
 	let ry = $state(0);
 
 	$effect(() => {
+		document.documentElement.classList.remove('flare-cursor');
+
 		const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
 		const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -18,6 +20,7 @@
 		reduce.addEventListener('change', sync);
 
 		return () => {
+			document.documentElement.classList.remove('flare-cursor');
 			fine.removeEventListener('change', sync);
 			reduce.removeEventListener('change', sync);
 		};
