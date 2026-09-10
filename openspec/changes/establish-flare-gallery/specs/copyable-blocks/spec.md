@@ -64,6 +64,13 @@ Previews MUST pin, scrub, or charge type when the user does not prefer reduced m
 - **WHEN** a visitor opens `split-masthead` at 1440×900 without reduced motion
 - **THEN** Flare, Preview, and Copy are visible in the left column on first paint
 - **AND** the pinned lock is a 100dvh inner rail, not the full track height
+- **AND** Flare, Preview, and Copy stay inside the left rail (they do not cross the hairline)
+
+#### Scenario: Split masthead rooms carry a figure
+
+- **WHEN** a visitor walks the three rooms
+- **THEN** each room has an index, a FIG caption, and a structured CSS field
+- **AND** the left pin still syncs the active word
 
 #### Scenario: Lane scrub type panels carry a field
 

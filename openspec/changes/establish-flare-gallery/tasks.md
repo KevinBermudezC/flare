@@ -75,3 +75,4 @@
 - [x] 9.6 lane-scrub type and ember panels fill the mid-field with CSS atmosphere (no stock photos). Travel uses the frame width, not a naked window.
 - [x] 9.7 Stage clips the iframe. 390 vs 1440 change lane-scrub pin width and scrub travel. split-masthead stacks from the chapter frame (`@container` / `clientWidth`), not the host window. Replay remounts and scrolls the frame to top.
 - [x] 9.8 Densify lane-scrub type/ember fields (hatch, corners, FIG, specimen). Visual pass of all six chapter embeds.
+- [ ] 9.9 split-masthead: scale Flare/Preview/Copy to the rail (no hairline overflow). HUD 01–03 + progress. Rooms get FIG fields. Pin walk stays.
