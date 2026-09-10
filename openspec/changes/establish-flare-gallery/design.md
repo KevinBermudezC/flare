@@ -31,7 +31,7 @@ The gallery imports chapters for preview. The copyable contract is the folder, n
 
 ### Home mounts TypeCharge inset; chapter pages live at `/chapters/[slug]`
 
-Home wraps type-charge (word FLARE) inset in the SiteShell frame, then a vertical chapter index. Each row is `01`-`06`, Unbounded title, one-line tagline, a still, and SCROLL. The whole row links to `/chapters/<slug>`. SiteShell carries a swap-friendly geometric mark beside the wordmark, favicon from `static/`, and a minimal footer (`with love <3`, Chapters, Portfolio, GitHub, MIT). `/chapters/[slug]/embed` stays available as a chrome-free mount and is not used as a home thumb. Chapter pages at `/chapters/[slug]` use a ChapterNav rail with still HoverPreview on fine pointer (CSS only; never a live GSAP/iframe mount). Escape closes the preview. Exit fade is about 100ms. The card is vertically centered on the row with an 8px gap.
+Home wraps type-charge (word FLARE) inset in the SiteShell frame, then a vertical chapter index. Each row is `01`-`06`, Unbounded title, one-line tagline, a still, and SCROLL. The whole row links to `/chapters/<slug>`. SiteShell carries a swap-friendly geometric mark beside the wordmark, favicon from `static/`, and a framed landing footer: mark + tagline, Chapters and Project columns, then `with love <3` and `© 2026 Flare · MIT`. `/chapters/[slug]/embed` stays available as a chrome-free mount and is not used as a home thumb. Chapter pages at `/chapters/[slug]` use a ChapterNav rail with still HoverPreview on fine pointer (CSS only; never a live GSAP/iframe mount). Escape closes the preview. Exit fade is about 100ms. The card is vertically centered on the row with an 8px gap.
 
 ### Motion lives in the copied file
 

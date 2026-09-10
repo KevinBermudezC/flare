@@ -50,6 +50,6 @@
 ## 8. Home chrome polish
 
 - [x] 8.1 Home `#chapters` is a vertical index (`01`-`06`), not a 3x2 card grid
-- [x] 8.2 SiteShell footer: `with love <3`, Chapters, Portfolio, GitHub, MIT
+- [x] 8.2 SiteShell footer: mark + tagline, Chapters and Project columns, `with love <3`, MIT
 - [x] 8.3 Nav mark slot plus `static/brand/flare-mark.svg` and `/favicon.svg` (not F, not flame)
 - [x] 8.4 HoverPreview: ~100ms exit fade, Escape, vertical center, 8px gap

@@ -53,13 +53,13 @@ Each chapter page MUST live at `/chapters/[slug]`. It MUST show a breadcrumb `FL
 
 ### Requirement: Site chrome has a mark, footer, and chapter index
 
-SiteShell MUST place a swap-friendly geometric mark beside the FLARE wordmark. The mark MUST NOT be the letter F and MUST NOT be a flame. Favicon MUST load from `/favicon.svg` under `static/`. The shell MUST end with a minimal footer: the line `with love <3`, plus links to Chapters (`/#chapters`), Portfolio (`https://kevinbermudez.vercel.app`), GitHub (`https://github.com/KevinBermudezC/flare`), and MIT. The footer MUST NOT name other products. HoverPreview on ChapterNav MUST fade out in about 100ms, close on Escape, sit vertically centered on the row, and keep an 8px gap.
+SiteShell MUST place a swap-friendly geometric mark beside the FLARE wordmark. The mark MUST NOT be the letter F and MUST NOT be a flame. Favicon MUST load from `/favicon.svg` under `static/`. The shell MUST end with a framed landing footer on ink. The top band MUST show the geometric mark, FLARE wordmark, and a one-line Flare tagline on the left, and two link columns on the right (Chapters, Project). The bottom band MUST show `with love <3` (portfolio) and `© 2026 Flare` plus MIT. The footer MUST NOT name other products. HoverPreview on ChapterNav MUST fade out in about 100ms, close on Escape, sit vertically centered on the row, and keep an 8px gap.
 
 #### Scenario: Shell carries mark and footer
 
 - **WHEN** a visitor uses the framed site
 - **THEN** the header shows a geometric mark next to FLARE
-- **AND** the footer shows `with love <3` plus Chapters, Portfolio, GitHub, and MIT
+- **AND** the footer shows the mark, a Flare tagline, Chapters and Project columns, `with love <3`, and MIT
 - **AND** they do not see other product names
 
 ### Requirement: Gallery chrome is not the copyable product

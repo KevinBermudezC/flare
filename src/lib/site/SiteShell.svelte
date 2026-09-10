@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { blocks } from '$lib/catalog';
 	import type { Snippet } from 'svelte';
 
 	let { children }: { children: Snippet } = $props();
@@ -7,6 +8,9 @@
 	const onHome = $derived(page.url.pathname === '/');
 	const mark = '/brand/flare-mark.svg';
 	const loveMark = '<3';
+	const portfolio = 'https://kevinbermudez.vercel.app';
+	const github = 'https://github.com/KevinBermudezC/flare';
+	const license = 'https://github.com/KevinBermudezC/flare/blob/main/LICENSE';
 </script>
 
 <div class="shell-page">
@@ -38,15 +42,37 @@
 			{@render children()}
 		</div>
 		<footer class="shell-foot">
-			<p class="sign">
-				with <span>love {loveMark}</span>
-			</p>
-			<nav aria-label="Footer">
-				<a href="/#chapters">Chapters</a>
-				<a href="https://kevinbermudez.vercel.app" rel="noreferrer">Portfolio</a>
-				<a href="https://github.com/KevinBermudezC/flare" rel="noreferrer">GitHub</a>
-				<a href="https://github.com/KevinBermudezC/flare/blob/main/LICENSE" rel="noreferrer">MIT</a>
-			</nav>
+			<div class="foot-top">
+				<div class="ident">
+					<a href="/" class="foot-brand">
+						<img class="foot-mark" src={mark} alt="" width="28" height="28" />
+						<span class="foot-word">FLARE</span>
+					</a>
+					<p class="pitch">Scroll chapters. Preview. Copy.</p>
+				</div>
+				<div class="cols">
+					<nav aria-label="Chapter index">
+						<p class="col-h">Chapters</p>
+						<a href="/#chapters">Index</a>
+						{#each blocks as block (block.slug)}
+							<a href="/chapters/{block.slug}">{block.name}</a>
+						{/each}
+					</nav>
+					<nav aria-label="Project">
+						<p class="col-h">Project</p>
+						<a href={github} rel="noreferrer">GitHub</a>
+						<a href={portfolio} rel="noreferrer">Portfolio</a>
+					</nav>
+				</div>
+			</div>
+			<div class="foot-bar">
+				<p class="sign">
+					<a href={portfolio} rel="noreferrer">with <span>love {loveMark}</span></a>
+				</p>
+				<p class="legal">
+					© 2026 Flare · <a href={license} rel="noreferrer">MIT</a>
+				</p>
+			</div>
 		</footer>
 	</div>
 </div>
@@ -131,6 +157,7 @@
 	.item:focus-visible,
 	.brand:focus-visible,
 	.ember:focus-visible,
+	.foot-brand:focus-visible,
 	.shell-foot a:focus-visible {
 		outline: 2px solid var(--color-ember);
 		outline-offset: 3px;
@@ -161,31 +188,73 @@
 	}
 
 	.shell-foot {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.65rem 1.5rem;
-		padding: 0.95rem 1rem 1.05rem;
 		border-top: 1px solid var(--color-hairline);
+		padding: 2.25rem 1rem 1.35rem;
 	}
 
-	.sign {
+	.foot-top {
+		display: grid;
+		gap: 2.25rem;
+	}
+
+	.ident {
+		display: grid;
+		gap: 0.7rem;
+		align-content: start;
+	}
+
+	.foot-brand {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.foot-mark {
+		display: block;
+		width: 28px;
+		height: 28px;
+		flex-shrink: 0;
+	}
+
+	.foot-word {
+		font-family: var(--font-display);
+		font-size: 18px;
+		font-weight: 650;
+		letter-spacing: 0.04em;
+		color: var(--color-paper);
+	}
+
+	.pitch {
 		margin: 0;
+		max-width: 22rem;
 		font-family: var(--font-body);
 		font-size: 13px;
+		line-height: 1.5;
 		color: #8b8278;
 	}
 
-	.sign span {
-		color: var(--color-ember);
+	.cols {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 2rem 2.5rem;
 	}
 
 	.shell-foot nav {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 0.85rem 1.15rem;
+		display: grid;
+		gap: 0.55rem;
+		align-content: start;
+	}
+
+	.col-h {
+		margin: 0 0 0.35rem;
+		font-family: var(--font-mono);
+		font-size: 11px;
+		font-weight: 500;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: #8b8278;
 	}
 
 	.shell-foot a {
@@ -199,15 +268,62 @@
 		color: var(--color-paper);
 	}
 
+	.foot-bar {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.65rem 1.5rem;
+		margin-top: 2.25rem;
+		padding-top: 1.15rem;
+		border-top: 1px solid var(--color-hairline);
+	}
+
+	.sign,
+	.legal {
+		margin: 0;
+		font-family: var(--font-body);
+		font-size: 13px;
+		color: #8b8278;
+	}
+
+	.sign a {
+		color: #8b8278;
+	}
+
+	.sign span {
+		color: var(--color-ember);
+	}
+
+	.sign a:hover {
+		color: var(--color-paper);
+	}
+
+	.legal a:hover {
+		color: var(--color-paper);
+	}
+
 	@media (min-width: 768px) {
 		.shell-foot {
-			padding: 1rem 1.35rem 1.1rem;
+			padding: 2.75rem 1.35rem 1.5rem;
+		}
+
+		.foot-top {
+			grid-template-columns: minmax(14rem, 1fr) auto;
+			align-items: start;
+			justify-content: space-between;
+			gap: 3rem;
+		}
+
+		.cols {
+			min-width: 18rem;
+			gap: 2rem 3.5rem;
 		}
 	}
 
 	@media (min-width: 1024px) {
 		.shell-foot {
-			padding: 1.05rem 1.6rem 1.15rem;
+			padding: 3.25rem 1.6rem 1.7rem;
 		}
 	}
 </style>
