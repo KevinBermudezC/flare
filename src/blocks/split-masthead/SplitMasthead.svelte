@@ -63,6 +63,8 @@
 			}
 
 			ctx = gsap.context(() => {
+				gsap.set('.word', { opacity: 1, x: 0, y: 0 });
+
 				const stacked = el.clientWidth <= 768;
 				if (!stacked) {
 					ScrollTrigger.create({
@@ -72,7 +74,10 @@
 						end: 'bottom bottom',
 						pin: true,
 						pinSpacing: false,
-						invalidateOnRefresh: true
+						invalidateOnRefresh: true,
+						onRefreshInit: () => {
+							gsap.set('.word', { opacity: 1, x: 0, y: 0 });
+						}
 					});
 				}
 
@@ -113,8 +118,8 @@
 	class:reduce={reduceMotion}
 >
 	<div class="shell">
-		<aside class="rail">
-			<div bind:this={rail} class="rail-lock">
+		<aside bind:this={rail} class="rail">
+			<div class="rail-lock">
 				{#each words as word, i (word + i)}
 					<p class="word" class:on={i === active}>{word}</p>
 				{/each}
@@ -156,6 +161,7 @@
 	.rail {
 		position: relative;
 		z-index: 2;
+		align-self: stretch;
 		min-height: 100dvh;
 		border-right: 1px solid rgba(245, 240, 234, 0.16);
 		background: var(--ink);
@@ -179,6 +185,7 @@
 		font-weight: 720;
 		line-height: 0.9;
 		letter-spacing: -0.04em;
+		opacity: 1;
 		color: var(--paper);
 	}
 
