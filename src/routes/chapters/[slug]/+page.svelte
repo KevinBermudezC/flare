@@ -33,6 +33,7 @@
 		`${block?.slug ?? ''}-${viewport}-${title}-${accent}-${reduceMotion}`
 	);
 	const stageWidth = $derived(appliedViewportWidth(viewport, stageW));
+	const viewports: Viewport[] = [1440, 768, 390];
 
 	$effect.pre(() => {
 		const next = getBlock(data.slug);
@@ -109,10 +110,10 @@
 					</button>
 				</div>
 				<div class="group">
-					{#each [1440, 768, 390] as size (size)}
+					{#each viewports as size (size)}
 						<button
 							type="button"
-							onclick={() => setViewport(size as Viewport)}
+							onclick={() => setViewport(size)}
 							class="size"
 							class:on={viewport === size}
 							aria-label="{size} viewport, {viewportLabel(size, stageW)} pixels"
