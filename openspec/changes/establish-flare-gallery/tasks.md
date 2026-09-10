@@ -64,3 +64,10 @@
 - [x] 8.13 Home hero atmosphere CSS drift is clearly visible in a few seconds. Reduced motion freezes it. No JS tween on `/`.
 - [x] 8.14 `/chapters` Introduction has two-para lede, How it works (Preview / Copy / Paste), Browse chapters, What Flare is, and Ship notes.
 - [x] 8.15 Home adds `#inside` (What you get) and `#motion` (three stills). `#chapters` stays the six-row index.
+
+## 9. Chapter playground viewport
+
+- [x] 9.1 Preview on `/chapters/[slug]` mounts a full-height iframe at `/chapters/{slug}/embed` (query for title, accent, reduceMotion, replay). Code mode stays CopyPanel. Parent does not also inline the chapter.
+- [x] 9.2 Viewport 1440 / 768 / 390 sizes the iframe (capped by the stage, centered). Replay, viewport, title, accent, and reduced-motion remount it (`{#key}`).
+- [x] 9.3 Embed route stays chrome-free and plays the chapter from those search params.
+- [x] 9.4 Harden the six chapters: scrub distance and pin spacing use the frame (not a host window). Reduced motion stays readable. Flare tokens stay.

@@ -57,18 +57,30 @@
 				const deck = gsap.utils.toArray<HTMLElement>('.card');
 				deck.forEach((card, i) => {
 					const last = i === deck.length - 1;
+					if (last) {
+						ScrollTrigger.create({
+							trigger: card,
+							start: 'top top',
+							end: 'bottom bottom',
+							invalidateOnRefresh: true,
+							onToggle: (self) => {
+								if (self.isActive) front = i;
+							}
+						});
+						return;
+					}
 					ScrollTrigger.create({
 						trigger: card,
 						start: 'top top',
-						endTrigger: last ? card : deck[deck.length - 1],
-						end: last ? 'bottom bottom' : 'top top',
-						pin: last ? false : true,
+						endTrigger: deck[deck.length - 1],
+						end: 'top top',
+						pin: true,
 						pinSpacing: false,
+						invalidateOnRefresh: true,
 						onToggle: (self) => {
 							if (self.isActive) front = i;
 						}
 					});
-					if (last) return;
 					gsap.to(card, {
 						scale: 0.92,
 						opacity: 0.55,
@@ -77,11 +89,16 @@
 							trigger: deck[i + 1],
 							start: 'top bottom',
 							end: 'top top',
-							scrub: true
+							scrub: true,
+							invalidateOnRefresh: true
 						}
 					});
 				});
 			}, el);
+
+			void document.fonts?.ready.then(() => {
+				if (!cancelled) ScrollTrigger.refresh();
+			});
 		};
 
 		run();

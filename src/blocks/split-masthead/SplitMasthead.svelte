@@ -77,7 +77,8 @@
 					endTrigger: right,
 					end: 'bottom bottom',
 					pin: true,
-					pinSpacing: false
+					pinSpacing: false,
+					invalidateOnRefresh: true
 				});
 
 				const steps = gsap.utils.toArray<HTMLElement>('.room');
@@ -86,6 +87,7 @@
 						trigger: step,
 						start: 'top 45%',
 						end: 'bottom 45%',
+						invalidateOnRefresh: true,
 						onEnter: () => {
 							active = i;
 						},
@@ -95,6 +97,10 @@
 					});
 				});
 			}, el);
+
+			void document.fonts?.ready.then(() => {
+				if (!cancelled) ScrollTrigger.refresh();
+			});
 		};
 
 		run();
@@ -150,6 +156,7 @@
 	}
 
 	.rail {
+		z-index: 2;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -157,6 +164,7 @@
 		min-height: 100dvh;
 		padding: 2rem 1.5rem 2rem 6vw;
 		border-right: 1px solid rgba(245, 240, 234, 0.16);
+		background: var(--ink);
 	}
 
 	.word {

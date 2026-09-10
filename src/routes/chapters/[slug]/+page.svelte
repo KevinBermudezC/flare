@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { untrack } from 'svelte';
+	import { tick, untrack } from 'svelte';
 	import { editFieldLabel, getBlock } from '$lib/catalog';
 	import ChapterNav from '$lib/site/ChapterNav.svelte';
 	import CopyButton from '$lib/site/CopyButton.svelte';
 	import CopyPanel from '$lib/site/CopyPanel.svelte';
-	import ChapterPlayground, { type Accent } from '$lib/site/ChapterPlayground.svelte';
+	import type { Accent } from '$lib/site/ChapterPlayground.svelte';
+	import { chapterEmbedSrc, frameWidth, type Viewport } from '$lib/site/chapter-embed';
 
 	type Mode = 'preview' | 'code';
-	type Viewport = 1440 | 768 | 390;
 
 	let { data } = $props();
 	const block = $derived(getBlock(data.slug));
@@ -19,6 +19,15 @@
 	let title = $state('');
 	let accent = $state<Accent>('ember');
 	let reduceMotion = $state(false);
+
+	const embedSrc = $derived(
+		block
+			? chapterEmbedSrc(block.slug, { title, accent, reduceMotion, replay })
+			: ''
+	);
+	const iframeKey = $derived(
+		`${block?.slug ?? ''}-${viewport}-${replay}-${title}-${accent}-${reduceMotion}`
+	);
 
 	$effect.pre(() => {
 		const next = getBlock(data.slug);
@@ -32,24 +41,10 @@
 		});
 	});
 
-	function frameWidth(size: Viewport): string {
-		switch (size) {
-			case 1440:
-				return 'min(1440px, 100%)';
-			case 768:
-				return '768px';
-			case 390:
-				return '390px';
-			default: {
-				const _never: never = size;
-				return _never;
-			}
-		}
-	}
-
-	function setMode(next: Mode) {
+	async function setMode(next: Mode) {
 		mode = next;
 		const target = next === 'code' ? 'chapter-code' : 'chapter-stage';
+		await tick();
 		document.getElementById(target)?.scrollIntoView({ block: 'start' });
 	}
 
@@ -129,17 +124,18 @@
 				</div>
 			</div>
 
-			<div id="chapter-stage" class="stage-wrap">
-				<div class="stage" style:width={frameWidth(viewport)}>
-					<ChapterPlayground
-						slug={block.slug}
-						{replay}
-						{title}
-						{accent}
-						{reduceMotion}
-					/>
+			{#if mode === 'preview'}
+				<div id="chapter-stage" class="stage-wrap">
+					{#key iframeKey}
+						<iframe
+							class="stage"
+							title="{block.name} at {viewport}"
+							src={embedSrc}
+							style:width={frameWidth(viewport)}
+						></iframe>
+					{/key}
 				</div>
-			</div>
+			{/if}
 
 			<section id="chapter-code" class="docs" aria-label="Copy and edit">
 				{#each block.files as file (file.name)}
@@ -314,13 +310,24 @@
 	}
 
 	.stage-wrap {
+		display: flex;
+		justify-content: center;
 		overflow-x: auto;
-		background: var(--color-ink);
+		background: #050507;
+		min-height: 100dvh;
 	}
 
 	.stage {
+		display: block;
+		flex: 0 0 auto;
+		width: min(1440px, 100%);
+		height: 100dvh;
 		min-height: 100dvh;
 		margin: 0 auto;
+		border: 0;
+		border-left: 1px solid var(--color-hairline);
+		border-right: 1px solid var(--color-hairline);
+		background: var(--color-ink);
 	}
 
 	.docs {

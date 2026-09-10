@@ -46,15 +46,20 @@
 					scrollTrigger: {
 						trigger: el,
 						start: 'top top',
-						end: '+=100%',
+						end: '+=140%',
 						pin: true,
-						scrub: true
+						scrub: true,
+						invalidateOnRefresh: true
 					}
 				});
 
 				tl.fromTo('.line', { scale: 0.94 }, { scale: 1, ease: 'none' }, 0)
 					.to('.glyph', { yPercent: -18, opacity: 0, stagger: 0.02, ease: 'none' }, 0.72);
 			}, el);
+
+			void document.fonts?.ready.then(() => {
+				if (!cancelled) ScrollTrigger.refresh();
+			});
 		};
 
 		run();

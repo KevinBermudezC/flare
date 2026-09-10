@@ -29,6 +29,14 @@ See proposal.md. Recorte 1 is six scroll chapters, not a mixed marketing kit. Ea
 
 The gallery imports chapters for preview. The copyable contract is the folder, not `$lib`. Site helpers MUST NOT be imported from a chapter.
 
+### Chapter Preview is an embed iframe; Code stays copy
+
+`/chapters/[slug]` Preview mounts the chapter once inside a full-height iframe at `/chapters/[slug]/embed`. The iframe CSS width is `1440`, `768`, or `390`, capped by the stage, centered in the canvas. Height is at least `100dvh` of that canvas. Replay, viewport, title, accent, and reduced-motion remount the iframe. The parent MUST NOT also inline the chapter (no iframe plus live). Code mode stays the CopyPanel. Embed is chrome-free and reads `title`, `accent`, `reduceMotion`, and `replay` from the query so the live instance matches the knobs.
+
+This is how 1440 / 768 / 390 become real viewports: `window.innerWidth`, `vw`, and ScrollTrigger pins belong to the iframe, not the host page.
+
+**Alternatives considered**: size a wrapper `div` around an inlined chapter (rejected: LaneScrub and pins still read `window`). Refactor all six blocks to a passed container (heavier, still needed later for paste targets).
+
 ### Home is a static brand hero; chapter pages live at `/chapters/[slug]`
 
 Home shows a static FLARE hero (ticks mark, Unbounded FLARE, `Preview. Copy.`, ember Chapters to `/chapters`) inset in the SiteShell frame (`--shell-max: 1440px`, ink outside). From 1024px the hero fills the first screen (`calc(100dvh - nav - top gutter - frame hairline)`); `#chapters` sits below the fold. Atmosphere (wash, grid, beam, grain) matches TypeCharge, biased to the right of the stage, and loops with CSS. No Open, no ghost wordmark, no ScrollTrigger pin or scrub on `/`. `/chapters` is an Introduction stub with a left rail grouped as Start (Introduction) and Chapters (six slugs). TypeCharge stays a catalog chapter at `/chapters/type-charge`. Desktop catalog rows are `01`-`06`, Unbounded title, tagline, still on the right. Site nav is one ember Chapters pill; GitHub lives in the footer. The footer love bar is `Created with <3 by KevinBermudezC` (name links to the portfolio). Hero atmosphere on `/` uses a clearly visible CSS drift; no JS tween.
@@ -61,7 +69,8 @@ Amend `establish-flare-gallery`. Archive after merge.
 
 ## Risks / Trade-offs
 
-- **[Risk]** Pin inside a short iframe feels clipped. → **Mitigation**: home does not use short iframes; chapter pages at `/chapters/[slug]` mount at `min-height: 100dvh`.
+- **[Risk]** Pin inside a short iframe feels clipped. → **Mitigation**: home does not use short iframes; the chapter Preview iframe is at least `100dvh` of the canvas so pin and scrub can run.
+- **[Risk]** Host-page `style:width` on an inlined chapter does not change `window`. → **Mitigation**: Preview is an embed iframe sized to the chosen viewport.
 - **[Risk]** `overflow: hidden` on the detail wrapper kills pin spacers. → **Mitigation**: the live chapter is full-bleed, not clipped.
 - **[Trade-off]** GSAP setup is duplicated in six files. That is the independence rule.
 

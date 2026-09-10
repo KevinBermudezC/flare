@@ -41,7 +41,7 @@ The home page MUST show a static brand hero inset in the SiteShell frame: ticks 
 
 `/chapters` MUST exist as an Introduction index. It MUST show crumb + `Introduction` + `Preview. Copy.`, a two-paragraph Flare lede (Svelte 5 gallery, six scroll chapters, live preview, copy the whole `.svelte`, official gsap where it earns it), a bordered How it works grid (Preview / Copy / Paste), an ember Browse chapters pill to `/chapters/split-masthead`, a What Flare is section (gallery site, Preview + Copy, not a design system / no shared Button), and short Ship notes. It MUST NOT name other products. A left rail MUST group links under two muted, non-clickable section labels: `Start` (Introduction, active when `current` is null / on `/chapters`) then `Chapters` (the six catalog slugs linking to `/chapters/[slug]`). The gap between those two groups MUST be larger than the gap between rows. Active rail text MUST be ember. Section labels MUST be muted (`#8b8278`), not ember. HoverPreview MAY attach to catalog slug rows only. Below 1024px the rail MUST be off and a compact switcher MUST group Introduction under `Start` and the six chapters under `Chapters` (`optgroup` when the control is a `select`).
 
-Each chapter page MUST live at `/chapters/[slug]`. It MUST show a breadcrumb `FLARE / Chapters / {slug}` with Chapters linking to `/chapters`, the chapter title, one-line tagline, and `extraDep` (`pnpm add gsap`). It MUST mount the live chapter exactly once in a full-width stage tall enough for the gesture (`min-height: 100dvh` for pin and scrub). It MUST then expose the source of every copyable `.svelte` file, with a control that copies the source to the clipboard, and a small edit panel of two to four knobs that change that same live instance. The page MUST NOT mount the chapter a second time (no iframe plus live, no catalog of thumbs of the same slug). A left rail of Introduction plus the six slugs MAY stay as text navigation from 1024px up. Below 1024px the rail MUST be off and a compact chapter switcher MUST let a visitor change chapter or return to Introduction. That rail MAY show a still HoverPreview on fine pointer only; it MUST NOT show HoverPreview on coarse pointer, and it MUST NOT mount a live chapter or iframe in the preview.
+Each chapter page MUST live at `/chapters/[slug]`. It MUST show a breadcrumb `FLARE / Chapters / {slug}` with Chapters linking to `/chapters`, the chapter title, one-line tagline, and `extraDep` (`pnpm add gsap`). In Preview mode it MUST mount the live chapter exactly once as a full-height iframe whose `src` is `/chapters/{slug}/embed` plus query params for title, accent, reduced-motion, and replay. The iframe CSS width MUST be `1440`, `768`, or `390` (capped by the stage container), centered in the stage canvas, with height at least `100dvh` of that canvas. Changing viewport, Replay, title, accent, or reduced-motion MUST remount the iframe. Code mode MUST keep the CopyPanel (source of every copyable `.svelte` file plus a clipboard control). A small edit panel of two to four knobs MUST drive that same iframe instance. The parent page MUST NOT also inline the chapter (no iframe plus live, no catalog of thumbs of the same slug). `/chapters/[slug]/embed` MUST stay chrome-free and MUST play the chapter from those search params. A left rail of Introduction plus the six slugs MAY stay as text navigation from 1024px up. Below 1024px the rail MUST be off and a compact chapter switcher MUST let a visitor change chapter or return to Introduction. That rail MAY show a still HoverPreview on fine pointer only; it MUST NOT show HoverPreview on coarse pointer, and it MUST NOT mount a live chapter or iframe in the preview.
 
 #### Scenario: Chapters index is Introduction
 
@@ -60,13 +60,20 @@ Each chapter page MUST live at `/chapters/[slug]`. It MUST show a breadcrumb `FL
 
 - **WHEN** a visitor opens `/chapters/split-masthead` and copies the source
 - **THEN** the clipboard contains the contents of `src/blocks/split-masthead/SplitMasthead.svelte`
-- **AND** the same page shows the live masthead exactly once
+- **AND** the same page shows the live masthead exactly once, inside the Preview iframe
 
 #### Scenario: Knobs bind the live instance
 
 - **WHEN** a visitor changes a title, accent, or reduced-motion knob on `/chapters/type-charge`
-- **THEN** the single live mount updates
-- **AND** a second copy of the chapter is not mounted
+- **THEN** the Preview iframe remounts with those values
+- **AND** a second copy of the chapter is not mounted on the parent page
+
+#### Scenario: Viewport toolbar sizes the preview
+
+- **WHEN** a visitor clicks 1440, then 768, then 390 on `/chapters/lane-scrub`
+- **THEN** the Preview iframe width changes to each of those sizes (capped by the stage)
+- **AND** the chapter inside that iframe uses that width for `window` and ScrollTrigger
+- **AND** Replay remounts the iframe
 
 ### Requirement: Site chrome has a mark, footer, and chapter index
 

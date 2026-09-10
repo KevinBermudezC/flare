@@ -64,6 +64,7 @@
 						end: last ? '+=100%' : 'top top',
 						pin: true,
 						pinSpacing: last,
+						invalidateOnRefresh: true,
 						onToggle: (self) => {
 							if (self.isActive) active = i;
 						}
@@ -77,11 +78,16 @@
 							trigger: cards[i + 1],
 							start: 'top bottom',
 							end: 'top top',
-							scrub: true
+							scrub: true,
+							invalidateOnRefresh: true
 						}
 					});
 				});
 			}, el);
+
+			void document.fonts?.ready.then(() => {
+				if (!cancelled) ScrollTrigger.refresh();
+			});
 		};
 
 		run();
@@ -223,6 +229,16 @@
 		font-weight: 760;
 		line-height: 0.86;
 		letter-spacing: -0.05em;
+	}
+
+	@media (max-width: 768px) {
+		.room {
+			padding: 10vh 4.75rem 10vh 1.25rem;
+		}
+
+		h2 {
+			font-size: clamp(2.8rem, 16vw, 4.2rem);
+		}
 	}
 
 	p {

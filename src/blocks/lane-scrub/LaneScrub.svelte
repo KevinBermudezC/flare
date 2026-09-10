@@ -79,14 +79,15 @@
 			if (forced || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
 			ctx = gsap.context(() => {
-				const distance = Math.max(row.scrollWidth - window.innerWidth, 0);
+				const viewportW = () => wrap.clientWidth || window.innerWidth;
+				const travel = () => Math.max(row.scrollWidth - viewportW(), 0);
 				gsap.to(row, {
-					x: -distance,
+					x: () => -travel(),
 					ease: 'none',
 					scrollTrigger: {
 						trigger: wrap,
 						start: 'top top',
-						end: () => `+=${distance}`,
+						end: () => `+=${travel()}`,
 						pin: true,
 						scrub: 1,
 						invalidateOnRefresh: true,
@@ -97,6 +98,14 @@
 					}
 				});
 			}, wrap);
+
+			const refresh = () => {
+				if (!cancelled) ScrollTrigger.refresh();
+			};
+			void document.fonts?.ready.then(refresh);
+			wrap.querySelectorAll('img').forEach((img) => {
+				if (!img.complete) img.addEventListener('load', refresh, { once: true });
+			});
 		};
 
 		run();

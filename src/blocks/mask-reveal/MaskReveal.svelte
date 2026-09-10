@@ -44,7 +44,8 @@
 						start: 'top top',
 						end: '+=160%',
 						pin: true,
-						scrub: 0.8
+						scrub: 0.8,
+						invalidateOnRefresh: true
 					}
 				});
 
@@ -69,6 +70,14 @@
 					)
 					.fromTo('.caption', { opacity: 0 }, { opacity: 1, duration: 0.42, ease: 'none' }, 0.2);
 			}, el);
+
+			const refresh = () => {
+				if (!cancelled) ScrollTrigger.refresh();
+			};
+			void document.fonts?.ready.then(refresh);
+			el.querySelectorAll('img').forEach((img) => {
+				if (!img.complete) img.addEventListener('load', refresh, { once: true });
+			});
 		};
 
 		run();
