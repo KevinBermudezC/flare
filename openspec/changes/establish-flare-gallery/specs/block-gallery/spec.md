@@ -77,11 +77,12 @@ Each chapter page MUST live at `/chapters/[slug]`. It MUST show a breadcrumb `FL
 - **AND** the stage clips the iframe (no host overflow showing a wider pin)
 - **AND** there is no Replay button in the chapter toolbar
 
-#### Scenario: Hover preview clears the chapter toolbar
+#### Scenario: Hover preview sits beside the rail
 
 - **WHEN** a visitor hovers a ChapterNav row on `/chapters/[slug]`
-- **THEN** the still card sits above the sticky toolbar (`--z-hover`)
-- **AND** its top edge stays below the nav and toolbar
+- **THEN** the still card sits beside that row (`--z-hover` above chrome)
+- **AND** its top aligns with the hovered row, clamped only to the site nav / viewport
+- **AND** it MUST NOT use the chapter toolbar `.bar` as a vertical floor
 
 #### Scenario: Split masthead follows the preview frame
 

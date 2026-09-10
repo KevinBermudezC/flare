@@ -45,12 +45,11 @@
 		const row = el.getBoundingClientRect();
 		const rail = el.closest('.rail')?.getBoundingClientRect();
 		const nav = document.querySelector('.shell-nav')?.getBoundingClientRect();
-		const bar = document.querySelector('.bar')?.getBoundingClientRect();
 		const pad = 12;
-		const topClear = Math.max(pad, (nav?.bottom ?? 0) + 8, (bar?.bottom ?? 0) + 8);
+		const topClear = Math.max(pad, (nav?.bottom ?? 0) + 8);
 		const originRight = rail?.right ?? row.right;
 		let x = originRight + previewGap;
-		let y = row.top + row.height / 2 - previewH / 2;
+		let y = row.top;
 		y = Math.min(Math.max(topClear, y), window.innerHeight - previewH - pad);
 		if (x + previewW > window.innerWidth - pad) {
 			x = Math.max(pad, (rail?.left ?? row.left) - previewW - previewGap);
