@@ -24,9 +24,9 @@
 
 ## 4. Verification
 
-- [ ] 4.1 Run `pnpm check` and verify 0 errors
-- [ ] 4.2 Run `pnpm build` and verify prerender succeeds for `/` and all six chapter + embed routes
-- [ ] 4.3 Hit `/` and each `/chapters/<slug>` over HTTP and verify status 200
+- [x] 4.1 Run `pnpm check` and verify 0 errors
+- [x] 4.2 Run `pnpm build` and verify prerender succeeds for `/` and all six chapter + embed routes
+- [x] 4.3 Hit `/` and each `/chapters/<slug>` over HTTP and verify status 200
 
 ## 5. Taste skills (GSAP kept)
 

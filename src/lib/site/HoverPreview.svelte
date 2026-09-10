@@ -18,7 +18,7 @@
 
 {#if open && still}
 	<div
-		class="flare-chrome card"
+		class="flare-chrome hover-card"
 		style:top="{y}px"
 		style:left="{x}px"
 		in:fly={{ y: 4, duration: 150 }}
@@ -33,7 +33,7 @@
 {/if}
 
 <style>
-	.card {
+	.hover-card {
 		position: fixed;
 		z-index: var(--z-hover);
 		width: 280px;

@@ -40,7 +40,7 @@
 		const cardW = 280;
 		const pad = 8;
 		let x = row.right + 12;
-		let y = row.top + row.height / 2 - cardH / 2;
+		let y = row.top;
 		y = Math.min(Math.max(pad, y), window.innerHeight - cardH - pad);
 		if (x + cardW > window.innerWidth - pad) {
 			x = Math.max(pad, row.left - cardW - 12);

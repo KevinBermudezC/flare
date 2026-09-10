@@ -41,8 +41,11 @@
 	}
 
 	.catalog {
+		position: relative;
+		z-index: 1;
 		scroll-margin-top: var(--nav-h);
 		border-top: 1px solid var(--color-hairline);
+		background: var(--color-ink);
 	}
 
 	ul {
