@@ -70,16 +70,25 @@
 				<p class="mission-lede">A gallery you preview and copy from. That is the whole product.</p>
 				<ul>
 					<li>
-						<strong>Gallery site</strong>
-						<span> - six scroll chapters, live at real height</span>
+						<span class="dot" aria-hidden="true"></span>
+						<div class="item">
+							<strong>Gallery site</strong>
+							<p>Six scroll chapters, live at real height.</p>
+						</div>
 					</li>
 					<li>
-						<strong>Preview + Copy</strong>
-						<span> - one click takes the whole <code>.svelte</code></span>
+						<span class="dot" aria-hidden="true"></span>
+						<div class="item">
+							<strong>Preview + Copy</strong>
+							<p>One click takes the whole <code>.svelte</code>.</p>
+						</div>
 					</li>
 					<li>
-						<strong>Not a design system</strong>
-						<span> - no kit, no registry, no shared Button</span>
+						<span class="dot" aria-hidden="true"></span>
+						<div class="item">
+							<strong>Not a design system</strong>
+							<p>No kit, no registry, no shared Button.</p>
+						</div>
 					</li>
 				</ul>
 			</section>
@@ -312,11 +321,10 @@
 		display: grid;
 		grid-template-columns: 0.5rem minmax(0, 1fr);
 		column-gap: 0.75rem;
-		align-items: baseline;
+		align-items: start;
 	}
 
-	.mission li::before {
-		content: '';
+	.mission .dot {
 		width: 5px;
 		height: 5px;
 		margin-top: 0.55rem;
@@ -324,9 +332,19 @@
 		background: var(--color-ember);
 	}
 
+	.mission .item {
+		min-width: 0;
+	}
+
 	.mission strong {
+		display: block;
 		font-weight: 600;
 		color: var(--color-paper);
+	}
+
+	.mission .item p {
+		margin: 0.2rem 0 0;
+		color: #c4bbb0;
 	}
 
 	.notes p {
