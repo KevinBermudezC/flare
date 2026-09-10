@@ -313,7 +313,7 @@
 		display: flex;
 		justify-content: center;
 		overflow-x: auto;
-		background: #050507;
+		background: var(--color-card);
 		min-height: 100dvh;
 	}
 
@@ -324,9 +324,7 @@
 		height: 100dvh;
 		min-height: 100dvh;
 		margin: 0 auto;
-		border: 0;
-		border-left: 1px solid var(--color-hairline);
-		border-right: 1px solid var(--color-hairline);
+		border: 1px solid var(--color-hairline);
 		background: var(--color-ink);
 	}
 
