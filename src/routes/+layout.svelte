@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import favicon from '$lib/assets/favicon.svg';
-	import SiteHeader from '$lib/site/SiteHeader.svelte';
+	import SiteShell from '$lib/site/SiteShell.svelte';
 	import './layout.css';
 
 	let { children } = $props();
@@ -16,8 +16,7 @@
 {#if embed}
 	{@render children()}
 {:else}
-	<div class="relative min-h-dvh bg-[#09090b]">
-		<SiteHeader />
+	<SiteShell>
 		{@render children()}
-	</div>
+	</SiteShell>
 {/if}

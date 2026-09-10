@@ -41,6 +41,15 @@ export type BlockEntry = {
 	files: BlockFile[];
 };
 
+export const CHAPTER_STILLS: Record<ChapterSlug, string> = {
+	'split-masthead': '/stills/split-masthead.webp',
+	'type-charge': '/stills/type-charge.webp',
+	'lane-scrub': '/stills/lane-scrub.webp',
+	'chapter-pin': '/stills/chapter-pin.webp',
+	'mask-reveal': '/stills/mask-reveal.webp',
+	'deck-pin': '/stills/deck-pin.webp'
+};
+
 export const blocks: BlockEntry[] = [
 	{
 		slug: 'split-masthead',

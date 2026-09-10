@@ -7,6 +7,6 @@
 	<h1 class="font-display mt-3 text-3xl font-semibold tracking-tight">This page is not a chapter.</h1>
 	<p class="mt-3 text-[#a59c91]">{page.error?.message ?? 'Nothing here.'}</p>
 	<p class="mt-8">
-		<a href="/" class="text-[#f5f0ea] underline underline-offset-4">Back to the gallery</a>
+		<a href="/" class="text-[#f5f0ea] underline underline-offset-4">Back to Flare</a>
 	</p>
 </main>

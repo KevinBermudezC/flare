@@ -8,12 +8,6 @@ export const entries: EntryGenerator = () => {
 
 export const load: PageLoad = ({ params }) => {
 	const block = getBlock(params.slug);
-	if (!block) error(404, 'Unknown block');
-
-	return {
-		slug: block.slug,
-		name: block.name,
-		tagline: block.tagline,
-		extraDep: block.extraDep
-	};
+	if (!block) error(404, 'Unknown chapter');
+	return { slug: block.slug, name: block.name };
 };

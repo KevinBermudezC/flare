@@ -13,7 +13,7 @@ See proposal.md. Recorte 1 is six scroll chapters, not a mixed marketing kit. Ea
 - `prefers-reduced-motion` freezes to a readable static layout. Content stays.
 - Gallery isolation so one chapter cannot clobber another on the home catalog.
 - Copy UI dumps the real file bytes (`?raw`).
-- Home is a product landing: at most three live chapter mounts (hero chapter, then up to two more), then a compact text index.
+- Home is a framed product landing: live type-charge (word FLARE) inset in the shell, then a six-card still catalog.
 
 **Non-Goals:**
 
@@ -29,9 +29,9 @@ See proposal.md. Recorte 1 is six scroll chapters, not a mixed marketing kit. Ea
 
 The gallery imports chapters for preview. The copyable contract is the folder, not `$lib`. Site helpers MUST NOT be imported from a chapter.
 
-### Home mounts featured chapters live; the embed route stays chrome-free
+### Home mounts TypeCharge inset; chapter pages live at `/chapters/[slug]`
 
-Home mounts at most three live chapters from `src/blocks/` at real height. The first viewport is a real chapter (type-charge with FLARE). The compact index is text. `/blocks/[slug]/embed` stays available as a chrome-free mount and is not used as a 200px home thumb.
+Home wraps type-charge (word FLARE) inset in the SiteShell frame, then a six-card still catalog. `/chapters/[slug]/embed` stays available as a chrome-free mount and is not used as a home thumb. Chapter pages at `/chapters/[slug]` use a ChapterNav rail with still HoverPreview on fine pointer (CSS only; never a live GSAP/iframe mount).
 
 ### Motion lives in the copied file
 
@@ -61,7 +61,7 @@ Amend `establish-flare-gallery`. Archive after merge.
 
 ## Risks / Trade-offs
 
-- **[Risk]** Pin inside a short iframe feels clipped. → **Mitigation**: home does not use short iframes; featured chapters and `/blocks/[slug]` mount at `min-height: 100dvh`.
+- **[Risk]** Pin inside a short iframe feels clipped. → **Mitigation**: home does not use short iframes; chapter pages at `/chapters/[slug]` mount at `min-height: 100dvh`.
 - **[Risk]** `overflow: hidden` on the detail wrapper kills pin spacers. → **Mitigation**: the live chapter is full-bleed, not clipped.
 - **[Trade-off]** GSAP setup is duplicated in six files. That is the independence rule.
 

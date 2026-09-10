@@ -18,36 +18,36 @@ The repository README MUST name the product Flare, tell a stranger to run `pnpm 
 
 ### Requirement: Home is a product landing
 
-The home page MUST mount at most three live chapters from `src/blocks/`, never all six. The first viewport MUST be a real chapter at full height (type-charge with word FLARE, or split-masthead with Flare words), not a fake marketing section. It MAY then mount at most two more chapters at real height (lane-scrub plus one of chapter-pin, mask-reveal, or deck-pin). It MUST then list all six chapters as a compact text index (name, one line, link) with no further live mounts and no 200px iframes. Demo copy on the landing MUST use Flare voice (ink, ember, preview, copy), not placeholder words such as CHARGE or Harbor.
+The home page MUST wrap a live type-charge chapter (word FLARE) inset in the SiteShell frame. It MUST then list all six chapters as a still-image catalog (name, one-line tagline, SCROLL chip) linking each to `/chapters/<slug>`. It MUST NOT mount lane-scrub or mask-reveal as loose full-viewport stages outside the frame. It MUST NOT use 200px live iframes as thumbs. Demo copy on the landing MUST use Flare voice (ink, ember, preview, copy), not placeholder words such as CHARGE or Harbor.
 
-#### Scenario: Landing is three live chapters
+#### Scenario: Landing is framed TypeCharge plus catalog
 
 - **WHEN** a visitor opens `/`
-- **THEN** the first screen is a live type-charge (or split-masthead) chapter at real height
-- **AND** they can scroll at most two more live chapters at real height
-- **AND** the page mounts three or fewer chapter components
-- **AND** a compact index names all six slugs and links each to `/blocks/<slug>`
+- **THEN** the first chapter they meet is a live type-charge (word FLARE) inset in the shell frame
+- **AND** they can open all six chapters from a still catalog
+- **AND** the page mounts one live chapter component
+- **AND** each catalog card links to `/chapters/<slug>`
 
 #### Scenario: Home does not stamp pin chapters
 
 - **WHEN** a visitor watches the home page
 - **THEN** they do not see a 200px iframe grid of the six chapters
 - **AND** they do not see a fake marketing hero in place of a chapter
-- **AND** featured chapters are live mounts of `src/blocks/*`
+- **AND** catalog thumbs are still images, not live GSAP mounts
 
 ### Requirement: Chapter page is one demo plus copy and edit
 
-Each chapter page MUST show the chapter title, one-line tagline, and `extraDep` (`pnpm add gsap`). It MUST mount the live chapter exactly once in a full-width stage tall enough for the gesture (`min-height: 100dvh` for pin and scrub). It MUST then expose the source of every copyable `.svelte` file, with a control that copies the source to the clipboard, and a small edit panel of two to four knobs that change that same live instance. The page MUST NOT mount the chapter a second time (no iframe plus live, no catalog of thumbs of the same slug). A left rail of the six names MAY stay as text navigation.
+Each chapter page MUST live at `/chapters/[slug]`. It MUST show a breadcrumb `FLARE / Chapters / {slug}`, the chapter title, one-line tagline, and `extraDep` (`pnpm add gsap`). It MUST mount the live chapter exactly once in a full-width stage tall enough for the gesture (`min-height: 100dvh` for pin and scrub). It MUST then expose the source of every copyable `.svelte` file, with a control that copies the source to the clipboard, and a small edit panel of two to four knobs that change that same live instance. The page MUST NOT mount the chapter a second time (no iframe plus live, no catalog of thumbs of the same slug). A left rail of the six slugs MAY stay as text navigation. That rail MAY show a still HoverPreview on fine pointer; it MUST NOT mount a live chapter or iframe in the preview.
 
 #### Scenario: Copy is the real file
 
-- **WHEN** a visitor opens `/blocks/split-masthead` and copies the source
+- **WHEN** a visitor opens `/chapters/split-masthead` and copies the source
 - **THEN** the clipboard contains the contents of `src/blocks/split-masthead/SplitMasthead.svelte`
 - **AND** the same page shows the live masthead exactly once
 
 #### Scenario: Knobs bind the live instance
 
-- **WHEN** a visitor changes a title, accent, or reduced-motion knob on `/blocks/type-charge`
+- **WHEN** a visitor changes a title, accent, or reduced-motion knob on `/chapters/type-charge`
 - **THEN** the single live mount updates
 - **AND** a second copy of the chapter is not mounted
 

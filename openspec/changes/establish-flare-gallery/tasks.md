@@ -17,8 +17,8 @@
 
 ## 3. Gallery site
 
-- [x] 3.1 Home mounts at most three live chapters (type-charge with FLARE, lane-scrub, mask-reveal) plus a compact six-slug index
-- [x] 3.2 `/blocks/[slug]` mounts the chapter once, then copy plus edit knobs, and verify `?raw` copy
+- [x] 3.1 Home mounts TypeCharge (word FLARE) inset in SiteShell plus a six-card still catalog
+- [x] 3.2 `/chapters/[slug]` mounts the chapter once, then copy plus edit knobs, and verify `?raw` copy
 - [x] 3.3 Embed route stays chrome-free
 - [x] 3.4 Voice names Flare only and verify README, `package.json`, home, and meta
 
@@ -26,7 +26,7 @@
 
 - [ ] 4.1 Run `pnpm check` and verify 0 errors
 - [ ] 4.2 Run `pnpm build` and verify prerender succeeds for `/` and all six chapter + embed routes
-- [ ] 4.3 Hit `/` and each `/blocks/<slug>` over HTTP and verify status 200
+- [ ] 4.3 Hit `/` and each `/chapters/<slug>` over HTTP and verify status 200
 
 ## 5. Taste skills (GSAP kept)
 
@@ -40,6 +40,7 @@
 - [x] 6.2 Honor prefers-reduced-motion on chrome and verify layout does not collapse
 - [x] 6.3 Keep Flare voice in chrome and verify home + chapter titles
 - [x] 6.4 Display is Unbounded. Body is IBM Plex Sans. IBM Plex Mono is HUD, code, and meta only.
+- [x] 6.5 Docs-shell hover preview on ChapterNav (stills only, fine pointer)
 
 ## 7. CI/CD
 

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
-	import { blocks, editFieldLabel, getBlock } from '$lib/catalog';
+	import { editFieldLabel, getBlock } from '$lib/catalog';
+	import ChapterNav from '$lib/site/ChapterNav.svelte';
 	import CopyButton from '$lib/site/CopyButton.svelte';
 	import CopyPanel from '$lib/site/CopyPanel.svelte';
 	import ChapterPlayground, { type Accent } from '$lib/site/ChapterPlayground.svelte';
@@ -66,53 +67,38 @@
 </svelte:head>
 
 {#if block && primary}
-	<div class="flex min-h-[calc(100dvh-52px)] bg-[#09090b]">
-		<aside
-			class="sticky top-[52px] hidden h-[calc(100dvh-52px)] w-52 shrink-0 flex-col border-r border-white/8 px-3 py-5 lg:flex"
-		>
-			<p class="px-2 font-mono text-[10px] tracking-[0.18em] text-[#8b8278] uppercase">Chapters</p>
-			<nav class="mt-3 flex flex-col gap-1">
-				{#each blocks as item (item.slug)}
-					<a
-						href="/blocks/{item.slug}"
-						class="rounded-[12px] px-2 py-1.5 text-[13px] {item.slug === block.slug
-							? 'text-[#ff5a1f]'
-							: 'text-[#c4bbb0] hover:text-[#f5f0ea]'}"
-					>
-						{item.name}
-					</a>
-				{/each}
-			</nav>
-		</aside>
+	<div class="layout">
+		<ChapterNav current={block.slug} />
 
-		<div class="min-w-0 flex-1">
-			<header class="border-b border-white/8 px-4 py-6 sm:px-6">
-				<h1 class="font-display text-[clamp(2rem,4vw,3.25rem)] leading-[0.95] font-semibold tracking-tight">
-					{block.name}
-				</h1>
-				<p class="mt-2 max-w-xl text-[#a59c91]">{block.tagline}</p>
-				<p class="mt-3 font-mono text-[12px] text-[#8b8278]">Needs {block.extraDep}</p>
+		<div class="main">
+			<header class="head">
+				<p class="crumb">
+					<a href="/">FLARE</a>
+					<span>/</span>
+					<a href="/#chapters">Chapters</a>
+					<span>/</span>
+					<span class="here">{block.slug}</span>
+				</p>
+				<h1>{block.slug}</h1>
+				<p class="tagline">{block.tagline}</p>
+				<p class="need">Needs {block.extraDep}</p>
 			</header>
 
-			<div
-				class="flare-chrome sticky top-[52px] z-40 flex h-[52px] flex-wrap items-center gap-2 border-b border-white/8 bg-[#09090b] px-3 sm:gap-3 sm:px-4"
-			>
-				<div class="flex rounded-[12px] border border-white/8 p-0.5">
+			<div class="flare-chrome bar">
+				<div class="group">
 					<button
 						type="button"
 						onclick={() => setMode('preview')}
-						class="rounded-[10px] px-2.5 py-1 font-mono text-[11px] {mode === 'preview'
-							? 'bg-[#ff5a1f] text-[#1a0703]'
-							: 'text-[#c4bbb0]'}"
+						class="tab"
+						class:on={mode === 'preview'}
 					>
 						Preview
 					</button>
 					<button
 						type="button"
 						onclick={() => setMode('code')}
-						class="rounded-[10px] px-2.5 py-1 font-mono text-[11px] {mode === 'code'
-							? 'bg-[#ff5a1f] text-[#1a0703]'
-							: 'text-[#c4bbb0]'}"
+						class="tab"
+						class:on={mode === 'code'}
 					>
 						Code
 					</button>
@@ -122,24 +108,23 @@
 					onclick={() => {
 						replay += 1;
 					}}
-					class="rounded-[12px] border border-white/12 px-2.5 py-1 font-mono text-[11px] text-[#c4bbb0] hover:text-[#f5f0ea]"
+					class="ghost"
 				>
 					Replay
 				</button>
-				<div class="flex rounded-[12px] border border-white/8 p-0.5">
+				<div class="group">
 					{#each [1440, 768, 390] as size (size)}
 						<button
 							type="button"
 							onclick={() => setViewport(size as Viewport)}
-							class="rounded-[10px] px-2 py-1 font-mono text-[11px] {viewport === size
-								? 'text-[#ff5a1f]'
-								: 'text-[#8b8278] hover:text-[#f5f0ea]'}"
+							class="size"
+							class:on={viewport === size}
 						>
 							{size}
 						</button>
 					{/each}
 				</div>
-				<div class="ml-auto">
+				<div class="copy">
 					<CopyButton source={primary.source} label="Copy" />
 				</div>
 			</div>
@@ -189,9 +174,147 @@
 {/if}
 
 <style>
+	.layout {
+		display: flex;
+		min-height: calc(100dvh - var(--nav-h));
+		background: var(--color-ink);
+	}
+
+	.main {
+		min-width: 0;
+		flex: 1;
+	}
+
+	.head {
+		padding: 1.5rem 1rem 1.25rem;
+		border-bottom: 1px solid var(--color-hairline);
+	}
+
+	.crumb {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem;
+		margin: 0 0 1rem;
+		font-family: var(--font-mono);
+		font-size: 11px;
+		letter-spacing: 0.04em;
+		color: #8b8278;
+	}
+
+	.crumb a {
+		color: #c4bbb0;
+		text-decoration: none;
+	}
+
+	.crumb a:hover,
+	.crumb a:focus-visible {
+		color: var(--color-ember);
+	}
+
+	.crumb a:focus-visible,
+	.tab:focus-visible,
+	.ghost:focus-visible,
+	.size:focus-visible {
+		outline: 2px solid var(--color-ember);
+		outline-offset: 2px;
+	}
+
+	.here {
+		color: var(--color-ember);
+	}
+
+	h1 {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: clamp(2rem, 4vw, 3.25rem);
+		font-weight: 600;
+		line-height: 0.95;
+		letter-spacing: -0.04em;
+	}
+
+	.tagline {
+		margin: 0.7rem 0 0;
+		max-width: 36rem;
+		color: #a59c91;
+	}
+
+	.need {
+		margin: 0.7rem 0 0;
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: #8b8278;
+	}
+
+	.bar {
+		position: sticky;
+		top: var(--nav-h);
+		z-index: 30;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.5rem 0.75rem;
+		height: auto;
+		min-height: var(--nav-h);
+		padding: 0.45rem 0.75rem;
+		border-bottom: 1px solid var(--color-hairline);
+		background: var(--color-ink);
+	}
+
+	.group {
+		display: flex;
+		padding: 0.15rem;
+		border: 1px solid var(--color-hairline);
+		border-radius: 12px;
+	}
+
+	.tab,
+	.ghost,
+	.size {
+		border: 0;
+		background: transparent;
+		font-family: var(--font-mono);
+		font-size: 11px;
+		color: #c4bbb0;
+	}
+
+	.tab,
+	.ghost {
+		border-radius: 10px;
+		padding: 0.35rem 0.65rem;
+	}
+
+	.ghost {
+		border: 1px solid rgba(245, 240, 234, 0.12);
+		border-radius: 12px;
+	}
+
+	.size {
+		border-radius: 10px;
+		padding: 0.35rem 0.5rem;
+		color: #8b8278;
+	}
+
+	.tab.on {
+		background: var(--color-ember);
+		color: #1a0703;
+	}
+
+	.size.on {
+		color: var(--color-ember);
+	}
+
+	.ghost:hover,
+	.size:hover {
+		color: var(--color-paper);
+	}
+
+	.copy {
+		margin-left: auto;
+	}
+
 	.stage-wrap {
 		overflow-x: auto;
-		background: #09090b;
+		background: var(--color-ink);
 	}
 
 	.stage {
@@ -203,7 +326,7 @@
 		display: grid;
 		gap: 1.5rem;
 		padding: 1.5rem 1rem 3rem;
-		border-top: 1px solid rgba(245, 240, 234, 0.08);
+		border-top: 1px solid var(--color-hairline);
 	}
 
 	.edit {
@@ -211,9 +334,9 @@
 		gap: 1rem;
 		max-width: 28rem;
 		padding: 1rem 1.1rem 1.15rem;
-		border: 1px solid rgba(245, 240, 234, 0.08);
+		border: 1px solid var(--color-hairline);
 		border-radius: 12px;
-		background: #111113;
+		background: var(--color-card);
 	}
 
 	.edit-kicker {
@@ -241,13 +364,13 @@
 	.field input {
 		border: 1px solid rgba(245, 240, 234, 0.12);
 		border-radius: 12px;
-		background: #09090b;
+		background: var(--color-ink);
 		padding: 0.65rem 0.75rem;
 		font-family: var(--font-sans);
 		font-size: 15px;
 		letter-spacing: 0;
 		text-transform: none;
-		color: #f5f0ea;
+		color: var(--color-paper);
 	}
 
 	.pills {
@@ -266,8 +389,8 @@
 	}
 
 	.pills button.on {
-		background: #ff5a1f;
-		border-color: #ff5a1f;
+		background: var(--color-ember);
+		border-color: var(--color-ember);
 		color: #1a0703;
 	}
 
@@ -281,8 +404,16 @@
 	}
 
 	@media (min-width: 900px) {
+		.head {
+			padding: 2rem 1.5rem 1.5rem;
+		}
+
 		.docs {
 			padding: 2rem 1.5rem 4rem;
+		}
+
+		.bar {
+			padding: 0.45rem 1rem;
 		}
 	}
 </style>
