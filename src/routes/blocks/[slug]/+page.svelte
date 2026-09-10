@@ -87,7 +87,7 @@
 
 		<div class="min-w-0 flex-1">
 			<header class="border-b border-white/8 px-4 py-6 sm:px-6">
-				<h1 class="text-[clamp(2rem,4vw,3.25rem)] leading-[0.95] font-semibold tracking-tight">
+				<h1 class="font-display text-[clamp(2rem,4vw,3.25rem)] leading-[0.95] font-semibold tracking-tight">
 					{block.name}
 				</h1>
 				<p class="mt-2 max-w-xl text-[#a59c91]">{block.tagline}</p>

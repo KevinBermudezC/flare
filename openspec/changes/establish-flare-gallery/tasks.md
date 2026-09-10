@@ -39,6 +39,7 @@
 - [x] 6.1 Landing and chapter docs are preview-first with one-click copy and real-height stages
 - [x] 6.2 Honor prefers-reduced-motion on chrome and verify layout does not collapse
 - [x] 6.3 Keep Flare voice in chrome and verify home + chapter titles
+- [x] 6.4 Display is Unbounded. Body is IBM Plex Sans. IBM Plex Mono is HUD, code, and meta only.
 
 ## 7. CI/CD
 

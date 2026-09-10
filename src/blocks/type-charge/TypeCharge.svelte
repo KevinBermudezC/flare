@@ -1,7 +1,7 @@
 <!--
   Flare · type-charge
   Paste into a SvelteKit 5 + Tailwind v4 app. Needs: pnpm add gsap
-  Type: Bricolage Grotesque + IBM Plex Mono (host loads fontsource).
+  Type: Unbounded + IBM Plex Sans (host loads fontsource). IBM Plex Mono for HUD/meta.
 -->
 <script lang="ts">
 	import { gsap } from 'gsap';
@@ -99,7 +99,7 @@
 		overflow: hidden;
 		background: var(--ink);
 		color: var(--paper);
-		font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, sans-serif;
+		font-family: var(--font-display, 'Unbounded Variable', Unbounded, ui-sans-serif, sans-serif);
 	}
 
 	.charge.paper {

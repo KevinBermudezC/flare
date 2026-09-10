@@ -49,7 +49,7 @@ Skip the GSAP context. Keep the first-state layout and every word. Do not empty 
 
 ### Visual language is Flare
 
-Ink (`#09090b`, not `#000`), ember, spotlight, beams, console chrome. Bricolage Grotesque + IBM Plex Mono. No Inter, no purple mesh, no three equal cards, no neon glow, no em-dash garnish, no Jane Doe / Acme / Unleash.
+Ink (`#09090b`, not `#000`), ember, spotlight, beams, console chrome. Unbounded for display (wordmark, hero, chapter headlines). IBM Plex Sans for body and UI. IBM Plex Mono only for HUD ticks, code, and tiny ember uppercase meta. No Inter, no purple mesh, no three equal cards, no neon glow, no em-dash garnish, no Jane Doe / Acme / Unleash.
 
 ### OpenSpec lives in-repo; archive is a follow-up PR
 

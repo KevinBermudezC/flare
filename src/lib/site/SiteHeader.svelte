@@ -10,7 +10,7 @@
 		: 'sticky top-0'}"
 >
 	<div class="mx-auto flex h-[52px] max-w-[1400px] items-center justify-between gap-6 px-4 sm:px-6">
-		<a href="/" class="text-[15px] font-semibold tracking-tight text-[#f5f0ea]">Flare</a>
+		<a href="/" class="font-display text-[15px] font-semibold tracking-tight text-[#f5f0ea]">Flare</a>
 		<nav class="flex items-center gap-5">
 			<a
 				class="text-[13px] {onCatalog ? 'text-[#ff5a1f]' : 'text-[#c4bbb0] hover:text-[#f5f0ea]'}"

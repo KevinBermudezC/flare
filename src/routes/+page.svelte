@@ -73,6 +73,7 @@
 
 	.feature-bar h2 {
 		margin: 0;
+		font-family: var(--font-display);
 		font-size: clamp(1.6rem, 3vw, 2.4rem);
 		font-weight: 680;
 		letter-spacing: -0.04em;
@@ -80,14 +81,14 @@
 
 	.feature-bar p {
 		margin: 0.35rem 0 0;
-		font-family: var(--font-mono);
+		font-family: var(--font-body);
 		font-size: 13px;
 		color: #8b8278;
 	}
 
 	.feature-bar a {
 		flex-shrink: 0;
-		font-family: var(--font-mono);
+		font-family: var(--font-body);
 		font-size: 12px;
 		color: #ff5a1f;
 		text-decoration: none;
@@ -134,13 +135,14 @@
 	}
 
 	.index-name {
+		font-family: var(--font-display);
 		font-size: clamp(1.35rem, 2.4vw, 1.85rem);
 		font-weight: 640;
 		letter-spacing: -0.03em;
 	}
 
 	.index-line {
-		font-family: var(--font-mono);
+		font-family: var(--font-body);
 		font-size: 13px;
 		color: #8b8278;
 	}

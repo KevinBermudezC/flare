@@ -184,7 +184,7 @@ Pointer on the host element, CSS variables `--mx` `--my`, `radial-gradient` or `
 
 ## 4. Anti-slop (keep)
 
-- No Inter-default. Flare already uses Bricolage Grotesque + IBM Plex Mono. New work picks type with character, not the LLM default.
+- No Inter-default. Flare display is Unbounded. Body and UI are IBM Plex Sans. IBM Plex Mono stays on HUD ticks, code, and tiny ember uppercase meta. New work picks type with character, not the LLM default.
 - No AI-purple mesh heroes.
 - No 3 equal feature cards.
 - No neon glow default.

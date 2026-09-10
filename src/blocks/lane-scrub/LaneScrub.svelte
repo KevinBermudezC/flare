@@ -1,7 +1,7 @@
 <!--
   Flare · lane-scrub
   Paste into a SvelteKit 5 + Tailwind v4 app. Needs: pnpm add gsap
-  Type: Bricolage Grotesque + IBM Plex Mono (host loads fontsource).
+  Type: Unbounded + IBM Plex Sans (host loads fontsource). IBM Plex Mono for HUD/meta.
   Photo: pass photoSrc, or this picsum still.
 -->
 <script lang="ts">
@@ -166,7 +166,7 @@
 		overflow: hidden;
 		background: var(--ink);
 		color: var(--paper);
-		font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, sans-serif;
+		font-family: var(--font-display, 'Unbounded Variable', Unbounded, ui-sans-serif, sans-serif);
 	}
 
 	.lane.paper {
@@ -252,7 +252,7 @@
 	.body {
 		margin: 0;
 		max-width: 28rem;
-		font-family: 'IBM Plex Mono', ui-monospace, monospace;
+		font-family: var(--font-body, 'IBM Plex Sans', ui-sans-serif, sans-serif);
 		font-size: 12px;
 		line-height: 1.6;
 		color: #c4bbb0;
@@ -277,7 +277,7 @@
 	figcaption {
 		margin: 0.7rem 0 0;
 		max-width: 28rem;
-		font-family: 'IBM Plex Mono', ui-monospace, monospace;
+		font-family: var(--font-body, 'IBM Plex Sans', ui-sans-serif, sans-serif);
 		font-size: 12px;
 		line-height: 1.5;
 		color: #c4bbb0;
