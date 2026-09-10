@@ -77,4 +77,4 @@
 - [x] 9.8 Densify lane-scrub type/ember fields (hatch, corners, FIG, specimen). Visual pass of all six chapter embeds.
 - [x] 9.9 split-masthead: scale Flare/Preview/Copy to the rail (no hairline overflow). HUD 01–03 + progress. Rooms get FIG fields. Pin walk stays.
 - [x] 9.11 split-masthead enrich: ~38% rail, `clamp(2.25rem, 18cqi, 5rem)`, overflow hidden + padding-right ≥12px. HUD 01–03 + SPLIT + tick. Three FIG rooms. Pin intact.
-- [x] 9.10 HoverPreview portals to `body` at `--z-hover` (200) beside the hovered row. Clamp only to site nav / viewport — never `.bar`. No Replay button. Ember trail on fine pointers; never `cursor: none`.
+- [x] 9.10 HoverPreview portals to `body` at `--z-hover` (200) beside the hovered row. Clamp only to site nav / viewport — never `.bar`. No Replay button. Native OS cursor only.

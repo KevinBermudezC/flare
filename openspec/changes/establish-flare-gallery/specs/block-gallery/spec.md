@@ -84,13 +84,6 @@ Each chapter page MUST live at `/chapters/[slug]`. It MUST show a breadcrumb `FL
 - **AND** its top aligns with the hovered row, clamped only to the site nav / viewport
 - **AND** it MUST NOT use the chapter toolbar `.bar` as a vertical floor
 
-#### Scenario: Ember trail follows a fine pointer
-
-- **WHEN** a visitor uses a fine pointer with hover and motion allowed
-- **THEN** a soft ember ring may trail the pointer
-- **AND** the OS cursor MUST stay visible (`cursor: none` is forbidden)
-- **AND** reduced-motion or coarse/touch pointers keep the default cursor only
-
 #### Scenario: Split masthead follows the preview frame
 
 - **WHEN** a visitor clicks 390 on `/chapters/split-masthead` while the host window is 1440

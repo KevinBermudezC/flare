@@ -2,7 +2,6 @@
 	import { page } from '$app/state';
 	import { blocks } from '$lib/catalog';
 	import type { Snippet } from 'svelte';
-	import FlareCursor from './FlareCursor.svelte';
 
 	let { children }: { children: Snippet } = $props();
 
@@ -17,7 +16,6 @@
 </script>
 
 <div class="shell-page">
-	<FlareCursor />
 	<div class="shell-frame">
 		<header class="flare-chrome shell-nav">
 			<a href="/" class="brand">
