@@ -137,11 +137,25 @@
 						<figcaption>{panel.body}</figcaption>
 					</figure>
 				{:else}
-					<div class="field" class:hot={panel.kind === 'ember'} aria-hidden="true">
+					<div
+						class="field"
+						class:hot={panel.kind === 'ember'}
+						class:warm={panel.mark === 'EMBER'}
+						aria-hidden="true"
+					>
 						<span class="ghost">{panel.mark}</span>
 						<span class="wash"></span>
+						<span class="hatch"></span>
 						<span class="grid"></span>
 						<span class="ticks"></span>
+						<span class="corners"></span>
+						<span class="fig">FIG {panel.id}</span>
+						<span class="specimen">
+							<em>00</em>
+							<em>12</em>
+							<em>24</em>
+							<em>36</em>
+						</span>
 						{#if panel.kind === 'ember'}
 							<div class="ember-col">
 								{#each panels as step, n (step.id)}
@@ -261,43 +275,80 @@
 		min-height: 11rem;
 		margin: 0.85rem 0 0.95rem;
 		overflow: hidden;
-		border: 1px solid rgba(245, 240, 234, 0.12);
-		background: #101012;
+		border: 1px solid rgba(245, 240, 234, 0.16);
+		background:
+			linear-gradient(180deg, rgba(245, 240, 234, 0.03), transparent 28%),
+			#101012;
+	}
+
+	.field.warm {
+		border-color: color-mix(in oklab, var(--accent) 28%, rgba(245, 240, 234, 0.14));
 	}
 
 	.field.hot {
-		border-color: color-mix(in oklab, var(--accent) 42%, rgba(245, 240, 234, 0.12));
-		box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent) 18%, transparent);
+		border-color: color-mix(in oklab, var(--accent) 48%, rgba(245, 240, 234, 0.12));
+		box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent) 22%, transparent);
 	}
 
 	.ghost {
 		position: absolute;
 		z-index: 1;
-		right: 0.35rem;
-		bottom: -0.12em;
-		left: 0.45rem;
-		font-size: clamp(3.4rem, 12cqw, 6.4rem);
+		right: 0.2rem;
+		bottom: -0.08em;
+		left: 0.35rem;
+		font-size: clamp(3.8rem, 14cqw, 7rem);
 		font-weight: 760;
-		line-height: 0.78;
-		letter-spacing: -0.06em;
-		color: color-mix(in oklab, var(--paper) 12%, transparent);
+		line-height: 0.76;
+		letter-spacing: -0.07em;
+		color: color-mix(in oklab, var(--paper) 20%, transparent);
 		pointer-events: none;
 	}
 
+	.field.warm .ghost,
 	.field.hot .ghost {
-		color: color-mix(in oklab, var(--accent) 22%, transparent);
+		color: color-mix(in oklab, var(--accent) 34%, transparent);
 	}
 
 	.wash {
 		position: absolute;
-		inset: -18%;
+		inset: -22%;
 		background:
 			radial-gradient(
-				ellipse 70% 55% at 28% 62%,
-				color-mix(in oklab, var(--accent) 30%, transparent),
-				transparent 64%
+				ellipse 78% 58% at 24% 68%,
+				color-mix(in oklab, var(--accent) 38%, transparent),
+				transparent 62%
 			),
-			radial-gradient(circle at 88% 12%, color-mix(in oklab, var(--paper) 8%, transparent), transparent 28%);
+			radial-gradient(circle at 86% 10%, color-mix(in oklab, var(--paper) 12%, transparent), transparent 26%);
+	}
+
+	.field.warm .wash {
+		background:
+			radial-gradient(
+				ellipse 90% 70% at 70% 40%,
+				color-mix(in oklab, var(--accent) 46%, transparent),
+				transparent 58%
+			),
+			radial-gradient(circle at 12% 80%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 32%);
+	}
+
+	.hatch {
+		position: absolute;
+		inset: 0;
+		opacity: 0.55;
+		background: repeating-linear-gradient(
+			-18deg,
+			transparent 0 13px,
+			rgba(245, 240, 234, 0.045) 13px 14px
+		);
+	}
+
+	.field.warm .hatch,
+	.field.hot .hatch {
+		background: repeating-linear-gradient(
+			18deg,
+			transparent 0 11px,
+			color-mix(in oklab, var(--accent) 14%, transparent) 11px 12px
+		);
 	}
 
 	.grid {
@@ -306,30 +357,83 @@
 		background:
 			repeating-linear-gradient(
 				0deg,
-				transparent 0 22px,
-				rgba(245, 240, 234, 0.055) 22px 23px
+				transparent 0 18px,
+				rgba(245, 240, 234, 0.07) 18px 19px
 			),
 			repeating-linear-gradient(
 				90deg,
-				transparent 0 22px,
-				rgba(245, 240, 234, 0.04) 22px 23px
+				transparent 0 18px,
+				rgba(245, 240, 234, 0.05) 18px 19px
 			);
-		mask-image: linear-gradient(180deg, transparent, #000 16%, #000 84%, transparent);
+		mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
 	}
 
 	.ticks {
 		position: absolute;
-		top: 0.65rem;
-		right: 0.7rem;
-		bottom: 0.65rem;
-		width: 10px;
+		top: 0.55rem;
+		right: 0.6rem;
+		bottom: 0.55rem;
+		width: 12px;
 		background:
 			repeating-linear-gradient(
 				180deg,
 				var(--accent) 0 2px,
-				transparent 2px 14px
+				transparent 2px 10px
 			);
-		opacity: 0.7;
+		opacity: 0.8;
+	}
+
+	.corners {
+		position: absolute;
+		inset: 0.45rem;
+		border: 1px solid transparent;
+		background:
+			linear-gradient(var(--paper), var(--paper)) 0 0 / 12px 1px no-repeat,
+			linear-gradient(var(--paper), var(--paper)) 0 0 / 1px 12px no-repeat,
+			linear-gradient(var(--paper), var(--paper)) 100% 0 / 12px 1px no-repeat,
+			linear-gradient(var(--paper), var(--paper)) 100% 0 / 1px 12px no-repeat,
+			linear-gradient(var(--paper), var(--paper)) 0 100% / 12px 1px no-repeat,
+			linear-gradient(var(--paper), var(--paper)) 0 100% / 1px 12px no-repeat,
+			linear-gradient(var(--paper), var(--paper)) 100% 100% / 12px 1px no-repeat,
+			linear-gradient(var(--paper), var(--paper)) 100% 100% / 1px 12px no-repeat;
+		opacity: 0.35;
+		pointer-events: none;
+	}
+
+	.fig {
+		position: absolute;
+		z-index: 1;
+		top: 0.7rem;
+		left: 0.75rem;
+		font-family: 'IBM Plex Mono', ui-monospace, monospace;
+		font-size: 10px;
+		letter-spacing: 0.16em;
+		color: #8b8278;
+	}
+
+	.field.hot .fig,
+	.field.warm .fig {
+		color: color-mix(in oklab, var(--accent) 70%, #8b8278);
+	}
+
+	.specimen {
+		position: absolute;
+		z-index: 1;
+		top: 2.1rem;
+		left: 0.75rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		font-family: 'IBM Plex Mono', ui-monospace, monospace;
+		font-size: 10px;
+		letter-spacing: 0.12em;
+		color: rgba(245, 240, 234, 0.32);
+	}
+
+	.specimen em {
+		font-style: normal;
+		padding-bottom: 0.35rem;
+		border-bottom: 1px solid rgba(245, 240, 234, 0.12);
 	}
 
 	h2 {

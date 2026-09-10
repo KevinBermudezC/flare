@@ -2,7 +2,7 @@
   Flare · mask-reveal
   Paste into a SvelteKit 5 + Tailwind v4 app. Needs: pnpm add gsap
   Type: Unbounded + IBM Plex Sans (host loads fontsource). IBM Plex Mono for HUD/meta.
-  Media: pass mediaSrc, or this picsum still.
+  Media: pass mediaSrc (gallery uses /blocks/mask-yard.jpg).
 -->
 <script lang="ts">
 	import { gsap } from 'gsap';
@@ -16,7 +16,7 @@
 		headline = 'Preview. Copy.',
 		accent = 'ember',
 		reduceMotion = false,
-		mediaSrc = 'https://picsum.photos/id/1067/1920/1080'
+		mediaSrc = '/blocks/mask-yard.jpg'
 	}: {
 		headline?: string;
 		accent?: 'ember' | 'paper';
