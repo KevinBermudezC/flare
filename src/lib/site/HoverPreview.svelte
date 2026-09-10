@@ -44,7 +44,7 @@
 		out:fade={exit}
 		aria-hidden="true"
 	>
-		<img src={still} alt="" width="280" height="160" />
+		<img src={still} alt="" width="320" height="180" />
 		<div class="meta">
 			<span class="name">{name}</span>
 			<span class="kind">SCROLL</span>
@@ -56,7 +56,7 @@
 	.hover-card {
 		position: fixed;
 		z-index: var(--z-hover);
-		width: 280px;
+		width: 320px;
 		overflow: hidden;
 		pointer-events: none;
 		border: 1px solid var(--color-hairline);
@@ -67,8 +67,8 @@
 
 	img {
 		display: block;
-		width: 280px;
-		height: 160px;
+		width: 320px;
+		height: 180px;
 		object-fit: cover;
 		background: var(--color-ink);
 	}

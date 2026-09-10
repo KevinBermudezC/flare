@@ -5,9 +5,9 @@
 
 	let { current = null }: { current?: ChapterSlug | null } = $props();
 
-	const previewW = 280;
-	const previewH = 216;
-	const previewGap = 8;
+	const previewW = 320;
+	const previewH = 236;
+	const previewGap = 16;
 	const selected = $derived(current ?? 'introduction');
 
 	let allowHover = $state(false);
@@ -43,12 +43,17 @@
 
 	function place(el: HTMLElement, slug: ChapterSlug) {
 		const row = el.getBoundingClientRect();
-		const pad = 8;
-		let x = row.right + previewGap;
+		const rail = el.closest('.rail')?.getBoundingClientRect();
+		const nav = document.querySelector('.shell-nav')?.getBoundingClientRect();
+		const bar = document.querySelector('.bar')?.getBoundingClientRect();
+		const pad = 12;
+		const topClear = Math.max(pad, (nav?.bottom ?? 0) + 8, (bar?.bottom ?? 0) + 8);
+		const originRight = rail?.right ?? row.right;
+		let x = originRight + previewGap;
 		let y = row.top + row.height / 2 - previewH / 2;
-		y = Math.min(Math.max(pad, y), window.innerHeight - previewH - pad);
+		y = Math.min(Math.max(topClear, y), window.innerHeight - previewH - pad);
 		if (x + previewW > window.innerWidth - pad) {
-			x = Math.max(pad, row.left - previewW - previewGap);
+			x = Math.max(pad, (rail?.left ?? row.left) - previewW - previewGap);
 		}
 		cardX = x;
 		cardY = y;
@@ -184,6 +189,7 @@
 	.rail {
 		position: sticky;
 		top: var(--nav-h);
+		z-index: var(--z-hover);
 		display: none;
 		width: var(--sidebar-w);
 		height: calc(100dvh - var(--nav-h));

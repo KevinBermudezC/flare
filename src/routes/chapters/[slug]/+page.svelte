@@ -15,18 +15,15 @@
 
 	let mode = $state<Mode>('preview');
 	let viewport = $state<Viewport>(1440);
-	let replay = $state(0);
 	let title = $state('');
 	let accent = $state<Accent>('ember');
 	let reduceMotion = $state(false);
 
 	const embedSrc = $derived(
-		block
-			? chapterEmbedSrc(block.slug, { title, accent, reduceMotion, replay })
-			: ''
+		block ? chapterEmbedSrc(block.slug, { title, accent, reduceMotion }) : ''
 	);
 	const iframeKey = $derived(
-		`${block?.slug ?? ''}-${viewport}-${replay}-${title}-${accent}-${reduceMotion}`
+		`${block?.slug ?? ''}-${viewport}-${title}-${accent}-${reduceMotion}`
 	);
 
 	$effect.pre(() => {
@@ -35,7 +32,6 @@
 			title = next?.editDefault ?? '';
 			accent = 'ember';
 			reduceMotion = false;
-			replay = 0;
 			mode = 'preview';
 			viewport = 1440;
 		});
@@ -46,15 +42,6 @@
 		const target = next === 'code' ? 'chapter-code' : 'chapter-stage';
 		await tick();
 		document.getElementById(target)?.scrollIntoView({ block: 'start' });
-	}
-
-	async function replayChapter() {
-		replay += 1;
-		await tick();
-		const stage = document.getElementById('chapter-stage');
-		stage?.scrollIntoView({ block: 'start' });
-		const frame = stage?.querySelector('iframe');
-		frame?.contentWindow?.scrollTo(0, 0);
 	}
 
 	function onFrameLoad(event: Event) {
@@ -113,9 +100,6 @@
 						Code
 					</button>
 				</div>
-				<button type="button" onclick={replayChapter} class="ghost">
-					Replay
-				</button>
 				<div class="group">
 					{#each [1440, 768, 390] as size (size)}
 						<button
@@ -220,7 +204,6 @@
 
 	.crumb a:focus-visible,
 	.tab:focus-visible,
-	.ghost:focus-visible,
 	.size:focus-visible {
 		outline: 2px solid var(--color-ember);
 		outline-offset: 2px;
@@ -255,7 +238,7 @@
 	.bar {
 		position: sticky;
 		top: var(--nav-h);
-		z-index: 30;
+		z-index: var(--z-toolbar);
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
@@ -275,7 +258,6 @@
 	}
 
 	.tab,
-	.ghost,
 	.size {
 		border: 0;
 		background: transparent;
@@ -284,15 +266,9 @@
 		color: #c4bbb0;
 	}
 
-	.tab,
-	.ghost {
+	.tab {
 		border-radius: 10px;
 		padding: 0.35rem 0.65rem;
-	}
-
-	.ghost {
-		border: 1px solid rgba(245, 240, 234, 0.12);
-		border-radius: 12px;
 	}
 
 	.size {
@@ -310,7 +286,6 @@
 		color: var(--color-ember);
 	}
 
-	.ghost:hover,
 	.size:hover {
 		color: var(--color-paper);
 	}

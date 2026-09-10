@@ -23,14 +23,14 @@ export function chapterEmbedSrc(
 		title: string;
 		accent: Accent;
 		reduceMotion: boolean;
-		replay: number;
+		replay?: number;
 	}
 ): string {
 	const q = new URLSearchParams();
 	q.set('title', opts.title);
 	q.set('accent', opts.accent);
 	q.set('reduceMotion', opts.reduceMotion ? '1' : '0');
-	q.set('replay', String(opts.replay));
+	if (opts.replay) q.set('replay', String(opts.replay));
 	return `/chapters/${slug}/embed?${q.toString()}`;
 }
 
