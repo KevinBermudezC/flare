@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ChapterNav from '$lib/site/ChapterNav.svelte';
+
 </script>
 
 <svelte:head>
@@ -19,12 +20,81 @@
 			<h1>Introduction</h1>
 			<p class="pitch">Preview. Copy.</p>
 		</header>
+
 		<div class="body">
-			<p>
-				Flare is a Svelte 5 gallery of scroll chapters. Six chapters. Live preview. Copy the
-				<code>.svelte</code>. It is yours.
-			</p>
-			<p>Pin, scrub, kinetic type. Official gsap. Paste into a SvelteKit 5 + Tailwind v4 app.</p>
+			<div class="lede">
+				<p>
+					Flare is a Svelte 5 gallery of scroll chapters. Six chapters. Live preview. Copy the
+					whole <code>.svelte</code>. It is yours.
+				</p>
+				<p>
+					Open a chapter at real height. Pin and scrub read true. Official gsap where the gesture
+					earns it. Paste into a SvelteKit 5 + Tailwind v4 app.
+				</p>
+				<p>No kit. No registry. One file at a time.</p>
+			</div>
+
+			<section class="how" aria-labelledby="how-h">
+				<h2 id="how-h">How it works</h2>
+				<ol class="steps">
+					<li>
+						<div class="step-top">
+							<span class="n">01</span>
+							<img src="/brand/intro-01-preview.svg" alt="" width="28" height="28" />
+						</div>
+						<h3>Preview</h3>
+						<p>Live chapter canvas. Pin and scrub read true.</p>
+					</li>
+					<li>
+						<div class="step-top">
+							<span class="n">02</span>
+							<img src="/brand/intro-02-copy.svg" alt="" width="28" height="28" />
+						</div>
+						<h3>Copy</h3>
+						<p>One click. The whole <code>.svelte</code> file.</p>
+					</li>
+					<li>
+						<div class="step-top">
+							<span class="n">03</span>
+							<img src="/brand/intro-03-paste.svg" alt="" width="28" height="28" />
+						</div>
+						<h3>Paste</h3>
+						<p>Drop into SvelteKit 5 + Tailwind v4. Yours.</p>
+					</li>
+				</ol>
+			</section>
+
+			<div class="actions">
+				<a class="browse" href="/chapters/split-masthead">Browse chapters →</a>
+				<a class="catalog" href="/#chapters">Home catalog</a>
+			</div>
+
+			<section class="mission" aria-labelledby="is-h">
+				<h2 id="is-h">What Flare is</h2>
+				<p class="mission-lede">
+					A gallery of scroll chapters. Preview one. Copy the file. Leave the rest.
+				</p>
+				<ul>
+					<li>
+						<strong>Yours to keep</strong>
+						<span> - you own the copied <code>.svelte</code></span>
+					</li>
+					<li>
+						<strong>Scroll-first</strong>
+						<span> - chapters teach pin, scrub, kinetic type</span>
+					</li>
+					<li>
+						<strong>Modular</strong>
+						<span> - take one chapter, leave the rest</span>
+					</li>
+					<li>
+						<strong>Stack free</strong>
+						<span> - SvelteKit 5 + Tailwind v4 + official gsap</span>
+					</li>
+				</ul>
+			</section>
+
+			<p class="next">Next <a href="/chapters/split-masthead">split-masthead</a></p>
 		</div>
 	</article>
 </div>
@@ -64,11 +134,18 @@
 	}
 
 	.crumb a:hover,
-	.crumb a:focus-visible {
+	.crumb a:focus-visible,
+	.next a:hover,
+	.next a:focus-visible,
+	.catalog:hover,
+	.catalog:focus-visible {
 		color: var(--color-ember);
 	}
 
-	.crumb a:focus-visible {
+	.crumb a:focus-visible,
+	.browse:focus-visible,
+	.catalog:focus-visible,
+	.next a:focus-visible {
 		outline: 2px solid var(--color-ember);
 		outline-offset: 2px;
 	}
@@ -94,16 +171,24 @@
 
 	.body {
 		display: grid;
-		gap: 1rem;
-		max-width: 38rem;
-		padding: 1.5rem 1rem 3rem;
+		gap: 2.1rem;
+		max-width: 52rem;
+		padding: 1.5rem 1rem 3.25rem;
 		font-family: var(--font-body);
 		font-size: 16px;
 		line-height: 1.55;
 		color: #c4bbb0;
 	}
 
-	.body p {
+	.lede {
+		display: grid;
+		gap: 0.9rem;
+		max-width: 40rem;
+	}
+
+	.lede p,
+	.mission-lede,
+	.next {
 		margin: 0;
 	}
 
@@ -113,6 +198,162 @@
 		color: var(--color-paper);
 	}
 
+	h2 {
+		margin: 0 0 0.85rem;
+		font-family: var(--font-display);
+		font-size: clamp(1.35rem, 3vw, 1.7rem);
+		font-weight: 600;
+		letter-spacing: -0.03em;
+		color: var(--color-paper);
+	}
+
+	.steps {
+		display: grid;
+		gap: 0;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		border: 1px solid var(--color-hairline);
+		border-radius: 12px;
+		background: var(--color-card);
+		overflow: hidden;
+	}
+
+	.steps li {
+		display: grid;
+		gap: 0.4rem;
+		padding: 1.15rem 1.1rem 1.2rem;
+	}
+
+	.steps li + li {
+		border-top: 1px solid var(--color-hairline);
+	}
+
+	.step-top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
+	}
+
+	.n {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		letter-spacing: 0.14em;
+		color: var(--color-ember);
+	}
+
+	.steps img {
+		display: block;
+		width: 28px;
+		height: 28px;
+	}
+
+	.steps h3 {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: 1.15rem;
+		font-weight: 600;
+		letter-spacing: -0.03em;
+		color: var(--color-paper);
+	}
+
+	.steps p {
+		margin: 0;
+		font-size: 14px;
+		line-height: 1.5;
+		color: #8b8278;
+	}
+
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.85rem 1.15rem;
+	}
+
+	.browse {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 44px;
+		padding: 0 1.15rem;
+		border: 1px solid var(--color-ember);
+		border-radius: 999px;
+		font-size: 14px;
+		font-weight: 500;
+		color: var(--color-ember);
+		text-decoration: none;
+	}
+
+	.browse:hover {
+		background: color-mix(in oklab, var(--color-ember) 16%, transparent);
+	}
+
+	.catalog {
+		font-size: 14px;
+		color: #c4bbb0;
+		text-decoration: none;
+	}
+
+	.mission-lede {
+		margin-bottom: 1rem;
+		max-width: 38rem;
+	}
+
+	.mission ul {
+		display: grid;
+		gap: 0.7rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.mission li {
+		display: grid;
+		grid-template-columns: 0.5rem minmax(0, 1fr);
+		column-gap: 0.75rem;
+		align-items: baseline;
+	}
+
+	.mission li::before {
+		content: '';
+		width: 5px;
+		height: 5px;
+		margin-top: 0.55rem;
+		border-radius: 50%;
+		background: var(--color-ember);
+	}
+
+	.mission strong {
+		font-weight: 600;
+		color: var(--color-paper);
+	}
+
+	.next {
+		padding-top: 0.25rem;
+		font-family: var(--font-mono);
+		font-size: 12px;
+		letter-spacing: 0.04em;
+		color: #8b8278;
+	}
+
+	.next a {
+		color: var(--color-ember);
+		text-decoration: none;
+	}
+
+	@media (min-width: 768px) {
+		.steps {
+			grid-template-columns: 1fr 1fr 1fr;
+		}
+
+		.steps li + li {
+			border-top: 0;
+			border-left: 1px solid var(--color-hairline);
+		}
+	}
+
 	@media (min-width: 900px) {
 		.head {
 			padding: 2rem 1.5rem 1.5rem;
@@ -120,6 +361,7 @@
 
 		.body {
 			padding: 2rem 1.5rem 4rem;
+			gap: 2.4rem;
 		}
 	}
 </style>

@@ -39,12 +39,12 @@
 		background:
 			radial-gradient(
 				ellipse 54% 62% at 86% 64%,
-				color-mix(in oklab, var(--accent) 30%, transparent),
+				color-mix(in oklab, var(--accent) 46%, transparent),
 				transparent 68%
 			),
 			radial-gradient(
 				ellipse 36% 40% at 72% 28%,
-				color-mix(in oklab, var(--accent) 14%, transparent),
+				color-mix(in oklab, var(--accent) 24%, transparent),
 				transparent 58%
 			),
 			radial-gradient(circle at 12% 18%, color-mix(in oklab, var(--paper) 5%, transparent), transparent 26%);
@@ -72,7 +72,7 @@
 			linear-gradient(
 				114deg,
 				transparent 58%,
-				color-mix(in oklab, var(--accent) 12%, transparent) 66%,
+				color-mix(in oklab, var(--accent) 26%, transparent) 66%,
 				transparent 74%
 			),
 			linear-gradient(102deg, transparent 70%, rgba(245, 240, 234, 0.04) 76%, transparent 82%);

@@ -216,6 +216,7 @@
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
 		color: #8b8278;
+		pointer-events: none;
 	}
 
 	.row {

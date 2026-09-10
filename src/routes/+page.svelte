@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { CHAPTER_STILLS, blocks } from '$lib/catalog';
 	import HomeHero from '$lib/site/HomeHero.svelte';
+	import HomeInside from '$lib/site/HomeInside.svelte';
+	import HomeMotion from '$lib/site/HomeMotion.svelte';
 
 	const count = String(blocks.length).padStart(2, '0');
 
@@ -14,6 +16,8 @@
 </svelte:head>
 
 <HomeHero />
+<HomeInside />
+<HomeMotion />
 
 <section id="chapters" class="catalog" aria-label="Chapters">
 	<header class="kicker">
