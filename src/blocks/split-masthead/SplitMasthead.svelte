@@ -50,6 +50,28 @@
 	let active = $state(0);
 	let fills = $state([0, 0, 0]);
 
+	function unitFill(value: number): number {
+		if (!Number.isFinite(value) || value <= 0.001) return 0;
+		if (value >= 0.999) return 1;
+		return value;
+	}
+
+	function roomFills(count: number, index: number, progress: number): number[] {
+		const safeCount = Math.max(0, count);
+		const room = Math.max(0, Math.min(Math.max(safeCount - 1, 0), index));
+		const p = unitFill(progress);
+		return Array.from({ length: safeCount }, (_, idx) => {
+			if (idx < room) return 1;
+			if (idx === room) return p;
+			return 0;
+		});
+	}
+
+	function paintRoom(index: number, progress: number, count: number) {
+		active = count <= 0 ? 0 : Math.max(0, Math.min(count - 1, index));
+		fills = roomFills(count, active, progress);
+	}
+
 	$effect(() => {
 		const el = root;
 		const left = rail;
@@ -61,13 +83,28 @@
 
 		const run = () => {
 			if (cancelled || !root || !rail || !track) return;
-			if (forced || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-				active = 0;
-				fills = [1, 0, 0];
-				return;
-			}
+			const reduced = forced || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 			ctx = gsap.context(() => {
+				const steps = gsap.utils.toArray<HTMLElement>('.room');
+				const count = steps.length;
+				paintRoom(0, 0, count);
+
+				if (reduced) {
+					steps.forEach((step, i) => {
+						ScrollTrigger.create({
+							trigger: step,
+							start: 'top 45%',
+							end: 'bottom 45%',
+							invalidateOnRefresh: true,
+							onToggle: (self) => {
+								if (self.isActive) active = i;
+							}
+						});
+					});
+					return;
+				}
+
 				gsap.set('.word', { opacity: 1, x: 0, y: 0 });
 
 				const stacked = el.clientWidth <= 768;
@@ -82,26 +119,34 @@
 						invalidateOnRefresh: true,
 						onRefreshInit: () => {
 							gsap.set('.word', { opacity: 1, x: 0, y: 0 });
+						},
+						onUpdate: (self) => {
+							const walk = unitFill(self.progress);
+							if (walk <= 0) paintRoom(0, 0, count);
+							else if (walk >= 1) paintRoom(count - 1, 1, count);
 						}
 					});
 				}
 
-				const steps = gsap.utils.toArray<HTMLElement>('.room');
-				const count = steps.length;
 				steps.forEach((step, i) => {
 					ScrollTrigger.create({
 						trigger: step,
 						start: 'top 45%',
-						end: 'bottom 45%',
+						end: i === count - 1 ? 'max' : 'bottom 45%',
 						scrub: true,
 						invalidateOnRefresh: true,
 						onUpdate: (self) => {
-							active = i;
-							fills = Array.from({ length: count }, (_, idx) => {
-								if (idx < i) return 1;
-								if (idx === i) return self.progress;
-								return 0;
-							});
+							const atEnd =
+								i === count - 1 &&
+								(self.progress >= 0.999 ||
+									window.scrollY >= ScrollTrigger.maxScroll(window) - 2);
+							paintRoom(i, atEnd ? 1 : self.progress, count);
+						},
+						onLeave: (self) => {
+							if (self.direction > 0) paintRoom(i, 1, count);
+						},
+						onLeaveBack: (self) => {
+							if (self.direction < 0) paintRoom(i, 0, count);
 						}
 					});
 				});
@@ -134,7 +179,13 @@
 					{#each words as word, i (word + i)}
 						<p class="line" class:on={i === active}>
 							<span class="idx">{String(i + 1).padStart(2, '0')}</span>
-							<span class="word" style:--fill={fills[i] ?? 0}>
+							<span
+								class="word"
+								class:empty={unitFill(fills[i] ?? 0) === 0}
+								class:full={unitFill(fills[i] ?? 0) === 1}
+								data-fill={unitFill(fills[i] ?? 0)}
+								style:--fill={`${unitFill(fills[i] ?? 0) * 100}%`}
+							>
 								<span class="idle">{word}</span>
 								<span class="ember" aria-hidden="true">{word}</span>
 							</span>
@@ -309,11 +360,26 @@
 		left: 0;
 		color: var(--accent);
 		pointer-events: none;
-		clip-path: inset(calc((1 - var(--fill, 0)) * 100%) 0 0 0);
+	}
+
+	.idle {
+		clip-path: inset(0 0 var(--fill, 0%) 0);
+	}
+
+	.word.empty .ember {
+		visibility: hidden;
+	}
+
+	.word.full .idle {
+		visibility: hidden;
 	}
 
 	.mast.reduce .ember {
 		display: none;
+	}
+
+	.mast.reduce .idle {
+		clip-path: none;
 	}
 
 	.mast.reduce .line.on .idle {
@@ -568,6 +634,10 @@
 
 		.ember {
 			display: none;
+		}
+
+		.idle {
+			clip-path: none;
 		}
 
 		.line.on .idle {
