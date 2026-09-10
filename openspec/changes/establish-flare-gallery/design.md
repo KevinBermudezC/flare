@@ -13,7 +13,7 @@ See proposal.md. Recorte 1 is six scroll chapters, not a mixed marketing kit. Ea
 - `prefers-reduced-motion` freezes to a readable static layout. Content stays.
 - Gallery isolation so one chapter cannot clobber another on the home catalog.
 - Copy UI dumps the real file bytes (`?raw`).
-- Home is a framed product landing: live type-charge (word FLARE) inset in the shell, then a six-card still catalog.
+- Home is a framed product landing: live type-charge (word FLARE) inset in the shell, then a vertical chapter index (01-06), not an equal card grid.
 
 **Non-Goals:**
 
@@ -31,7 +31,7 @@ The gallery imports chapters for preview. The copyable contract is the folder, n
 
 ### Home mounts TypeCharge inset; chapter pages live at `/chapters/[slug]`
 
-Home wraps type-charge (word FLARE) inset in the SiteShell frame, then a six-card still catalog. `/chapters/[slug]/embed` stays available as a chrome-free mount and is not used as a home thumb. Chapter pages at `/chapters/[slug]` use a ChapterNav rail with still HoverPreview on fine pointer (CSS only; never a live GSAP/iframe mount).
+Home wraps type-charge (word FLARE) inset in the SiteShell frame, then a vertical chapter index. Each row is `01`-`06`, Unbounded title, one-line tagline, a still, and SCROLL. The whole row links to `/chapters/<slug>`. SiteShell carries a swap-friendly geometric mark beside the wordmark, favicon from `static/`, and a minimal footer (`with love <3`, Chapters, Portfolio, GitHub, MIT). `/chapters/[slug]/embed` stays available as a chrome-free mount and is not used as a home thumb. Chapter pages at `/chapters/[slug]` use a ChapterNav rail with still HoverPreview on fine pointer (CSS only; never a live GSAP/iframe mount). Escape closes the preview. Exit fade is about 100ms. The card is vertically centered on the row with an 8px gap.
 
 ### Motion lives in the copied file
 
@@ -49,7 +49,7 @@ Skip the GSAP context. Keep the first-state layout and every word. Do not empty 
 
 ### Visual language is Flare
 
-Ink (`#09090b`, not `#000`), ember, spotlight, beams, console chrome. Unbounded for display (wordmark, hero, chapter headlines). IBM Plex Sans for body and UI. IBM Plex Mono only for HUD ticks, code, and tiny ember uppercase meta. No Inter, no purple mesh, no three equal cards, no neon glow, no em-dash garnish, no Jane Doe / Acme / Unleash.
+Ink (`#09090b`, not `#000`), ember, spotlight, beams, console chrome. Unbounded for display (wordmark, hero, chapter headlines). IBM Plex Sans for body and UI. IBM Plex Mono only for HUD ticks, code, index numbers, and tiny ember uppercase meta. No Inter, no purple mesh, no three equal cards, no neon glow, no em-dash garnish, no Jane Doe / Acme / Unleash. Home `01`-`06` are the chapter index, not garnish eyebrows.
 
 ### OpenSpec lives in-repo; archive is a follow-up PR
 

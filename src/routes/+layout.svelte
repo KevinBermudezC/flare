@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import favicon from '$lib/assets/favicon.svg';
 	import SiteShell from '$lib/site/SiteShell.svelte';
 	import './layout.css';
 
@@ -9,7 +8,7 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+	<link rel="icon" href="/favicon.svg" />
 	<title>Flare</title>
 </svelte:head>
 

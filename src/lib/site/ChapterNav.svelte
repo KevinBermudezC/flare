@@ -4,12 +4,15 @@
 
 	let { current }: { current: ChapterSlug } = $props();
 
+	const previewW = 280;
+	const previewH = 216;
+	const previewGap = 8;
+
 	let allowHover = $state(false);
 	let hoverSlug = $state<ChapterSlug | null>(null);
 	let cardX = $state(0);
 	let cardY = $state(0);
 	let openTimer = 0;
-	let closeTimer = 0;
 
 	const hovered = $derived(blocks.find((block) => block.slug === hoverSlug));
 
@@ -30,42 +33,36 @@
 			fine.removeEventListener('change', sync);
 			reduce.removeEventListener('change', sync);
 			window.clearTimeout(openTimer);
-			window.clearTimeout(closeTimer);
 		};
 	});
 
 	function place(el: HTMLElement, slug: ChapterSlug) {
 		const row = el.getBoundingClientRect();
-		const cardH = 216;
-		const cardW = 280;
 		const pad = 8;
-		let x = row.right + 12;
-		let y = row.top;
-		y = Math.min(Math.max(pad, y), window.innerHeight - cardH - pad);
-		if (x + cardW > window.innerWidth - pad) {
-			x = Math.max(pad, row.left - cardW - 12);
+		let x = row.right + previewGap;
+		let y = row.top + row.height / 2 - previewH / 2;
+		y = Math.min(Math.max(pad, y), window.innerHeight - previewH - pad);
+		if (x + previewW > window.innerWidth - pad) {
+			x = Math.max(pad, row.left - previewW - previewGap);
 		}
 		cardX = x;
 		cardY = y;
 		hoverSlug = slug;
 	}
 
+	function closePreview() {
+		window.clearTimeout(openTimer);
+		hoverSlug = null;
+	}
+
 	function onEnter(slug: ChapterSlug, el: HTMLElement) {
 		if (slug === current || !allowHover) return;
-		window.clearTimeout(closeTimer);
 		window.clearTimeout(openTimer);
 		if (hoverSlug) {
 			place(el, slug);
 			return;
 		}
 		openTimer = window.setTimeout(() => place(el, slug), 280);
-	}
-
-	function onLeave() {
-		window.clearTimeout(openTimer);
-		closeTimer = window.setTimeout(() => {
-			hoverSlug = null;
-		}, 120);
 	}
 </script>
 
@@ -79,7 +76,7 @@
 				class:current={item.slug === current}
 				aria-current={item.slug === current ? 'page' : undefined}
 				onmouseenter={(event) => onEnter(item.slug, event.currentTarget)}
-				onmouseleave={onLeave}
+				onmouseleave={closePreview}
 			>
 				{item.slug}
 			</a>
@@ -91,6 +88,7 @@
 		still={hovered ? CHAPTER_STILLS[hovered.slug] : ''}
 		x={cardX}
 		y={cardY}
+		onclose={closePreview}
 	/>
 </aside>
 

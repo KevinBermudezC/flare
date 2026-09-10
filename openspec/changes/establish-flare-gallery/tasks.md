@@ -17,7 +17,7 @@
 
 ## 3. Gallery site
 
-- [x] 3.1 Home mounts TypeCharge (word FLARE) inset in SiteShell plus a six-card still catalog
+- [x] 3.1 Home mounts TypeCharge (word FLARE) inset in SiteShell plus a vertical chapter index
 - [x] 3.2 `/chapters/[slug]` mounts the chapter once, then copy plus edit knobs, and verify `?raw` copy
 - [x] 3.3 Embed route stays chrome-free
 - [x] 3.4 Voice names Flare only and verify README, `package.json`, home, and meta
@@ -46,3 +46,10 @@
 
 - [x] 7.1 `packageManager`, `.nvmrc` (Node 22), GitHub Actions (`frozen-lockfile`, check, build)
 - [x] 7.2 `@sveltejs/adapter-vercel`, `postcss@8.5.26`, README Vercel notes
+
+## 8. Home chrome polish
+
+- [x] 8.1 Home `#chapters` is a vertical index (`01`-`06`), not a 3x2 card grid
+- [x] 8.2 SiteShell footer: `with love <3`, Chapters, Portfolio, GitHub, MIT
+- [x] 8.3 Nav mark slot plus `static/brand/flare-mark.svg` and `/favicon.svg` (not F, not flame)
+- [x] 8.4 HoverPreview: ~100ms exit fade, Escape, vertical center, 8px gap

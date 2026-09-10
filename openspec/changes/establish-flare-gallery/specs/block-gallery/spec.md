@@ -18,15 +18,15 @@ The repository README MUST name the product Flare, tell a stranger to run `pnpm 
 
 ### Requirement: Home is a product landing
 
-The home page MUST wrap a live type-charge chapter (word FLARE) inset in the SiteShell frame. It MUST then list all six chapters as a still-image catalog (name, one-line tagline, SCROLL chip) linking each to `/chapters/<slug>`. It MUST NOT mount lane-scrub or mask-reveal as loose full-viewport stages outside the frame. It MUST NOT use 200px live iframes as thumbs. Demo copy on the landing MUST use Flare voice (ink, ember, preview, copy), not placeholder words such as CHARGE or Harbor.
+The home page MUST wrap a live type-charge chapter (word FLARE) inset in the SiteShell frame. It MUST then list all six chapters as a vertical still index (`#chapters`): kicker `CHAPTERS` plus a zero-padded count, rows `01`-`06`, Unbounded title, one-line tagline from `catalog.ts`, a still, and a SCROLL chip. The whole row MUST link to `/chapters/<slug>`. The catalog MUST NOT be an equal multi-column card grid. It MUST NOT mount lane-scrub or mask-reveal as loose full-viewport stages outside the frame. It MUST NOT use 200px live iframes as thumbs. Demo copy on the landing MUST use Flare voice (ink, ember, preview, copy), not placeholder words such as CHARGE or Harbor.
 
 #### Scenario: Landing is framed TypeCharge plus catalog
 
 - **WHEN** a visitor opens `/`
 - **THEN** the first chapter they meet is a live type-charge (word FLARE) inset in the shell frame
-- **AND** they can open all six chapters from a still catalog
+- **AND** they can open all six chapters from a vertical still index
 - **AND** the page mounts one live chapter component
-- **AND** each catalog card links to `/chapters/<slug>`
+- **AND** each index row links to `/chapters/<slug>`
 
 #### Scenario: Home does not stamp pin chapters
 
@@ -51,9 +51,20 @@ Each chapter page MUST live at `/chapters/[slug]`. It MUST show a breadcrumb `FL
 - **THEN** the single live mount updates
 - **AND** a second copy of the chapter is not mounted
 
+### Requirement: Site chrome has a mark, footer, and chapter index
+
+SiteShell MUST place a swap-friendly geometric mark beside the FLARE wordmark. The mark MUST NOT be the letter F and MUST NOT be a flame. Favicon MUST load from `/favicon.svg` under `static/`. The shell MUST end with a minimal footer: the line `with love <3`, plus links to Chapters (`/#chapters`), Portfolio (`https://kevinbermudez.vercel.app`), GitHub (`https://github.com/KevinBermudezC/flare`), and MIT. The footer MUST NOT name other products. HoverPreview on ChapterNav MUST fade out in about 100ms, close on Escape, sit vertically centered on the row, and keep an 8px gap.
+
+#### Scenario: Shell carries mark and footer
+
+- **WHEN** a visitor uses the framed site
+- **THEN** the header shows a geometric mark next to FLARE
+- **AND** the footer shows `with love <3` plus Chapters, Portfolio, GitHub, and MIT
+- **AND** they do not see other product names
+
 ### Requirement: Gallery chrome is not the copyable product
 
-Site header, catalog, and copy panel MAY live under `$lib`. Copyable chapters MUST NOT import them. The site MUST NOT ship auth, pricing, FAQ, a CLI, or a component registry.
+Site header, footer, catalog, and copy panel MAY live under `$lib`. Copyable chapters MUST NOT import them. The site MUST NOT ship auth, pricing, FAQ, a CLI, or a component registry.
 
 #### Scenario: Product surface is the gallery
 

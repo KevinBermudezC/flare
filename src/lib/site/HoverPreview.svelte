@@ -1,27 +1,47 @@
 <script lang="ts">
-	import { fly } from 'svelte/transition';
+	import { prefersReducedMotion } from 'svelte/motion';
+	import { fade, fly } from 'svelte/transition';
 
 	let {
 		open,
 		name,
 		still,
 		x,
-		y
+		y,
+		onclose
 	}: {
 		open: boolean;
 		name: string;
 		still: string;
 		x: number;
 		y: number;
+		onclose?: () => void;
 	} = $props();
+
+	const enter = $derived({
+		y: prefersReducedMotion.current ? 0 : 4,
+		duration: prefersReducedMotion.current ? 0 : 150
+	});
+	const exit = $derived({
+		duration: prefersReducedMotion.current ? 0 : 100
+	});
+
+	function onKeydown(event: KeyboardEvent) {
+		if (event.key === 'Escape' && open) {
+			onclose?.();
+		}
+	}
 </script>
+
+<svelte:window onkeydown={onKeydown} />
 
 {#if open && still}
 	<div
 		class="flare-chrome hover-card"
 		style:top="{y}px"
 		style:left="{x}px"
-		in:fly={{ y: 4, duration: 150 }}
+		in:fly={enter}
+		out:fade={exit}
 		aria-hidden="true"
 	>
 		<img src={still} alt="" width="280" height="160" />

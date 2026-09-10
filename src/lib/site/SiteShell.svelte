@@ -5,12 +5,17 @@
 	let { children }: { children: Snippet } = $props();
 
 	const onHome = $derived(page.url.pathname === '/');
+	const mark = '/brand/flare-mark.svg';
+	const loveMark = '<3';
 </script>
 
 <div class="shell-page">
 	<div class="shell-frame">
 		<header class="flare-chrome shell-nav">
-			<a href="/" class="wordmark">FLARE</a>
+			<a href="/" class="brand">
+				<img class="mark" src={mark} alt="" width="22" height="22" />
+				<span class="wordmark">FLARE</span>
+			</a>
 			<nav class="links" aria-label="Site">
 				<a class="item" class:on={onHome} href="/#chapters">Chapters</a>
 				<a class="item" href="https://github.com/KevinBermudezC/flare" rel="noreferrer">GitHub</a>
@@ -32,6 +37,17 @@
 		<div class="shell-body">
 			{@render children()}
 		</div>
+		<footer class="shell-foot">
+			<p class="sign">
+				with <span>love {loveMark}</span>
+			</p>
+			<nav aria-label="Footer">
+				<a href="/#chapters">Chapters</a>
+				<a href="https://kevinbermudez.vercel.app" rel="noreferrer">Portfolio</a>
+				<a href="https://github.com/KevinBermudezC/flare" rel="noreferrer">GitHub</a>
+				<a href="https://github.com/KevinBermudezC/flare/blob/main/LICENSE" rel="noreferrer">MIT</a>
+			</nav>
+		</footer>
 	</div>
 </div>
 
@@ -66,13 +82,28 @@
 		background: var(--color-ink);
 	}
 
+	.brand {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.55rem;
+		min-width: 0;
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.mark {
+		display: block;
+		width: 22px;
+		height: 22px;
+		flex-shrink: 0;
+	}
+
 	.wordmark {
 		font-family: var(--font-display);
 		font-size: 15px;
 		font-weight: 650;
 		letter-spacing: 0.04em;
 		color: var(--color-paper);
-		text-decoration: none;
 	}
 
 	.links {
@@ -98,8 +129,9 @@
 	}
 
 	.item:focus-visible,
-	.wordmark:focus-visible,
-	.ember:focus-visible {
+	.brand:focus-visible,
+	.ember:focus-visible,
+	.shell-foot a:focus-visible {
 		outline: 2px solid var(--color-ember);
 		outline-offset: 3px;
 	}
@@ -126,5 +158,56 @@
 	.flame {
 		width: 14px;
 		height: 14px;
+	}
+
+	.shell-foot {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.65rem 1.5rem;
+		padding: 0.95rem 1rem 1.05rem;
+		border-top: 1px solid var(--color-hairline);
+	}
+
+	.sign {
+		margin: 0;
+		font-family: var(--font-body);
+		font-size: 13px;
+		color: #8b8278;
+	}
+
+	.sign span {
+		color: var(--color-ember);
+	}
+
+	.shell-foot nav {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.85rem 1.15rem;
+	}
+
+	.shell-foot a {
+		font-family: var(--font-body);
+		font-size: 13px;
+		color: #c4bbb0;
+		text-decoration: none;
+	}
+
+	.shell-foot a:hover {
+		color: var(--color-paper);
+	}
+
+	@media (min-width: 768px) {
+		.shell-foot {
+			padding: 1rem 1.35rem 1.1rem;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.shell-foot {
+			padding: 1.05rem 1.6rem 1.15rem;
+		}
 	}
 </style>
