@@ -73,7 +73,15 @@ Each chapter page MUST live at `/chapters/[slug]`. It MUST show a breadcrumb `FL
 - **WHEN** a visitor clicks 1440, then 768, then 390 on `/chapters/lane-scrub`
 - **THEN** the Preview iframe width changes to each of those sizes (capped by the stage)
 - **AND** the chapter inside that iframe uses that width for `window` and ScrollTrigger
-- **AND** Replay remounts the iframe
+- **AND** lane-scrub pin width and scrub travel at 390 are not the host-window values (they follow the 390 frame)
+- **AND** the stage clips the iframe (no host overflow showing a wider pin)
+- **AND** Replay remounts the iframe and scrolls that frame to the top
+
+#### Scenario: Split masthead follows the preview frame
+
+- **WHEN** a visitor clicks 390 on `/chapters/split-masthead` while the host window is 1440
+- **THEN** the masthead stacks to one column (frame `@container` / `clientWidth`, not the host `window`)
+- **AND** Flare, Preview, and Copy stay visible
 
 ### Requirement: Site chrome has a mark, footer, and chapter index
 

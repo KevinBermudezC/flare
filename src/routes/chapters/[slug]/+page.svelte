@@ -48,6 +48,21 @@
 		document.getElementById(target)?.scrollIntoView({ block: 'start' });
 	}
 
+	async function replayChapter() {
+		replay += 1;
+		await tick();
+		const stage = document.getElementById('chapter-stage');
+		stage?.scrollIntoView({ block: 'start' });
+		const frame = stage?.querySelector('iframe');
+		frame?.contentWindow?.scrollTo(0, 0);
+	}
+
+	function onFrameLoad(event: Event) {
+		const frame = event.currentTarget;
+		if (!(frame instanceof HTMLIFrameElement)) return;
+		frame.contentWindow?.scrollTo(0, 0);
+	}
+
 	function setViewport(next: Viewport) {
 		viewport = next;
 	}
@@ -98,13 +113,7 @@
 						Code
 					</button>
 				</div>
-				<button
-					type="button"
-					onclick={() => {
-						replay += 1;
-					}}
-					class="ghost"
-				>
+				<button type="button" onclick={replayChapter} class="ghost">
 					Replay
 				</button>
 				<div class="group">
@@ -132,6 +141,7 @@
 							title="{block.name} at {viewport}"
 							src={embedSrc}
 							style:width={frameWidth(viewport)}
+							onload={onFrameLoad}
 						></iframe>
 					{/key}
 				</div>
@@ -312,7 +322,7 @@
 	.stage-wrap {
 		display: flex;
 		justify-content: center;
-		overflow-x: auto;
+		overflow: hidden;
 		background: var(--color-card);
 		min-height: 100dvh;
 	}
@@ -324,6 +334,7 @@
 		height: 100dvh;
 		min-height: 100dvh;
 		margin: 0 auto;
+		overflow: hidden;
 		border: 1px solid var(--color-hairline);
 		background: var(--color-ink);
 	}

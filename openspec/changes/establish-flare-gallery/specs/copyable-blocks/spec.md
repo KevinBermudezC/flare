@@ -71,6 +71,7 @@ Previews MUST pin, scrub, or charge type when the user does not prefer reduced m
 - **THEN** type and ember panels show a mid-field (ember wash, hairline grid, ticks, ghost mark) between the tag and the title
 - **AND** the photo panel is the only panel that uses a still
 - **AND** scrub travel is measured from the chapter frame, not a host `window`
+- **AND** panel widths are rem / container units, not host `vw`
 
 ### Requirement: Official gsap only as the extra dep
 

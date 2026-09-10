@@ -29,7 +29,7 @@
 			id: '01',
 			mark: (label.trim() || 'INK').toUpperCase(),
 			kind: 'type' as const,
-			width: '42vw',
+			width: '28rem',
 			title: label.trim() || 'INK',
 			body: 'Scroll down. The track pans sideways. Four beats, then it stops.'
 		},
@@ -37,7 +37,7 @@
 			id: '02',
 			mark: 'STILL',
 			kind: 'photo' as const,
-			width: '34vw',
+			width: '22rem',
 			title: 'Still',
 			body: 'A photographic lock. Not a box. The lane holds this frame while you scrub.'
 		},
@@ -45,7 +45,7 @@
 			id: '03',
 			mark: 'EMBER',
 			kind: 'type' as const,
-			width: '30vw',
+			width: '20rem',
 			title: 'Ember',
 			body: 'One line of heat. The scrub is a hard stop. It does not loop.'
 		},
@@ -53,7 +53,7 @@
 			id: '04',
 			mark: 'COPY',
 			kind: 'ember' as const,
-			width: '40vw',
+			width: '26rem',
 			title: 'Copy',
 			body: 'Copy the file after the scrub ends. The chapter is yours.'
 		}
@@ -175,6 +175,7 @@
 		--paper: #f5f0ea;
 		--accent: #ff5a1f;
 		--card: #111113;
+		container-type: inline-size;
 		position: relative;
 		min-height: 100dvh;
 		overflow: hidden;
@@ -275,7 +276,7 @@
 		right: 0.35rem;
 		bottom: -0.12em;
 		left: 0.45rem;
-		font-size: clamp(3.4rem, 12vw, 6.4rem);
+		font-size: clamp(3.4rem, 12cqw, 6.4rem);
 		font-weight: 760;
 		line-height: 0.78;
 		letter-spacing: -0.06em;
@@ -334,7 +335,7 @@
 	h2 {
 		margin: 0 0 0.55rem;
 		max-width: 12ch;
-		font-size: clamp(2rem, 4vw, 3.4rem);
+		font-size: clamp(2rem, 4cqw, 3.4rem);
 		font-weight: 720;
 		line-height: 0.92;
 		letter-spacing: -0.04em;

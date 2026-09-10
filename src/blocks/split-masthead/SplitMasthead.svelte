@@ -63,7 +63,7 @@
 			}
 
 			ctx = gsap.context(() => {
-				const stacked = window.matchMedia('(max-width: 768px)').matches;
+				const stacked = el.clientWidth <= 768;
 				if (!stacked) {
 					ScrollTrigger.create({
 						trigger: left,
@@ -137,6 +137,7 @@
 		--ink: #09090b;
 		--paper: #f5f0ea;
 		--accent: #ff5a1f;
+		container-type: inline-size;
 		background: var(--ink);
 		color: var(--paper);
 		font-family: var(--font-display, 'Unbounded Variable', Unbounded, ui-sans-serif, sans-serif);
@@ -237,7 +238,7 @@
 			#101012;
 	}
 
-	@media (max-width: 768px) {
+	@container (max-width: 768px) {
 		.shell {
 			grid-template-columns: 1fr;
 		}
