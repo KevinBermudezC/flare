@@ -23,7 +23,6 @@
 			</a>
 			<nav class="links" aria-label="Site">
 				<a class="item" class:on={onHome} href="/#chapters">Chapters</a>
-				<a class="item" href={github} rel="noreferrer">GitHub</a>
 				<a class="cta" href="/chapters/{firstSlug}">Open</a>
 			</nav>
 		</header>
@@ -42,11 +41,14 @@
 				<div class="cols">
 					<nav aria-label="Chapter index">
 						<p class="col-h">Chapters</p>
-						<a href="/#chapters">Chapters</a>
-						<a href={github} rel="noreferrer">GitHub</a>
+						<a href="/#chapters">Index</a>
+						{#each blocks as block (block.slug)}
+							<a href="/chapters/{block.slug}">{block.name}</a>
+						{/each}
 					</nav>
 					<nav aria-label="Project">
 						<p class="col-h">Project</p>
+						<a href={github} rel="noreferrer">GitHub</a>
 						<a href={portfolio} rel="noreferrer">Portfolio</a>
 						<a href={license} rel="noreferrer">MIT</a>
 					</nav>
@@ -67,18 +69,26 @@
 <style>
 	.shell-page {
 		min-height: 100dvh;
-		padding: var(--gutter);
+		padding-top: max(var(--gutter), env(safe-area-inset-top, 0px));
+		padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+		padding-bottom: max(var(--gutter), env(safe-area-inset-bottom, 0px));
+		padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
 		background: var(--color-ink);
 	}
 
 	.shell-frame {
 		max-width: var(--shell-max);
+		min-width: 0;
 		min-height: calc(100dvh - 2 * var(--gutter));
 		margin: 0 auto;
 		border: 1px solid var(--color-hairline);
-		border-radius: 12px;
+		border-radius: var(--frame-radius);
 		overflow: visible;
 		background: var(--color-ink);
+	}
+
+	.shell-body {
+		min-width: 0;
 	}
 
 	.shell-nav {
@@ -87,10 +97,11 @@
 		z-index: var(--z-nav);
 		display: flex;
 		height: var(--nav-h);
+		flex-wrap: nowrap;
 		align-items: center;
 		justify-content: space-between;
-		gap: 1.5rem;
-		padding: 0 1.25rem;
+		gap: 0.75rem;
+		padding: 0 1rem;
 		border-bottom: 1px solid var(--color-hairline);
 		background: var(--color-ink);
 	}
@@ -121,11 +132,15 @@
 
 	.links {
 		display: flex;
+		flex-shrink: 0;
 		align-items: center;
-		gap: 1.25rem;
+		gap: 1rem;
 	}
 
 	.item {
+		display: none;
+		min-height: 44px;
+		align-items: center;
 		font-family: var(--font-body);
 		font-size: 13px;
 		color: #c4bbb0;
@@ -170,12 +185,12 @@
 
 	.shell-foot {
 		border-top: 1px solid var(--color-hairline);
-		padding: 2.25rem 1rem 1.35rem;
+		padding: 2rem 1rem 1.25rem;
 	}
 
 	.foot-top {
 		display: grid;
-		gap: 2.25rem;
+		gap: 2rem;
 	}
 
 	.ident {
@@ -219,13 +234,15 @@
 	.cols {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		gap: 2rem 2.5rem;
+		gap: 1.5rem 1.75rem;
+		min-width: 0;
 	}
 
 	.shell-foot nav {
 		display: grid;
 		gap: 0.55rem;
 		align-content: start;
+		min-width: 0;
 	}
 
 	.col-h {
@@ -251,11 +268,10 @@
 
 	.foot-bar {
 		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.65rem 1.5rem;
-		margin-top: 2.25rem;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.45rem;
+		margin-top: 2rem;
 		padding-top: 1.15rem;
 		border-top: 1px solid var(--color-hairline);
 	}
@@ -284,27 +300,52 @@
 		color: var(--color-paper);
 	}
 
-	@media (min-width: 768px) {
+	@media (min-width: 480px) {
+		.item {
+			display: inline-flex;
+		}
+
+		.shell-nav {
+			gap: 1.25rem;
+			padding: 0 1.25rem;
+		}
+
+		.links {
+			gap: 1.25rem;
+		}
+	}
+
+	@media (min-width: 900px) {
 		.shell-foot {
-			padding: 2.75rem 1.35rem 1.5rem;
+			padding: 2.75rem 1.6rem 1.5rem;
 		}
 
 		.foot-top {
-			grid-template-columns: minmax(14rem, 1fr) auto;
+			grid-template-columns: minmax(16rem, 1fr) minmax(16rem, 1fr);
 			align-items: start;
-			justify-content: space-between;
 			gap: 3rem;
 		}
 
 		.cols {
-			min-width: 18rem;
-			gap: 2rem 3.5rem;
+			gap: 2rem 3rem;
+		}
+
+		.foot-bar {
+			flex-direction: row;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: space-between;
+			gap: 0.65rem 1.5rem;
 		}
 	}
 
-	@media (min-width: 1024px) {
+	@media (min-width: 1280px) {
 		.shell-foot {
-			padding: 3.25rem 1.6rem 1.7rem;
+			padding: 3.25rem 2rem 1.7rem;
+		}
+
+		.shell-nav {
+			padding: 0 2rem;
 		}
 	}
 </style>

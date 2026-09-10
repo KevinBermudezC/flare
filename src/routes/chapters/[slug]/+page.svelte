@@ -176,13 +176,14 @@
 <style>
 	.layout {
 		display: flex;
+		flex-wrap: wrap;
 		min-height: calc(100dvh - var(--nav-h));
 		background: var(--color-ink);
 	}
 
 	.main {
 		min-width: 0;
-		flex: 1;
+		flex: 1 1 16rem;
 	}
 
 	.head {

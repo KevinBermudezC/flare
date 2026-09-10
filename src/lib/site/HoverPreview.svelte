@@ -99,4 +99,10 @@
 		color: var(--color-ember);
 		text-transform: uppercase;
 	}
+
+	@media (hover: none), (pointer: coarse) {
+		.hover-card {
+			display: none;
+		}
+	}
 </style>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { blocks, CHAPTER_STILLS, type ChapterSlug } from '$lib/catalog';
 	import HoverPreview from './HoverPreview.svelte';
 
@@ -18,19 +19,22 @@
 
 	$effect(() => {
 		const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+		const coarse = window.matchMedia('(pointer: coarse)');
 		const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 		const sync = () => {
-			allowHover = fine.matches && !reduce.matches;
+			allowHover = fine.matches && !coarse.matches && !reduce.matches;
 			if (!allowHover) hoverSlug = null;
 		};
 
 		sync();
 		fine.addEventListener('change', sync);
+		coarse.addEventListener('change', sync);
 		reduce.addEventListener('change', sync);
 
 		return () => {
 			fine.removeEventListener('change', sync);
+			coarse.removeEventListener('change', sync);
 			reduce.removeEventListener('change', sync);
 			window.clearTimeout(openTimer);
 		};
@@ -64,35 +68,96 @@
 		}
 		openTimer = window.setTimeout(() => place(el, slug), 280);
 	}
+
+	function onSwitch(event: Event) {
+		const next = (event.currentTarget as HTMLSelectElement).value;
+		if (next && next !== current) {
+			void goto(`/chapters/${next}`);
+		}
+	}
 </script>
 
-<aside class="rail">
-	<p class="kicker">Chapters</p>
-	<nav aria-label="Chapters">
-		{#each blocks as item (item.slug)}
-			<a
-				href="/chapters/{item.slug}"
-				class="row"
-				class:current={item.slug === current}
-				aria-current={item.slug === current ? 'page' : undefined}
-				onmouseenter={(event) => onEnter(item.slug, event.currentTarget)}
-				onmouseleave={closePreview}
-			>
-				{item.slug}
-			</a>
-		{/each}
-	</nav>
-	<HoverPreview
-		open={Boolean(hovered)}
-		name={hovered?.name ?? ''}
-		still={hovered ? CHAPTER_STILLS[hovered.slug] : ''}
-		x={cardX}
-		y={cardY}
-		onclose={closePreview}
-	/>
-</aside>
+<div class="nav-stack">
+	<label class="switcher">
+		<span>Chapter</span>
+		<select value={current} onchange={onSwitch}>
+			{#each blocks as item (item.slug)}
+				<option value={item.slug}>{item.name}</option>
+			{/each}
+		</select>
+	</label>
+
+	<aside class="rail">
+		<p class="kicker">Chapters</p>
+		<nav aria-label="Chapters">
+			{#each blocks as item (item.slug)}
+				<a
+					href="/chapters/{item.slug}"
+					class="row"
+					class:current={item.slug === current}
+					aria-current={item.slug === current ? 'page' : undefined}
+					onmouseenter={(event) => onEnter(item.slug, event.currentTarget)}
+					onmouseleave={closePreview}
+				>
+					{item.slug}
+				</a>
+			{/each}
+		</nav>
+		{#if allowHover}
+			<HoverPreview
+				open={Boolean(hovered)}
+				name={hovered?.name ?? ''}
+				still={hovered ? CHAPTER_STILLS[hovered.slug] : ''}
+				x={cardX}
+				y={cardY}
+				onclose={closePreview}
+			/>
+		{/if}
+	</aside>
+</div>
 
 <style>
+	.nav-stack {
+		flex: 1 1 100%;
+		min-width: 0;
+	}
+
+	.switcher {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		min-height: 52px;
+		padding: 0.55rem 1rem;
+		border-bottom: 1px solid var(--color-hairline);
+		background: var(--color-ink);
+		font-family: var(--font-mono);
+		font-size: 11px;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: #8b8278;
+	}
+
+	select {
+		flex: 1;
+		min-width: 0;
+		min-height: 44px;
+		border: 1px solid var(--color-hairline);
+		border-radius: 12px;
+		background: var(--color-card);
+		padding: 0 0.75rem;
+		font-family: var(--font-display);
+		font-size: 14px;
+		font-weight: 600;
+		letter-spacing: -0.02em;
+		text-transform: none;
+		color: var(--color-paper);
+	}
+
+	select:focus-visible {
+		outline: 2px solid var(--color-ember);
+		outline-offset: 2px;
+	}
+
 	.rail {
 		position: sticky;
 		top: var(--nav-h);
@@ -148,6 +213,15 @@
 	}
 
 	@media (min-width: 1024px) {
+		.nav-stack {
+			flex: 0 0 auto;
+			display: contents;
+		}
+
+		.switcher {
+			display: none;
+		}
+
 		.rail {
 			display: flex;
 		}

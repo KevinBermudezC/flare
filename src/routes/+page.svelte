@@ -20,6 +20,11 @@
 		<h2>Chapters</h2>
 		<p>{count}</p>
 	</header>
+	<div class="cols-h" aria-hidden="true">
+		<span>Index</span>
+		<span>Title</span>
+		<span>Still</span>
+	</div>
 	<ol>
 		{#each blocks as block, index (block.slug)}
 			<li>
@@ -75,6 +80,10 @@
 		color: var(--color-ember);
 	}
 
+	.cols-h {
+		display: none;
+	}
+
 	ol {
 		margin: 0;
 		padding: 0;
@@ -88,8 +97,9 @@
 			'idx copy'
 			'aside aside';
 		align-items: start;
-		gap: 0.65rem 0.9rem;
-		padding: 1.15rem 1rem 1.2rem;
+		gap: 0.7rem 0.9rem;
+		min-height: 44px;
+		padding: 1.05rem 1rem 1.15rem;
 		border-top: 1px solid var(--color-hairline);
 		color: inherit;
 		text-decoration: none;
@@ -112,7 +122,7 @@
 	h3 {
 		margin: 0;
 		font-family: var(--font-display);
-		font-size: clamp(1.375rem, 4vw, 1.75rem);
+		font-size: clamp(1.25rem, 4vw, 1.75rem);
 		font-weight: 600;
 		line-height: 1.05;
 		letter-spacing: -0.04em;
@@ -122,40 +132,47 @@
 	}
 
 	.copy p {
+		display: -webkit-box;
 		margin: 0.35rem 0 0;
 		overflow: hidden;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
 		font-family: var(--font-body);
 		font-size: 13px;
-		line-height: 1.35;
+		line-height: 1.4;
 		color: #8b8278;
-		text-overflow: ellipsis;
-		white-space: nowrap;
+		white-space: normal;
 	}
 
 	.aside {
 		grid-area: aside;
 		display: flex;
-		align-items: center;
-		gap: 0.85rem;
+		min-width: 0;
+		flex-direction: column;
+		align-items: stretch;
+		gap: 0.5rem;
 	}
 
 	.still {
 		display: block;
 		overflow: hidden;
+		width: 100%;
 		border: 1px solid var(--color-hairline);
 		background: var(--color-card);
 	}
 
 	img {
 		display: block;
-		width: 128px;
-		height: 80px;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 16 / 10;
 		object-fit: cover;
 		background: var(--color-ink);
 		transition: transform 180ms ease;
 	}
 
 	.chip {
+		display: none;
 		flex-shrink: 0;
 		font-family: var(--font-mono);
 		font-size: 10px;
@@ -186,7 +203,24 @@
 
 	@media (min-width: 768px) {
 		.kicker {
-			padding: 1.25rem 1.35rem 1.05rem;
+			padding: 1.25rem 1.35rem 0.55rem;
+		}
+
+		.cols-h {
+			display: grid;
+			grid-template-columns: 3rem minmax(0, 1fr) 12.5rem;
+			gap: 1rem 1.25rem;
+			padding: 0.35rem 1.35rem 0.7rem;
+			font-family: var(--font-mono);
+			font-size: 10px;
+			font-weight: 500;
+			letter-spacing: 0.16em;
+			text-transform: uppercase;
+			color: #8b8278;
+		}
+
+		.cols-h span:last-child {
+			text-align: right;
 		}
 
 		a {
@@ -200,15 +234,48 @@
 		.idx {
 			padding-top: 0;
 		}
+
+		.aside {
+			flex-direction: row;
+			align-items: center;
+			gap: 0.85rem;
+		}
+
+		.still {
+			width: auto;
+		}
+
+		img {
+			width: 128px;
+			height: 80px;
+			aspect-ratio: auto;
+		}
+
+		.chip {
+			display: inline;
+		}
+
+		.copy p {
+			-webkit-line-clamp: 1;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			display: block;
+		}
 	}
 
-	@media (min-width: 1024px) {
+	@media (min-width: 1280px) {
 		.kicker {
-			padding: 1.35rem 1.6rem 1.1rem;
+			padding: 1.35rem 2rem 0.55rem;
+		}
+
+		.cols-h {
+			grid-template-columns: 3.25rem minmax(0, 1fr) 14.5rem;
+			padding: 0.35rem 2rem 0.75rem;
 		}
 
 		a {
-			padding: 1.25rem 1.6rem;
+			grid-template-columns: 3.25rem minmax(0, 1fr) auto;
+			padding: 1.3rem 2rem;
 		}
 
 		img {

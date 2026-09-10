@@ -22,15 +22,31 @@
 :root {
 	--gutter: 24px;
 	--nav-h: 52px;
-	--shell-max: 1280px;
+	--shell-max: 1440px;
+	--frame-radius: 10px;
+	--hero-stage: 80dvh;
 	--sidebar-w: 260px;
 	--z-nav: 40;
 	--z-hover: 50;
 }
 
+@media (max-width: 390px) {
+	:root {
+		--gutter: 16px;
+	}
+}
+
 @media (min-width: 768px) {
 	:root {
 		--gutter: 48px;
+		--frame-radius: 12px;
+	}
+}
+
+@media (min-width: 1024px) {
+	:root {
+		/* First screen: top gutter + frame edge + nav + hero. Catalog starts at the fold. */
+		--hero-stage: calc(100dvh - var(--gutter) - var(--nav-h) - 1px);
 	}
 }
 
