@@ -48,6 +48,7 @@
 	let rail: HTMLElement | undefined = $state();
 	let track: HTMLElement | undefined = $state();
 	let active = $state(0);
+	let fills = $state([0, 0, 0]);
 
 	$effect(() => {
 		const el = root;
@@ -62,6 +63,7 @@
 			if (cancelled || !root || !rail || !track) return;
 			if (forced || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 				active = 0;
+				fills = [1, 0, 0];
 				return;
 			}
 
@@ -85,17 +87,21 @@
 				}
 
 				const steps = gsap.utils.toArray<HTMLElement>('.room');
+				const count = steps.length;
 				steps.forEach((step, i) => {
 					ScrollTrigger.create({
 						trigger: step,
 						start: 'top 45%',
 						end: 'bottom 45%',
+						scrub: true,
 						invalidateOnRefresh: true,
-						onEnter: () => {
+						onUpdate: (self) => {
 							active = i;
-						},
-						onEnterBack: () => {
-							active = i;
+							fills = Array.from({ length: count }, (_, idx) => {
+								if (idx < i) return 1;
+								if (idx === i) return self.progress;
+								return 0;
+							});
 						}
 					});
 				});
@@ -128,7 +134,10 @@
 					{#each words as word, i (word + i)}
 						<p class="line" class:on={i === active}>
 							<span class="idx">{String(i + 1).padStart(2, '0')}</span>
-							<span class="word">{word}</span>
+							<span class="word" style:--fill={fills[i] ?? 0}>
+								<span class="idle">{word}</span>
+								<span class="ember" aria-hidden="true">{word}</span>
+							</span>
 						</p>
 					{/each}
 				</div>
@@ -273,6 +282,7 @@
 	}
 
 	.word {
+		position: relative;
 		display: block;
 		min-width: 0;
 		overflow: hidden;
@@ -285,7 +295,25 @@
 		color: var(--paper);
 	}
 
-	.line.on .word {
+	.idle,
+	.ember {
+		display: block;
+	}
+
+	.ember {
+		position: absolute;
+		top: 0;
+		left: 0;
+		color: var(--accent);
+		pointer-events: none;
+		clip-path: inset(calc((1 - var(--fill, 0)) * 100%) 0 0 0);
+	}
+
+	.mast.reduce .ember {
+		display: none;
+	}
+
+	.mast.reduce .line.on .idle {
 		color: var(--accent);
 	}
 
@@ -531,6 +559,14 @@
 		.word {
 			opacity: 1;
 			transform: none;
+		}
+
+		.ember {
+			display: none;
+		}
+
+		.line.on .idle {
+			color: var(--accent);
 		}
 	}
 </style>

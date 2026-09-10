@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import FlareLenis from '$lib/site/FlareLenis.svelte';
 	import SiteShell from '$lib/site/SiteShell.svelte';
 	import './layout.css';
 
@@ -12,6 +13,7 @@
 	<title>Flare</title>
 </svelte:head>
 
+<FlareLenis />
 {#if embed}
 	{@render children()}
 {:else}
