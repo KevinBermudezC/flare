@@ -80,9 +80,16 @@ Each chapter page MUST live at `/chapters/[slug]`. It MUST show a breadcrumb `FL
 #### Scenario: Hover preview sits beside the rail
 
 - **WHEN** a visitor hovers a ChapterNav row on `/chapters/[slug]`
-- **THEN** the still card sits beside that row (`--z-hover` above chrome)
+- **THEN** the still card portals to `document.body` at `--z-hover` (above the sticky toolbar)
 - **AND** its top aligns with the hovered row, clamped only to the site nav / viewport
 - **AND** it MUST NOT use the chapter toolbar `.bar` as a vertical floor
+
+#### Scenario: Ember trail follows a fine pointer
+
+- **WHEN** a visitor uses a fine pointer with hover and motion allowed
+- **THEN** a soft ember ring may trail the pointer
+- **AND** the OS cursor MUST stay visible (`cursor: none` is forbidden)
+- **AND** reduced-motion or coarse/touch pointers keep the default cursor only
 
 #### Scenario: Split masthead follows the preview frame
 

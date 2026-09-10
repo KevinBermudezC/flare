@@ -21,22 +21,19 @@
 	$effect(() => {
 		const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
 		const coarse = window.matchMedia('(pointer: coarse)');
-		const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 		const sync = () => {
-			allowHover = fine.matches && !coarse.matches && !reduce.matches;
+			allowHover = fine.matches && !coarse.matches;
 			if (!allowHover) hoverSlug = null;
 		};
 
 		sync();
 		fine.addEventListener('change', sync);
 		coarse.addEventListener('change', sync);
-		reduce.addEventListener('change', sync);
 
 		return () => {
 			fine.removeEventListener('change', sync);
 			coarse.removeEventListener('change', sync);
-			reduce.removeEventListener('change', sync);
 			window.clearTimeout(openTimer);
 		};
 	});
@@ -188,7 +185,7 @@
 	.rail {
 		position: sticky;
 		top: var(--nav-h);
-		z-index: var(--z-hover);
+		z-index: 1;
 		display: none;
 		width: var(--sidebar-w);
 		height: calc(100dvh - var(--nav-h));

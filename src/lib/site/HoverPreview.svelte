@@ -31,12 +31,20 @@
 			onclose?.();
 		}
 	}
+
+	function portal(node: HTMLElement) {
+		document.body.appendChild(node);
+		return () => {
+			node.remove();
+		};
+	}
 </script>
 
 <svelte:window onkeydown={onKeydown} />
 
 {#if open && still}
 	<div
+		{@attach portal}
 		class="flare-chrome hover-card"
 		style:top="{y}px"
 		style:left="{x}px"
@@ -56,6 +64,7 @@
 	.hover-card {
 		position: fixed;
 		z-index: var(--z-hover);
+		isolation: isolate;
 		width: 320px;
 		overflow: hidden;
 		pointer-events: none;
