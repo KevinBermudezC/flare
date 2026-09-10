@@ -6,6 +6,7 @@
 	let { children }: { children: Snippet } = $props();
 
 	const onHome = $derived(page.url.pathname === '/');
+	const firstSlug = blocks[0]?.slug ?? 'split-masthead';
 	const mark = '/brand/flare-mark.svg';
 	const loveMark = '<3';
 	const portfolio = 'https://kevinbermudez.vercel.app';
@@ -22,20 +23,8 @@
 			</a>
 			<nav class="links" aria-label="Site">
 				<a class="item" class:on={onHome} href="/#chapters">Chapters</a>
-				<a class="item" href="https://github.com/KevinBermudezC/flare" rel="noreferrer">GitHub</a>
-				<a class="ember" href="/chapters/split-masthead">
-					<svg class="flame" viewBox="0 0 16 16" aria-hidden="true">
-						<path
-							fill="currentColor"
-							d="M8.1 1.2c.4 1.8-.2 3.1-1.2 4.2-.7.8-1.1 1.5-1.1 2.4 0 1.2.6 2.2 1.6 2.8-.6-.2-1-1-1-1.8 0-.3.1-.6.2-.9 1.4 1 2.4 2.4 2.4 4.1 0 2.2-1.6 3.6-3.6 3.6S3 14.2 3 12c0-2.3 1.4-3.9 2.6-5.3C6.8 5.3 7.4 4.4 7.2 2.8c.6.4 1.2.9 1.6 1.7.3-.9.1-2.1-.7-3.3Z"
-						/>
-						<path
-							fill="currentColor"
-							d="M11.4 5.2c.2 1.2-.4 2.2-1.2 3.1 1 .8 1.6 1.9 1.6 3.2 0 2.3-1.8 3.7-3.8 3.7h-.2c2.2-.4 3.6-2 3.6-4.2 0-1.5-.8-2.6-1.8-3.4.8-.7 1.4-1.5 1.8-2.4Z"
-						/>
-					</svg>
-					Ember
-				</a>
+				<a class="item" href={github} rel="noreferrer">GitHub</a>
+				<a class="cta" href="/chapters/{firstSlug}">Open</a>
 			</nav>
 		</header>
 		<div class="shell-body">
@@ -156,19 +145,18 @@
 
 	.item:focus-visible,
 	.brand:focus-visible,
-	.ember:focus-visible,
+	.cta:focus-visible,
 	.foot-brand:focus-visible,
 	.shell-foot a:focus-visible {
 		outline: 2px solid var(--color-ember);
 		outline-offset: 3px;
 	}
 
-	.ember {
+	.cta {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.4rem;
 		height: 32px;
-		padding: 0 0.85rem 0 0.7rem;
+		padding: 0 0.9rem;
 		border: 1px solid var(--color-ember);
 		border-radius: 999px;
 		font-family: var(--font-body);
@@ -178,13 +166,8 @@
 		text-decoration: none;
 	}
 
-	.ember:hover {
+	.cta:hover {
 		background: color-mix(in oklab, var(--color-ember) 16%, transparent);
-	}
-
-	.flame {
-		width: 14px;
-		height: 14px;
 	}
 
 	.shell-foot {

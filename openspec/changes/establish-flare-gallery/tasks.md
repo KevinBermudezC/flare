@@ -53,3 +53,4 @@
 - [x] 8.2 SiteShell footer: mark + tagline, Chapters and Project columns, `with love <3`, MIT
 - [x] 8.3 Nav mark slot plus `static/brand/flare-mark.svg` and `/favicon.svg` (not F, not flame)
 - [x] 8.4 HoverPreview: ~100ms exit fade, Escape, vertical center, 8px gap
+- [x] 8.5 Site nav is Chapters (`/#chapters`), GitHub, and Open (first chapter). No flame icon.
