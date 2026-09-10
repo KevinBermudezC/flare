@@ -31,7 +31,7 @@ The gallery imports chapters for preview. The copyable contract is the folder, n
 
 ### Chapter Preview is an embed iframe; Code stays copy
 
-`/chapters/[slug]` Preview mounts the chapter once inside a full-height iframe at `/chapters/[slug]/embed`. The iframe CSS width is `1440`, `768`, or `390`, capped by the stage, centered in the canvas. Height is at least `100dvh` of that canvas. Replay, viewport, title, accent, and reduced-motion remount the iframe. The parent MUST NOT also inline the chapter (no iframe plus live). Code mode stays the CopyPanel. Embed is chrome-free and reads `title`, `accent`, `reduceMotion`, and `replay` from the query so the live instance matches the knobs.
+`/chapters/[slug]` Preview mounts the chapter once inside a full-height iframe at `/chapters/[slug]/embed`. The iframe CSS width is `min(requested 1440 / 768 / 390, available stage width)`, centered in the canvas. Toolbar labels show that applied width so a sidebar cannot leave a 1440 control on a narrower stage. Height is at least `100dvh` of that canvas. Replay, viewport, title, accent, and reduced-motion remount the iframe. The parent MUST NOT also inline the chapter (no iframe plus live). Code mode stays the CopyPanel. Embed is chrome-free and reads `title`, `accent`, `reduceMotion`, and `replay` from the query so the live instance matches the knobs.
 
 This is how 1440 / 768 / 390 become real viewports: `window.innerWidth`, `vw`, and ScrollTrigger pins belong to the iframe, not the host page.
 

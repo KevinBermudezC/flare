@@ -5,7 +5,13 @@
 	import CopyButton from '$lib/site/CopyButton.svelte';
 	import CopyPanel from '$lib/site/CopyPanel.svelte';
 	import type { Accent } from '$lib/site/ChapterPlayground.svelte';
-	import { chapterEmbedSrc, frameWidth, type Viewport } from '$lib/site/chapter-embed';
+	import {
+		appliedViewportWidth,
+		chapterEmbedSrc,
+		frameWidth,
+		viewportLabel,
+		type Viewport
+	} from '$lib/site/chapter-embed';
 
 	type Mode = 'preview' | 'code';
 
@@ -15,6 +21,7 @@
 
 	let mode = $state<Mode>('preview');
 	let viewport = $state<Viewport>(1440);
+	let stageW = $state(0);
 	let title = $state('');
 	let accent = $state<Accent>('ember');
 	let reduceMotion = $state(false);
@@ -25,6 +32,7 @@
 	const iframeKey = $derived(
 		`${block?.slug ?? ''}-${viewport}-${title}-${accent}-${reduceMotion}`
 	);
+	const stageWidth = $derived(appliedViewportWidth(viewport, stageW));
 
 	$effect.pre(() => {
 		const next = getBlock(data.slug);
@@ -107,8 +115,10 @@
 							onclick={() => setViewport(size as Viewport)}
 							class="size"
 							class:on={viewport === size}
+							aria-label="{size} viewport, {viewportLabel(size, stageW)} pixels"
+							aria-pressed={viewport === size}
 						>
-							{size}
+							{viewportLabel(size, stageW)}
 						</button>
 					{/each}
 				</div>
@@ -118,13 +128,13 @@
 			</div>
 
 			{#if mode === 'preview'}
-				<div id="chapter-stage" class="stage-wrap">
+				<div id="chapter-stage" class="stage-wrap" bind:clientWidth={stageW}>
 					{#key iframeKey}
 						<iframe
 							class="stage"
-							title="{block.name} at {viewport}"
+							title="{block.name} at {stageWidth}"
 							src={embedSrc}
-							style:width={frameWidth(viewport)}
+							style:width={frameWidth(viewport, stageW)}
 							onload={onFrameLoad}
 						></iframe>
 					{/key}
@@ -167,6 +177,7 @@
 	.layout {
 		display: flex;
 		flex-wrap: wrap;
+		align-items: flex-start;
 		min-height: calc(100dvh - var(--nav-h));
 		background: var(--color-ink);
 	}
@@ -306,6 +317,7 @@
 		display: block;
 		flex: 0 0 auto;
 		width: min(1440px, 100%);
+		max-width: 100%;
 		height: 100dvh;
 		min-height: 100dvh;
 		margin: 0 auto;

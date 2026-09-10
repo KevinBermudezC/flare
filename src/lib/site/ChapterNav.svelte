@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { prefersReducedMotion } from 'svelte/motion';
 	import { blocks, CHAPTER_STILLS, type ChapterSlug } from '$lib/catalog';
 	import HoverPreview from './HoverPreview.svelte';
 
@@ -11,12 +12,18 @@
 	const selected = $derived(current ?? 'introduction');
 
 	let allowHover = $state(false);
+	const allowCard = $derived(allowHover && !prefersReducedMotion.current);
 	let hoverSlug = $state<ChapterSlug | null>(null);
 	let cardX = $state(0);
 	let cardY = $state(0);
 	let openTimer = 0;
+	let closeTimer = 0;
 
 	const hovered = $derived(blocks.find((block) => block.slug === hoverSlug));
+
+	$effect(() => {
+		if (!allowCard) hoverSlug = null;
+	});
 
 	$effect(() => {
 		const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
@@ -24,7 +31,7 @@
 
 		const sync = () => {
 			allowHover = fine.matches && !coarse.matches;
-			if (!allowHover) hoverSlug = null;
+			if (!allowHover || prefersReducedMotion.current) hoverSlug = null;
 		};
 
 		sync();
@@ -35,6 +42,7 @@
 			fine.removeEventListener('change', sync);
 			coarse.removeEventListener('change', sync);
 			window.clearTimeout(openTimer);
+			window.clearTimeout(closeTimer);
 		};
 	});
 
@@ -42,12 +50,13 @@
 		const row = el.getBoundingClientRect();
 		const rail = el.closest('.rail')?.getBoundingClientRect();
 		const nav = document.querySelector('.shell-nav')?.getBoundingClientRect();
+		const bar = document.querySelector('.flare-chrome.bar')?.getBoundingClientRect();
 		const pad = 12;
-		const topClear = Math.max(pad, (nav?.bottom ?? 0) + 8);
+		const topClear = Math.max(pad, (nav?.bottom ?? 0) + 8, bar ? bar.bottom + 8 : 0);
+		const floor = window.innerHeight - previewH - pad;
 		const originRight = rail?.right ?? row.right;
 		let x = originRight + previewGap;
-		let y = row.top;
-		y = Math.min(Math.max(topClear, y), window.innerHeight - previewH - pad);
+		let y = Math.min(Math.max(topClear, row.top), floor);
 		if (x + previewW > window.innerWidth - pad) {
 			x = Math.max(pad, (rail?.left ?? row.left) - previewW - previewGap);
 		}
@@ -58,12 +67,16 @@
 
 	function closePreview() {
 		window.clearTimeout(openTimer);
-		hoverSlug = null;
+		window.clearTimeout(closeTimer);
+		closeTimer = window.setTimeout(() => {
+			hoverSlug = null;
+		}, 120);
 	}
 
 	function onEnter(slug: ChapterSlug, el: HTMLElement) {
-		if (slug === current || !allowHover) return;
+		if (slug === current || !allowCard) return;
 		window.clearTimeout(openTimer);
+		window.clearTimeout(closeTimer);
 		if (hoverSlug) {
 			place(el, slug);
 			return;
@@ -127,14 +140,18 @@
 				{/each}
 			</div>
 		</nav>
-		{#if allowHover}
+		{#if allowCard}
 			<HoverPreview
 				open={Boolean(hovered)}
 				name={hovered?.name ?? ''}
 				still={hovered ? CHAPTER_STILLS[hovered.slug] : ''}
 				x={cardX}
 				y={cardY}
-				onclose={closePreview}
+				onclose={() => {
+					window.clearTimeout(openTimer);
+					window.clearTimeout(closeTimer);
+					hoverSlug = null;
+				}}
 			/>
 		{/if}
 	</aside>
@@ -143,6 +160,7 @@
 <style>
 	.nav-stack {
 		flex: 1 1 100%;
+		align-self: flex-start;
 		min-width: 0;
 	}
 
@@ -189,12 +207,16 @@
 		display: none;
 		width: var(--sidebar-w);
 		height: calc(100dvh - var(--nav-h));
+		max-height: calc(100dvh - var(--nav-h));
+		min-height: 0;
 		flex-shrink: 0;
+		align-self: flex-start;
 		flex-direction: column;
 		overflow: visible;
 		padding: 1.25rem 0.85rem;
 		border-right: 1px solid var(--color-hairline);
 		background: var(--color-ink);
+		box-sizing: border-box;
 	}
 
 	nav {

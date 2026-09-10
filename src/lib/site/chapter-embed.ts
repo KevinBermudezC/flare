@@ -2,19 +2,27 @@ import type { Accent } from './ChapterPlayground.svelte';
 
 export type Viewport = 1440 | 768 | 390;
 
-export function frameWidth(size: Viewport): string {
+export function appliedViewportWidth(requested: Viewport, available: number): number {
+	if (!Number.isFinite(available) || available <= 0) return requested;
+	return Math.min(requested, Math.floor(available));
+}
+
+export function frameWidth(size: Viewport, available = 0): string {
 	switch (size) {
 		case 1440:
-			return 'min(1440px, 100%)';
 		case 768:
-			return 'min(768px, 100%)';
 		case 390:
-			return 'min(390px, 100%)';
+			if (available <= 0) return `min(${size}px, 100%)`;
+			return `${appliedViewportWidth(size, available)}px`;
 		default: {
 			const _never: never = size;
 			return _never;
 		}
 	}
+}
+
+export function viewportLabel(size: Viewport, available: number): string {
+	return String(appliedViewportWidth(size, available));
 }
 
 export function chapterEmbedSrc(

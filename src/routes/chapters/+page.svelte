@@ -110,6 +110,7 @@
 	.layout {
 		display: flex;
 		flex-wrap: wrap;
+		align-items: flex-start;
 		min-height: calc(100dvh - var(--nav-h));
 		background: var(--color-ink);
 	}

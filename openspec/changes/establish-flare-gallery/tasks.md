@@ -68,7 +68,7 @@
 ## 9. Chapter playground viewport
 
 - [x] 9.1 Preview on `/chapters/[slug]` mounts a full-height iframe at `/chapters/{slug}/embed` (query for title, accent, reduceMotion, replay). Code mode stays CopyPanel. Parent does not also inline the chapter.
-- [x] 9.2 Viewport 1440 / 768 / 390 sizes the iframe (capped by the stage, centered). Replay, viewport, title, accent, and reduced-motion remount it (`{#key}`).
+- [x] 9.2 Viewport 1440 / 768 / 390 sizes the iframe to `min(requested, available stage width)`, centered, with honest control labels. Replay, viewport, title, accent, and reduced-motion remount it (`{#key}`).
 - [x] 9.3 Embed route stays chrome-free and plays the chapter from those search params.
 - [x] 9.4 Harden the six chapters: scrub distance and pin spacing use the frame (not a host window). Reduced motion stays readable. Flare tokens stay.
 - [x] 9.5 split-masthead pins a 100dvh inner rail so Flare / Preview / Copy are on-screen at first paint (1440×900)
@@ -77,5 +77,6 @@
 - [x] 9.8 Densify lane-scrub type/ember fields (hatch, corners, FIG, specimen). Visual pass of all six chapter embeds.
 - [x] 9.9 split-masthead: scale Flare/Preview/Copy to the rail (no hairline overflow). HUD 01–03 + progress. Rooms get FIG fields. Pin walk stays.
 - [x] 9.11 split-masthead enrich: ~38% rail, `clamp(2.25rem, 18cqi, 5rem)`, overflow hidden + padding-right ≥12px. HUD 01–03 + SPLIT + tick. Three FIG rooms. Pin intact.
-- [x] 9.10 HoverPreview portals to `body` at `--z-hover` (200) beside the hovered row. Clamp only to site nav / viewport — never `.bar`. No Replay button. Native OS cursor only.
+- [x] 9.10 HoverPreview portals to `body` at `--z-hover` (200) beside the hovered row. Align to the row; clamp below site nav and `.bar` so the card never overlaps the toolbar. Delays 280/120. Fine pointer only; no card on keyboard, reduced motion, or current. No Replay button. Native OS cursor only.
 - [x] 9.12 split-masthead ember fill scrubs per room (past=solid ember). Lenis on site/embed with ScrollTrigger ticker; reduced-motion skips Lenis and hard-cuts fill. Type-charge still is a sharp schematic.
+- [x] 9.13 QA soak: honest `min(requested, available stage)` viewport labels; HoverPreview clamped below `.bar`; ChapterNav + split-masthead rails stay viewport-bound; FlareLenis scrollerProxy + raf refresh. No FlareCursor.

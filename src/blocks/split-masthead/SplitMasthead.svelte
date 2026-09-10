@@ -199,13 +199,16 @@
 	.shell {
 		display: grid;
 		grid-template-columns: minmax(11rem, 38%) 1fr;
+		align-items: start;
 		min-height: 100dvh;
 	}
 
 	.rail {
 		position: relative;
 		z-index: 2;
-		align-self: stretch;
+		align-self: start;
+		height: 100dvh;
+		max-height: 100dvh;
 		min-height: 100dvh;
 		overflow: hidden;
 		border-right: 1px solid rgba(245, 240, 234, 0.16);
@@ -525,6 +528,8 @@
 		}
 
 		.rail {
+			height: auto;
+			max-height: none;
 			min-height: 0;
 			overflow: hidden;
 			border-right: 0;
