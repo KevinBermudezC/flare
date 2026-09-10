@@ -50,7 +50,7 @@
 ## 8. Home chrome polish
 
 - [x] 8.1 Home `#chapters` is a vertical index (`01`-`06`), not a 3x2 card grid
-- [x] 8.2 SiteShell footer: mark + tagline, Chapters and Project columns, `with love <3`, MIT
+- [x] 8.2 SiteShell footer: mark + tagline, Chapters and Project columns, `Created with <3 by KevinBermudezC`, MIT
 - [x] 8.3 Nav mark slot plus `static/brand/flare-mark.svg` and `/favicon.svg` (not F, not flame)
 - [x] 8.4 HoverPreview: ~100ms exit fade, Escape, vertical center, 8px gap
 - [x] 8.5 Site nav is one ember Chapters pill to `/chapters`. GitHub lives in the footer. No Open. No flame icon.
@@ -59,3 +59,6 @@
 - [x] 8.8 Responsive shell: `--shell-max` 1440, 390 nav is FLARE + Chapters, catalog wrap, chapter switcher below 1024.
 - [x] 8.9 Home hero fills the first desktop screen (`100dvh` minus top gutter, frame hairline, and nav). Catalog is below the fold. Mobile hero ~80dvh.
 - [x] 8.10 `/chapters` is an Introduction stub with a left rail (Introduction + six slugs). Chapter crumbs link to `/chapters`.
+- [x] 8.11 ChapterNav groups Start (Introduction) and Chapters (catalog slugs). Muted labels. Ember only on the active row. Mobile `select` uses `optgroup`.
+- [x] 8.12 Footer love bar is `Created with <3 by KevinBermudezC` (name only links to portfolio). Project column is GitHub + MIT.
+- [x] 8.13 Home hero atmosphere CSS drift is clearly visible in a few seconds. Reduced motion freezes it. No JS tween on `/`.

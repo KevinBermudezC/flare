@@ -86,36 +86,45 @@
 	<label class="switcher">
 		<span>Chapter</span>
 		<select value={selected} onchange={onSwitch}>
-			<option value="introduction">Introduction</option>
-			{#each blocks as item (item.slug)}
-				<option value={item.slug}>{item.name}</option>
-			{/each}
+			<optgroup label="Start">
+				<option value="introduction">Introduction</option>
+			</optgroup>
+			<optgroup label="Chapters">
+				{#each blocks as item (item.slug)}
+					<option value={item.slug}>{item.name}</option>
+				{/each}
+			</optgroup>
 		</select>
 	</label>
 
 	<aside class="rail">
-		<p class="kicker">Chapters</p>
 		<nav aria-label="Chapters">
-			<a
-				href="/chapters"
-				class="row"
-				class:current={current === null}
-				aria-current={current === null ? 'page' : undefined}
-			>
-				Introduction
-			</a>
-			{#each blocks as item (item.slug)}
+			<div class="group">
+				<p class="section">Start</p>
 				<a
-					href="/chapters/{item.slug}"
+					href="/chapters"
 					class="row"
-					class:current={item.slug === current}
-					aria-current={item.slug === current ? 'page' : undefined}
-					onmouseenter={(event) => onEnter(item.slug, event.currentTarget)}
-					onmouseleave={closePreview}
+					class:current={current === null}
+					aria-current={current === null ? 'page' : undefined}
 				>
-					{item.slug}
+					Introduction
 				</a>
-			{/each}
+			</div>
+			<div class="group">
+				<p class="section">Chapters</p>
+				{#each blocks as item (item.slug)}
+					<a
+						href="/chapters/{item.slug}"
+						class="row"
+						class:current={item.slug === current}
+						aria-current={item.slug === current ? 'page' : undefined}
+						onmouseenter={(event) => onEnter(item.slug, event.currentTarget)}
+						onmouseleave={closePreview}
+					>
+						{item.slug}
+					</a>
+				{/each}
+			</div>
 		</nav>
 		{#if allowHover}
 			<HoverPreview
@@ -186,21 +195,27 @@
 		background: var(--color-ink);
 	}
 
-	.kicker {
-		margin: 0 0 0.85rem;
-		padding: 0 0.7rem;
-		font-family: var(--font-display);
-		font-size: 11px;
-		font-weight: 600;
-		letter-spacing: 0.12em;
-		color: var(--color-ember);
-		text-transform: uppercase;
-	}
-
 	nav {
 		display: flex;
 		flex-direction: column;
+		gap: 1.45rem;
+	}
+
+	.group {
+		display: flex;
+		flex-direction: column;
 		gap: 0.15rem;
+	}
+
+	.section {
+		margin: 0 0 0.2rem;
+		padding: 0 0.7rem;
+		font-family: var(--font-mono);
+		font-size: 11px;
+		font-weight: 500;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: #8b8278;
 	}
 
 	.row {

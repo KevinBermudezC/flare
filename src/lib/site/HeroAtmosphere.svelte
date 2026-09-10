@@ -104,54 +104,57 @@
 
 	.field.motion .wash {
 		will-change: transform, opacity;
-		animation: wash-drift 22s ease-in-out infinite alternate;
+		animation: wash-drift 10s ease-in-out infinite alternate;
+		animation-delay: -2.4s;
 	}
 
 	.field.motion .beam {
 		will-change: transform;
-		animation: beam-drift 28s ease-in-out infinite alternate;
+		animation: beam-drift 14s ease-in-out infinite alternate;
+		animation-delay: -3s;
 	}
 
 	.field.motion .motes {
 		will-change: transform, opacity;
-		animation: mote-drift 20s ease-in-out infinite alternate;
+		animation: mote-drift 9s ease-in-out infinite alternate;
+		animation-delay: -1.8s;
 	}
 
 	.field.motion .grain {
 		will-change: transform;
-		animation: grain-shift 18s linear infinite;
+		animation: grain-shift 8s linear infinite;
 	}
 
 	@keyframes wash-drift {
 		from {
-			transform: translate3d(-2.5%, -1.5%, 0) scale(1);
-			opacity: 0.86;
+			transform: translate3d(-9%, -8%, 0) scale(1);
+			opacity: 0.55;
 		}
 
 		to {
-			transform: translate3d(3.5%, 2.5%, 0) scale(1.06);
+			transform: translate3d(10%, 9%, 0) scale(1.12);
 			opacity: 1;
 		}
 	}
 
 	@keyframes beam-drift {
 		from {
-			transform: translate3d(-1.8%, 0, 0) rotate(-1.2deg);
+			transform: translate3d(-6.5%, -2%, 0) rotate(-3.6deg);
 		}
 
 		to {
-			transform: translate3d(2.4%, 1%, 0) rotate(1deg);
+			transform: translate3d(7%, 3%, 0) rotate(3.4deg);
 		}
 	}
 
 	@keyframes mote-drift {
 		from {
-			transform: translate3d(0, 1.5%, 0);
-			opacity: 0.72;
+			transform: translate3d(2%, 6.5%, 0);
+			opacity: 0.55;
 		}
 
 		to {
-			transform: translate3d(-2.5%, -2%, 0);
+			transform: translate3d(-7%, -6.5%, 0);
 			opacity: 1;
 		}
 	}
@@ -162,7 +165,7 @@
 		}
 
 		to {
-			transform: translate3d(-5%, -4%, 0);
+			transform: translate3d(-14%, -12%, 0);
 		}
 	}
 

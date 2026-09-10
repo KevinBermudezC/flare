@@ -49,14 +49,14 @@
 					<nav aria-label="Project">
 						<p class="col-h">Project</p>
 						<a href={github} rel="noreferrer">GitHub</a>
-						<a href={portfolio} rel="noreferrer">Portfolio</a>
 						<a href={license} rel="noreferrer">MIT</a>
 					</nav>
 				</div>
 			</div>
 			<div class="foot-bar">
 				<p class="sign">
-					<a href={portfolio} rel="noreferrer">with <span>love {loveMark}</span></a>
+					Created with <span>{loveMark}</span> by
+					<a href={portfolio} rel="noreferrer">KevinBermudezC</a>
 				</p>
 				<p class="legal">
 					© 2026 Flare · <a href={license} rel="noreferrer">MIT</a>
