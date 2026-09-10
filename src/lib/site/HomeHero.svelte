@@ -11,8 +11,7 @@
 		<h1>FLARE</h1>
 		<p class="pitch">Preview. Copy.</p>
 		<div class="actions">
-			<a class="open" href="/chapters/split-masthead">Open</a>
-			<a class="jump" href="/#chapters">Chapters</a>
+			<a class="chapters" href="/chapters">Chapters</a>
 		</div>
 	</div>
 </section>
@@ -91,42 +90,27 @@
 		margin-top: 0.55rem;
 	}
 
-	.open,
-	.jump {
+	.chapters {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
 		min-height: 44px;
 		height: 44px;
 		padding: 0 1.15rem;
+		border: 1px solid var(--color-ember);
 		border-radius: 999px;
 		font-family: var(--font-body);
 		font-size: 14px;
 		font-weight: 500;
+		color: var(--color-ember);
 		text-decoration: none;
 	}
 
-	.open {
-		border: 1px solid var(--color-ember);
-		color: var(--color-ember);
-	}
-
-	.open:hover {
+	.chapters:hover {
 		background: color-mix(in oklab, var(--color-ember) 16%, transparent);
 	}
 
-	.jump {
-		border: 1px solid var(--color-hairline);
-		color: #c4bbb0;
-	}
-
-	.jump:hover {
-		color: var(--color-paper);
-		border-color: rgba(245, 240, 234, 0.2);
-	}
-
-	.open:focus-visible,
-	.jump:focus-visible {
+	.chapters:focus-visible {
 		outline: 2px solid var(--color-ember);
 		outline-offset: 3px;
 	}
@@ -161,8 +145,7 @@
 			gap: 0.75rem;
 		}
 
-		.open,
-		.jump {
+		.chapters {
 			width: auto;
 			min-width: 7.25rem;
 			height: 40px;

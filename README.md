@@ -16,7 +16,7 @@ That's the gallery. Scroll a chapter. Copy the source.
 
 ## Use a chapter
 
-1. Open a chapter page at `/chapters/<slug>` (or `src/blocks/<slug>/`).
+1. Start at `/chapters`, then open a chapter at `/chapters/<slug>` (or `src/blocks/<slug>/`).
 2. Copy the `.svelte` file.
 3. Paste it into a SvelteKit 5 + Tailwind v4 app, run `pnpm add gsap`, and render it.
 

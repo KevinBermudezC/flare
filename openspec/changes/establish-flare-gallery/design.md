@@ -31,7 +31,7 @@ The gallery imports chapters for preview. The copyable contract is the folder, n
 
 ### Home is a static brand hero; chapter pages live at `/chapters/[slug]`
 
-Home shows a static FLARE hero (ticks mark, Unbounded FLARE, `Preview. Copy.`, Open to `/chapters/split-masthead`, Chapters to `/#chapters`) inset in the SiteShell frame (`--shell-max: 1440px`, ink outside). From 1024px the hero fills the first screen (`calc(100dvh - nav - top gutter - frame hairline)`); `#chapters` sits below the fold. Atmosphere (wash, grid, beam, grain) matches TypeCharge, biased to the right of the stage, and loops with CSS. No ghost wordmark, no ScrollTrigger pin or scrub on `/`. TypeCharge stays a catalog chapter at `/chapters/type-charge`. Desktop catalog rows are `01`-`06`, Unbounded title, tagline, still on the right. Site nav is Chapters and Open; GitHub lives in the footer.
+Home shows a static FLARE hero (ticks mark, Unbounded FLARE, `Preview. Copy.`, ember Chapters to `/chapters`) inset in the SiteShell frame (`--shell-max: 1440px`, ink outside). From 1024px the hero fills the first screen (`calc(100dvh - nav - top gutter - frame hairline)`); `#chapters` sits below the fold. Atmosphere (wash, grid, beam, grain) matches TypeCharge, biased to the right of the stage, and loops with CSS. No Open, no ghost wordmark, no ScrollTrigger pin or scrub on `/`. `/chapters` is an Introduction stub with a left rail (Introduction plus the six slugs). TypeCharge stays a catalog chapter at `/chapters/type-charge`. Desktop catalog rows are `01`-`06`, Unbounded title, tagline, still on the right. Site nav is one ember Chapters pill; GitHub lives in the footer.
 
 ### Motion lives in the copied file
 

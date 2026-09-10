@@ -53,8 +53,9 @@
 - [x] 8.2 SiteShell footer: mark + tagline, Chapters and Project columns, `with love <3`, MIT
 - [x] 8.3 Nav mark slot plus `static/brand/flare-mark.svg` and `/favicon.svg` (not F, not flame)
 - [x] 8.4 HoverPreview: ~100ms exit fade, Escape, vertical center, 8px gap
-- [x] 8.5 Site nav is Chapters (`/#chapters`) and Open (first chapter). GitHub lives in the footer. No flame icon.
-- [x] 8.6 Home hero is static FLARE (Preview. Copy., Open, Chapters). TypeCharge stays a catalog chapter.
+- [x] 8.5 Site nav is one ember Chapters pill to `/chapters`. GitHub lives in the footer. No Open. No flame icon.
+- [x] 8.6 Home hero is static FLARE (Preview. Copy., Chapters to `/chapters`). TypeCharge stays a catalog chapter.
 - [x] 8.7 Home hero keeps TypeCharge atmosphere with a CSS loop. Reduced motion freezes it. No pin on `/`.
-- [x] 8.8 Responsive shell: `--shell-max` 1440, 390 nav is FLARE + Open, stacked hero CTAs, catalog wrap, chapter switcher below 1024.
+- [x] 8.8 Responsive shell: `--shell-max` 1440, 390 nav is FLARE + Chapters, catalog wrap, chapter switcher below 1024.
 - [x] 8.9 Home hero fills the first desktop screen (`100dvh` minus top gutter, frame hairline, and nav). Catalog is below the fold. Mobile hero ~80dvh.
+- [x] 8.10 `/chapters` is an Introduction stub with a left rail (Introduction + six slugs). Chapter crumbs link to `/chapters`.

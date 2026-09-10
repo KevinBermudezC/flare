@@ -75,7 +75,7 @@
 				<p class="crumb">
 					<a href="/">FLARE</a>
 					<span>/</span>
-					<a href="/#chapters">Chapters</a>
+					<a href="/chapters">Chapters</a>
 					<span>/</span>
 					<span class="here">{block.slug}</span>
 				</p>
