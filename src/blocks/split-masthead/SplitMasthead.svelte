@@ -56,20 +56,25 @@
 		return value;
 	}
 
-	function roomFills(count: number, index: number, progress: number): number[] {
+	function fillsFromWalk(progress: number, count: number): number[] {
 		const safeCount = Math.max(0, count);
-		const room = Math.max(0, Math.min(Math.max(safeCount - 1, 0), index));
 		const p = unitFill(progress);
-		return Array.from({ length: safeCount }, (_, idx) => {
-			if (idx < room) return 1;
-			if (idx === room) return p;
-			return 0;
-		});
+		if (safeCount === 0) return [];
+		if (p <= 0) return Array.from({ length: safeCount }, () => 0);
+		if (p >= 1) return Array.from({ length: safeCount }, () => 1);
+		const t = p * safeCount;
+		return Array.from({ length: safeCount }, (_, i) => unitFill(t - i));
 	}
 
-	function paintRoom(index: number, progress: number, count: number) {
-		active = count <= 0 ? 0 : Math.max(0, Math.min(count - 1, index));
-		fills = roomFills(count, active, progress);
+	function paintWalk(progress: number, count: number) {
+		fills = fillsFromWalk(progress, count);
+		if (count <= 0) {
+			active = 0;
+			return;
+		}
+		const p = unitFill(progress);
+		if (p >= 1) active = count - 1;
+		else if (p <= 0) active = 0;
 	}
 
 	$effect(() => {
@@ -88,67 +93,40 @@
 			ctx = gsap.context(() => {
 				const steps = gsap.utils.toArray<HTMLElement>('.room');
 				const count = steps.length;
-				paintRoom(0, 0, count);
-
-				if (reduced) {
-					steps.forEach((step, i) => {
-						ScrollTrigger.create({
-							trigger: step,
-							start: 'top 45%',
-							end: 'bottom 45%',
-							invalidateOnRefresh: true,
-							onToggle: (self) => {
-								if (self.isActive) active = i;
-							}
-						});
-					});
-					return;
-				}
-
-				gsap.set('.word', { opacity: 1, x: 0, y: 0 });
-
-				const stacked = el.clientWidth <= 768;
-				if (!stacked) {
-					ScrollTrigger.create({
-						trigger: left,
-						start: 'top top',
-						endTrigger: right,
-						end: 'bottom bottom',
-						pin: true,
-						pinSpacing: false,
-						invalidateOnRefresh: true,
-						onRefreshInit: () => {
-							gsap.set('.word', { opacity: 1, x: 0, y: 0 });
-						},
-						onUpdate: (self) => {
-							const walk = unitFill(self.progress);
-							if (walk <= 0) paintRoom(0, 0, count);
-							else if (walk >= 1) paintRoom(count - 1, 1, count);
-						}
-					});
-				}
+				paintWalk(0, count);
 
 				steps.forEach((step, i) => {
 					ScrollTrigger.create({
 						trigger: step,
 						start: 'top 45%',
-						end: i === count - 1 ? 'max' : 'bottom 45%',
-						scrub: true,
+						end: 'bottom 45%',
 						invalidateOnRefresh: true,
-						onUpdate: (self) => {
-							const atEnd =
-								i === count - 1 &&
-								(self.progress >= 0.999 ||
-									window.scrollY >= ScrollTrigger.maxScroll(window) - 2);
-							paintRoom(i, atEnd ? 1 : self.progress, count);
-						},
-						onLeave: (self) => {
-							if (self.direction > 0) paintRoom(i, 1, count);
-						},
-						onLeaveBack: (self) => {
-							if (self.direction < 0) paintRoom(i, 0, count);
+						onToggle: (self) => {
+							if (self.isActive) active = i;
 						}
 					});
+				});
+
+				if (reduced) return;
+
+				gsap.set('.word', { opacity: 1, x: 0, y: 0 });
+
+				const stacked = el.clientWidth <= 768;
+				ScrollTrigger.create({
+					trigger: stacked ? el : left,
+					start: 'top top',
+					endTrigger: right,
+					end: 'bottom bottom',
+					pin: stacked ? false : true,
+					pinSpacing: false,
+					scrub: true,
+					invalidateOnRefresh: true,
+					onRefreshInit: () => {
+						gsap.set('.word', { opacity: 1, x: 0, y: 0 });
+					},
+					onUpdate: (self) => {
+						paintWalk(self.progress, count);
+					}
 				});
 			}, el);
 
