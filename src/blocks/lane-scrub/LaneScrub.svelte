@@ -2,7 +2,7 @@
   Flare · lane-scrub
   Paste into a SvelteKit 5 + Tailwind v4 app. Needs: pnpm add gsap
   Type: Unbounded + IBM Plex Sans (host loads fontsource). IBM Plex Mono for HUD/meta.
-  Photo: pass photoSrc, or this picsum still.
+  Photo: pass photoSrc (gallery uses /blocks/lane-still.jpg). Only the photo panel renders a still.
 -->
 <script lang="ts">
 	import { gsap } from 'gsap';
@@ -16,7 +16,7 @@
 		label = 'INK',
 		accent = 'ember',
 		reduceMotion = false,
-		photoSrc = 'https://picsum.photos/id/1031/900/1400'
+		photoSrc = '/blocks/lane-still.jpg'
 	}: {
 		label?: string;
 		accent?: 'ember' | 'paper';
@@ -79,7 +79,7 @@
 			if (forced || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
 			ctx = gsap.context(() => {
-				const viewportW = () => wrap.clientWidth || window.innerWidth;
+				const viewportW = () => wrap.clientWidth;
 				const travel = () => Math.max(row.scrollWidth - viewportW(), 0);
 				gsap.to(row, {
 					x: () => -travel(),
@@ -136,17 +136,22 @@
 						<img src={photoSrc} alt="Ink still. Dark facade, grid of glass." />
 						<figcaption>{panel.body}</figcaption>
 					</figure>
-				{:else if panel.kind === 'type'}
-					<h2>{panel.title}</h2>
-					<p class="body">{panel.body}</p>
 				{:else}
+					<div class="field" class:hot={panel.kind === 'ember'} aria-hidden="true">
+						<span class="ghost">{panel.mark}</span>
+						<span class="wash"></span>
+						<span class="grid"></span>
+						<span class="ticks"></span>
+						{#if panel.kind === 'ember'}
+							<div class="ember-col">
+								{#each panels as step, n (step.id)}
+									<span class:hot={n === tick}>{step.id}</span>
+								{/each}
+							</div>
+						{/if}
+					</div>
 					<h2>{panel.title}</h2>
 					<p class="body">{panel.body}</p>
-					<div class="ember-col" aria-hidden="true">
-						{#each panels as step, n (step.id)}
-							<span class:hot={n === tick}>{step.id}</span>
-						{/each}
-					</div>
 				{/if}
 			</article>
 		{/each}
@@ -249,8 +254,85 @@
 		color: var(--accent);
 	}
 
+	.field {
+		position: relative;
+		flex: 1;
+		min-height: 11rem;
+		margin: 0.85rem 0 0.95rem;
+		overflow: hidden;
+		border: 1px solid rgba(245, 240, 234, 0.12);
+		background: #101012;
+	}
+
+	.field.hot {
+		border-color: color-mix(in oklab, var(--accent) 42%, rgba(245, 240, 234, 0.12));
+		box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent) 18%, transparent);
+	}
+
+	.ghost {
+		position: absolute;
+		z-index: 1;
+		right: 0.35rem;
+		bottom: -0.12em;
+		left: 0.45rem;
+		font-size: clamp(3.4rem, 12vw, 6.4rem);
+		font-weight: 760;
+		line-height: 0.78;
+		letter-spacing: -0.06em;
+		color: color-mix(in oklab, var(--paper) 12%, transparent);
+		pointer-events: none;
+	}
+
+	.field.hot .ghost {
+		color: color-mix(in oklab, var(--accent) 22%, transparent);
+	}
+
+	.wash {
+		position: absolute;
+		inset: -18%;
+		background:
+			radial-gradient(
+				ellipse 70% 55% at 28% 62%,
+				color-mix(in oklab, var(--accent) 30%, transparent),
+				transparent 64%
+			),
+			radial-gradient(circle at 88% 12%, color-mix(in oklab, var(--paper) 8%, transparent), transparent 28%);
+	}
+
+	.grid {
+		position: absolute;
+		inset: 0;
+		background:
+			repeating-linear-gradient(
+				0deg,
+				transparent 0 22px,
+				rgba(245, 240, 234, 0.055) 22px 23px
+			),
+			repeating-linear-gradient(
+				90deg,
+				transparent 0 22px,
+				rgba(245, 240, 234, 0.04) 22px 23px
+			);
+		mask-image: linear-gradient(180deg, transparent, #000 16%, #000 84%, transparent);
+	}
+
+	.ticks {
+		position: absolute;
+		top: 0.65rem;
+		right: 0.7rem;
+		bottom: 0.65rem;
+		width: 10px;
+		background:
+			repeating-linear-gradient(
+				180deg,
+				var(--accent) 0 2px,
+				transparent 2px 14px
+			);
+		opacity: 0.7;
+	}
+
 	h2 {
-		margin: auto 0 0.75rem;
+		margin: 0 0 0.55rem;
 		max-width: 12ch;
 		font-size: clamp(2rem, 4vw, 3.4rem);
 		font-weight: 720;
@@ -293,12 +375,14 @@
 	}
 
 	.ember-col {
+		position: absolute;
+		z-index: 1;
+		left: 0.75rem;
+		bottom: 0.7rem;
 		display: flex;
-		flex: 1;
 		flex-direction: column;
-		justify-content: center;
-		gap: 0.85rem;
-		margin-top: 1.1rem;
+		gap: 0.45rem;
+		margin: 0;
 		font-family: 'IBM Plex Mono', ui-monospace, monospace;
 		font-size: 11px;
 		letter-spacing: 0.14em;

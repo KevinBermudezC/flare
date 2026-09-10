@@ -59,6 +59,19 @@ Previews MUST pin, scrub, or charge type when the user does not prefer reduced m
 - **THEN** GSAP pin and scrub do not run
 - **AND** the chapter still shows its type and copy
 
+#### Scenario: Split masthead words sit in the first viewport
+
+- **WHEN** a visitor opens `split-masthead` at 1440×900 without reduced motion
+- **THEN** Flare, Preview, and Copy are visible in the left column on first paint
+- **AND** the pinned lock is a 100dvh inner rail, not the full track height
+
+#### Scenario: Lane scrub type panels carry a field
+
+- **WHEN** a visitor opens `lane-scrub` in Preview
+- **THEN** type and ember panels show a mid-field (ember wash, hairline grid, ticks, ghost mark) between the tag and the title
+- **AND** the photo panel is the only panel that uses a still
+- **AND** scrub travel is measured from the chapter frame, not a host `window`
+
 ### Requirement: Official gsap only as the extra dep
 
 Chapters MUST use official `gsap` + ScrollTrigger for pin, scrub, kinetic type, and horizontal hijack. They MUST call `gsap.context()` and revert that context on `$effect` cleanup. They MUST NOT import `framer-motion`, `motion/react`, or `motion-sv`. There is no shared `Button`. The block page MUST state `pnpm add gsap`.

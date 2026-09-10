@@ -71,3 +71,5 @@
 - [x] 9.2 Viewport 1440 / 768 / 390 sizes the iframe (capped by the stage, centered). Replay, viewport, title, accent, and reduced-motion remount it (`{#key}`).
 - [x] 9.3 Embed route stays chrome-free and plays the chapter from those search params.
 - [x] 9.4 Harden the six chapters: scrub distance and pin spacing use the frame (not a host window). Reduced motion stays readable. Flare tokens stay.
+- [ ] 9.5 split-masthead pins a 100dvh inner rail so Flare / Preview / Copy are on-screen at first paint (1440×900)
+- [ ] 9.6 lane-scrub type and ember panels fill the mid-field with CSS atmosphere (no stock photos). Travel uses the frame width, not a naked window.

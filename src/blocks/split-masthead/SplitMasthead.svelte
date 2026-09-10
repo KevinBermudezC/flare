@@ -63,23 +63,18 @@
 			}
 
 			ctx = gsap.context(() => {
-				gsap.from('.word', {
-					x: -12,
-					opacity: 0,
-					stagger: 0.08,
-					duration: 0.45,
-					ease: 'power2.out'
-				});
-
-				ScrollTrigger.create({
-					trigger: left,
-					start: 'top top',
-					endTrigger: right,
-					end: 'bottom bottom',
-					pin: true,
-					pinSpacing: false,
-					invalidateOnRefresh: true
-				});
+				const stacked = window.matchMedia('(max-width: 768px)').matches;
+				if (!stacked) {
+					ScrollTrigger.create({
+						trigger: left,
+						start: 'top top',
+						endTrigger: right,
+						end: 'bottom bottom',
+						pin: true,
+						pinSpacing: false,
+						invalidateOnRefresh: true
+					});
+				}
 
 				const steps = gsap.utils.toArray<HTMLElement>('.room');
 				steps.forEach((step, i) => {
@@ -118,10 +113,12 @@
 	class:reduce={reduceMotion}
 >
 	<div class="shell">
-		<aside bind:this={rail} class="rail">
-			{#each words as word, i (word + i)}
-				<p class="word" class:on={i === active}>{word}</p>
-			{/each}
+		<aside class="rail">
+			<div bind:this={rail} class="rail-lock">
+				{#each words as word, i (word + i)}
+					<p class="word" class:on={i === active}>{word}</p>
+				{/each}
+			</div>
 		</aside>
 		<div bind:this={track} class="track">
 			{#each rooms as room (room.shot)}
@@ -156,14 +153,22 @@
 	}
 
 	.rail {
+		position: relative;
 		z-index: 2;
+		min-height: 100dvh;
+		border-right: 1px solid rgba(245, 240, 234, 0.16);
+		background: var(--ink);
+	}
+
+	.rail-lock {
+		position: sticky;
+		top: 0;
 		display: flex;
+		height: 100dvh;
 		flex-direction: column;
 		justify-content: center;
 		gap: 0.15em;
-		min-height: 100dvh;
 		padding: 2rem 1.5rem 2rem 6vw;
-		border-right: 1px solid rgba(245, 240, 234, 0.16);
 		background: var(--ink);
 	}
 
@@ -238,10 +243,15 @@
 		}
 
 		.rail {
-			min-height: auto;
-			padding: 2rem 6vw 1rem;
+			min-height: 0;
 			border-right: 0;
 			border-bottom: 1px solid rgba(245, 240, 234, 0.16);
+		}
+
+		.rail-lock {
+			position: relative;
+			height: auto;
+			padding: 2rem 6vw 1rem;
 		}
 
 		.word {
@@ -249,8 +259,8 @@
 		}
 	}
 
-	.mast.reduce .rail {
-		position: relative;
+	.mast.reduce .rail-lock {
+		position: sticky;
 	}
 
 	.mast.reduce .word {
@@ -259,8 +269,8 @@
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.rail {
-			position: relative;
+		.rail-lock {
+			position: sticky;
 		}
 
 		.word {
