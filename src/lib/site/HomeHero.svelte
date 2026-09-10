@@ -11,8 +11,8 @@
 		<h1>FLARE</h1>
 		<p class="pitch">Preview. Copy.</p>
 		<div class="actions">
-			<a class="open" href="/chapters/split-masthead">Open</a>
-			<a class="jump" href="/#chapters">Chapters</a>
+			<a class="open" href="/chapters">Chapters</a>
+			<a class="jump" href="/#chapters">Index</a>
 		</div>
 	</div>
 </section>

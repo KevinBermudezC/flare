@@ -3,7 +3,9 @@
 	import { blocks, CHAPTER_STILLS, type ChapterSlug } from '$lib/catalog';
 	import HoverPreview from './HoverPreview.svelte';
 
-	let { current }: { current: ChapterSlug } = $props();
+	type RailCurrent = ChapterSlug | 'introduction';
+
+	let { current }: { current: RailCurrent } = $props();
 
 	const previewW = 280;
 	const previewH = 216;
@@ -71,9 +73,12 @@
 
 	function onSwitch(event: Event) {
 		const next = (event.currentTarget as HTMLSelectElement).value;
-		if (next && next !== current) {
-			void goto(`/chapters/${next}`);
+		if (!next || next === current) return;
+		if (next === 'introduction') {
+			void goto('/chapters');
+			return;
 		}
+		void goto(`/chapters/${next}`);
 	}
 </script>
 
@@ -81,6 +86,7 @@
 	<label class="switcher">
 		<span>Chapter</span>
 		<select value={current} onchange={onSwitch}>
+			<option value="introduction">Introduction</option>
 			{#each blocks as item (item.slug)}
 				<option value={item.slug}>{item.name}</option>
 			{/each}
@@ -90,6 +96,14 @@
 	<aside class="rail">
 		<p class="kicker">Chapters</p>
 		<nav aria-label="Chapters">
+			<a
+				href="/chapters"
+				class="row"
+				class:current={current === 'introduction'}
+				aria-current={current === 'introduction' ? 'page' : undefined}
+			>
+				Introduction
+			</a>
 			{#each blocks as item (item.slug)}
 				<a
 					href="/chapters/{item.slug}"

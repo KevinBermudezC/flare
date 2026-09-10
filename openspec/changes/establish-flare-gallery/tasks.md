@@ -25,8 +25,8 @@
 ## 4. Verification
 
 - [x] 4.1 Run `pnpm check` and verify 0 errors
-- [x] 4.2 Run `pnpm build` and verify prerender succeeds for `/` and all six chapter + embed routes
-- [x] 4.3 Hit `/` and each `/chapters/<slug>` over HTTP and verify status 200
+- [x] 4.2 Run `pnpm build` and verify prerender succeeds for `/`, `/chapters`, and all six chapter + embed routes
+- [x] 4.3 Hit `/`, `/chapters`, and each `/chapters/<slug>` over HTTP and verify status 200
 
 ## 5. Taste skills (GSAP kept)
 
@@ -53,8 +53,9 @@
 - [x] 8.2 SiteShell footer: mark + tagline, Chapters and Project columns, `with love <3`, MIT
 - [x] 8.3 Nav mark slot plus `static/brand/flare-mark.svg` and `/favicon.svg` (not F, not flame)
 - [x] 8.4 HoverPreview: ~100ms exit fade, Escape, vertical center, 8px gap
-- [x] 8.5 Site nav is Chapters (`/#chapters`) and Open (first chapter). GitHub lives in the footer. No flame icon.
-- [x] 8.6 Home hero is static FLARE (Preview. Copy., Open, Chapters). TypeCharge stays a catalog chapter.
+- [x] 8.5 Site nav ember CTA is Chapters (`/chapters`). No Open. GitHub lives in the footer. No flame icon.
+- [x] 8.6 Home hero is static FLARE (Preview. Copy., Chapters → `/chapters`). TypeCharge stays a catalog chapter.
 - [x] 8.7 Home hero keeps TypeCharge atmosphere with a CSS loop. Reduced motion freezes it. No pin on `/`.
-- [x] 8.8 Responsive shell: `--shell-max` 1440, 390 nav is FLARE + Open, stacked hero CTAs, catalog wrap, chapter switcher below 1024.
+- [x] 8.8 Responsive shell: `--shell-max` 1440, 390 nav is FLARE + Chapters, stacked hero CTAs, catalog wrap, chapter switcher below 1024.
 - [x] 8.9 Home hero fills the first desktop screen (`100dvh` minus top gutter, frame hairline, and nav). Catalog is below the fold. Mobile hero ~80dvh.
+- [x] 8.10 `/chapters` is an Introduction stub (title, Preview. Copy., six scroll chapters) with rail Introduction + six slugs. Not a seventh catalog chapter.

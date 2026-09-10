@@ -5,8 +5,9 @@
 
 	let { children }: { children: Snippet } = $props();
 
-	const onHome = $derived(page.url.pathname === '/');
-	const firstSlug = blocks[0]?.slug ?? 'split-masthead';
+	const onChapters = $derived(
+		page.url.pathname === '/chapters' || page.url.pathname.startsWith('/chapters/')
+	);
 	const mark = '/brand/flare-mark.svg';
 	const loveMark = '<3';
 	const portfolio = 'https://kevinbermudez.vercel.app';
@@ -22,8 +23,7 @@
 				<span class="wordmark">FLARE</span>
 			</a>
 			<nav class="links" aria-label="Site">
-				<a class="item" class:on={onHome} href="/#chapters">Chapters</a>
-				<a class="cta" href="/chapters/{firstSlug}">Open</a>
+				<a class="cta" href="/chapters" aria-current={onChapters ? 'page' : undefined}>Chapters</a>
 			</nav>
 		</header>
 		<div class="shell-body">
@@ -137,26 +137,6 @@
 		gap: 1rem;
 	}
 
-	.item {
-		display: none;
-		min-height: 44px;
-		align-items: center;
-		font-family: var(--font-body);
-		font-size: 13px;
-		color: #c4bbb0;
-		text-decoration: none;
-	}
-
-	.item:hover,
-	.item.on {
-		color: var(--color-paper);
-	}
-
-	.item.on {
-		color: var(--color-ember);
-	}
-
-	.item:focus-visible,
 	.brand:focus-visible,
 	.cta:focus-visible,
 	.foot-brand:focus-visible,
@@ -301,10 +281,6 @@
 	}
 
 	@media (min-width: 480px) {
-		.item {
-			display: inline-flex;
-		}
-
 		.shell-nav {
 			gap: 1.25rem;
 			padding: 0 1.25rem;
