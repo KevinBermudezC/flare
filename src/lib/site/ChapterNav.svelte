@@ -11,6 +11,7 @@
 
 	let allowHover = $state(false);
 	const allowCard = $derived(allowHover && !prefersReducedMotion.current);
+	let railEl: HTMLElement | undefined = $state();
 	let openTimer = 0;
 	let closeTimer = 0;
 
@@ -42,7 +43,9 @@
 
 	function place(el: HTMLElement, slug: ChapterSlug) {
 		const row = el.getBoundingClientRect();
-		showHoverCard(slug, row.right + previewGap, row.top);
+		const rail = (railEl ?? el.closest('.rail'))?.getBoundingClientRect();
+		const x = (rail?.right ?? row.right) + previewGap;
+		showHoverCard(slug, x, row.top);
 	}
 
 	function closePreview() {
@@ -91,7 +94,7 @@
 		</select>
 	</label>
 
-	<aside class="rail">
+	<aside bind:this={railEl} class="rail">
 		<nav aria-label="Chapters">
 			<div class="group">
 				<p class="section">Start</p>
