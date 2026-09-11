@@ -1,7 +1,46 @@
 # Flare
 
-Svelte 5 gallery of marketing and motion blocks.
+Preview. Copy the `.svelte`. It's yours.
 
-Live preview. Copy the `.svelte`. Yours to keep.
+A Svelte 5 gallery of **scroll chapters**. Live preview. Copy the `.svelte`.
 
-Not a design system. Not Tangram.
+This is **not** a design system. **Not** an npm kit. No CLI, no registry, no shared `Button`.
+
+## Run
+
+```sh
+pnpm i && pnpm dev
+```
+
+That's the gallery. Scroll a chapter. Copy the source.
+
+## Use a chapter
+
+1. Start at `/chapters`, then open a chapter at `/chapters/<slug>` (or `src/blocks/<slug>/`).
+2. Copy the `.svelte` file.
+3. Paste it into a SvelteKit 5 + Tailwind v4 app, run `pnpm add gsap`, and render it.
+
+Each folder is independent. No cross-imports. No `$lib/ui`. Recorte 1 chapters need official `gsap` (ScrollTrigger is in that package). `prefers-reduced-motion` keeps the chapter readable.
+
+## Chapters
+
+| Folder | What you get |
+| --- | --- |
+| `split-masthead` | Left column holds. Right column walks. |
+| `type-charge` | One line. One glyph of heat. |
+| `lane-scrub` | Vertical scroll drives the lane. |
+| `chapter-pin` | Rooms pin. The rail keeps count. |
+| `mask-reveal` | An ink window opens on the frame. |
+| `deck-pin` | Cards stick. The top one keeps the line. |
+
+## Deploy
+
+Connect this GitHub repo to Vercel. Root = repo. Framework = SvelteKit. Install command = `pnpm i`. Preview deploys come from that GitHub integration.
+
+## Contribute
+
+Non-trivial work starts with an OpenSpec proposal. See [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+## License
+
+MIT

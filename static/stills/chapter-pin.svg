@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800" fill="none">
+	<rect width="1280" height="800" fill="#09090b"/>
+	<g stroke="#f5f0ea" stroke-width="1.5" fill="none">
+		<path d="M40 40h22M40 40v22"/>
+		<path d="M1240 40h-22M1240 40v22"/>
+		<path d="M40 760h22M40 760v-22"/>
+		<path d="M1240 760h-22M1240 760v-22"/>
+	</g>
+	<line x1="72" y1="40" x2="90" y2="40" stroke="#ff5a1f" stroke-width="1.5"/>
+	<text x="48" y="88" fill="#8b8278" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="14" letter-spacing="2">FIG 02</text>
+	<text x="48" y="210" fill="#f5f0ea" font-family="Unbounded, ui-sans-serif, sans-serif" font-size="72" font-weight="720">Rooms pin.</text>
+	<text x="48" y="268" fill="#c4bbb0" font-family="IBM Plex Sans, ui-sans-serif, sans-serif" font-size="20">The rail keeps count. Ink stays put.</text>
+	<rect x="700" y="250" width="360" height="220" fill="#111113" stroke="#3a3734" stroke-width="1.5"/>
+	<rect x="760" y="310" width="360" height="220" fill="#111113" stroke="#ff5a1f" stroke-width="1.5"/>
+	<text x="784" y="504" fill="#f5f0ea" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="14">ROOM 02 - ACTIVE</text>
+	<g font-family="IBM Plex Mono, ui-monospace, monospace" font-size="14" fill="#8b8278">
+		<text x="1220" y="360" text-anchor="end">01</text>
+		<text x="1220" y="400" text-anchor="end" fill="#ff5a1f">02</text>
+		<text x="1220" y="440" text-anchor="end">03</text>
+	</g>
+	<line x1="1188" y1="388" x2="1188" y2="400" stroke="#ff5a1f" stroke-width="1.5"/>
+</svg>

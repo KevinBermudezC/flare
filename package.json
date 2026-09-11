@@ -1,0 +1,42 @@
+{
+	"name": "flare",
+	"private": true,
+	"version": "0.1.0",
+	"description": "Svelte 5 gallery of scroll chapters. Preview, copy the .svelte, it's yours.",
+	"packageManager": "pnpm@10.33.3",
+	"engines": {
+		"node": ">=22"
+	},
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-vercel": "^6.3.4",
+		"@sveltejs/kit": "^2.63.0",
+		"@sveltejs/vite-plugin-svelte": "^7.1.2",
+		"@tailwindcss/vite": "^4.3.0",
+		"svelte": "^5.56.1",
+		"svelte-check": "^4.6.0",
+		"tailwindcss": "^4.3.0",
+		"typescript": "^6.0.3",
+		"vite": "^8.0.16"
+	},
+	"pnpm": {
+		"overrides": {
+			"postcss": "8.5.26"
+		}
+	},
+	"dependencies": {
+		"@fontsource-variable/unbounded": "^5.3.0",
+		"@fontsource/ibm-plex-mono": "^5.3.0",
+		"@fontsource/ibm-plex-sans": "^5.3.0",
+		"gsap": "^3.15.0",
+		"lenis": "^1.3.26"
+	}
+}

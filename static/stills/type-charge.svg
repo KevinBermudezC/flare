@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800" fill="none">
+	<rect width="1280" height="800" fill="#09090b"/>
+	<g stroke="#f5f0ea" stroke-width="1.5" fill="none">
+		<path d="M40 40h22M40 40v22"/>
+		<path d="M1240 40h-22M1240 40v22"/>
+		<path d="M40 760h22M40 760v-22"/>
+		<path d="M1240 760h-22M1240 760v-22"/>
+	</g>
+	<text x="48" y="72" fill="#f5f0ea" font-family="Unbounded, ui-sans-serif, sans-serif" font-size="13" font-weight="500" letter-spacing="0.22em">TYPE CHARGE</text>
+	<text x="640" y="430" text-anchor="middle" fill="#f5f0ea" font-family="Unbounded, ui-sans-serif, sans-serif" font-size="168" font-weight="720" letter-spacing="-0.055em">FLARE</text>
+	<line x1="868" y1="348" x2="868" y2="430" stroke="#ff5a1f" stroke-width="3"/>
+	<line x1="196" y1="468" x2="1084" y2="468" stroke="#ff5a1f" stroke-width="3"/>
+	<text x="48" y="748" fill="#f5f0ea" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="13" letter-spacing="0.18em">ONE LINE · ONE GLYPH</text>
+</svg>

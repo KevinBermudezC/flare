@@ -1,0 +1,80 @@
+@import '@fontsource-variable/unbounded/wght.css';
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+@import 'tailwindcss';
+
+@theme {
+	--font-display: 'Unbounded Variable', Unbounded, ui-sans-serif, system-ui, sans-serif;
+	--font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+	--font-body: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+	--font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+	--color-ember: #ff5a1f;
+	--color-ink: #09090b;
+	--color-paper: #f5f0ea;
+	--color-card: #111113;
+	--color-hairline: rgba(245, 240, 234, 0.08);
+	--radius-chrome: 12px;
+	--radius-mask: 24px;
+}
+
+:root {
+	--gutter: 24px;
+	--nav-h: 52px;
+	--shell-max: 1440px;
+	--frame-radius: 10px;
+	--hero-stage: 80dvh;
+	--sidebar-w: 260px;
+	--z-toolbar: 30;
+	--z-nav: 40;
+	--z-hover: 400;
+}
+
+@media (max-width: 390px) {
+	:root {
+		--gutter: 16px;
+	}
+}
+
+@media (min-width: 768px) {
+	:root {
+		--gutter: 48px;
+		--frame-radius: 12px;
+	}
+}
+
+@media (min-width: 1024px) {
+	:root {
+		/* First screen: top gutter + frame edge + nav + hero. Catalog starts at the fold. */
+		--hero-stage: calc(100dvh - var(--gutter) - var(--nav-h) - 1px);
+	}
+}
+
+html {
+	background: var(--color-ink);
+	color: var(--color-paper);
+}
+
+body {
+	margin: 0;
+	min-height: 100dvh;
+	font-family: var(--font-body);
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+::selection {
+	background: color-mix(in oklab, var(--color-ember) 80%, white);
+	color: #1a0703;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.flare-chrome,
+	.flare-chrome * {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}

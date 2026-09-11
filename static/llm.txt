@@ -1,0 +1,24 @@
+# Flare
+
+Flare is a Svelte 5 gallery of scroll chapters with live preview and copyable `.svelte` files. Not a design system, not an npm kit — six pin and scrub gestures you paste into your own project.
+
+Preview. Copy. Chapters.
+
+## Product
+
+- Live preview of each chapter at real height
+- One-click copy of the whole `.svelte` file
+- Six scroll chapters: Split Masthead, Type Charge, Lane Scrub, Chapter Pin, Mask Reveal, Deck Pin
+- Official gsap where the gesture earns it
+- Paste into your own SvelteKit 5 + Tailwind v4 app
+
+## URLs
+
+- / Home
+- /chapters Introduction
+- /chapters/split-masthead
+- /chapters/type-charge
+- /chapters/lane-scrub
+- /chapters/chapter-pin
+- /chapters/mask-reveal
+- /chapters/deck-pin
