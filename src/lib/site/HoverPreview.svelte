@@ -1,19 +1,16 @@
 <script lang="ts">
 	import { prefersReducedMotion } from 'svelte/motion';
-	import { fade, fly } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 	import { CHAPTER_STILLS, blocks } from '$lib/catalog';
 	import { hideHoverCard, hoverCard } from './hover-preview.svelte';
 
-	const block = $derived(blocks.find((item) => item.slug === hoverCard.slug));
-	const open = $derived(Boolean(block) && !prefersReducedMotion.current);
+	const slug = $derived(hoverCard.slug);
+	const open = $derived(Boolean(slug) && !prefersReducedMotion.current);
 
 	const enter = $derived({
 		x: prefersReducedMotion.current ? 0 : 8,
 		y: 0,
 		duration: prefersReducedMotion.current ? 0 : 150
-	});
-	const exit = $derived({
-		duration: prefersReducedMotion.current ? 0 : 100
 	});
 
 	function onKeydown(event: KeyboardEvent) {
@@ -21,40 +18,42 @@
 	}
 
 	function portal(node: HTMLElement) {
-		const home = node.parentNode;
-		const marker = document.createComment('flare-hover');
-		home?.insertBefore(marker, node);
 		node.style.setProperty('position', 'fixed', 'important');
 		node.style.setProperty('z-index', '400', 'important');
 		document.body.appendChild(node);
 		return () => {
-			marker.parentNode?.insertBefore(node, marker);
-			marker.remove();
+			node.remove();
 		};
 	}
 </script>
 
 <svelte:window onkeydown={onKeydown} />
 
-{#if open && block}
-	<div
-		{@attach portal}
-		class="flare-chrome hover-card"
-		data-hover-preview
-		style:position="fixed"
-		style:z-index="400"
-		style:top="{hoverCard.y}px"
-		style:left="{hoverCard.x}px"
-		in:fly={enter}
-		out:fade={exit}
-		aria-hidden="true"
-	>
-		<img src={CHAPTER_STILLS[block.slug]} alt="" width="320" height="180" />
-		<div class="meta">
-			<span class="name">{block.name}</span>
-			<span class="kind">SCROLL</span>
-		</div>
-	</div>
+{#if open && slug}
+	{#key slug}
+		{@const item = blocks.find((entry) => entry.slug === slug)}
+		{@const src = CHAPTER_STILLS[slug]}
+		{#if item && src}
+			<div
+				{@attach portal}
+				class="flare-chrome hover-card"
+				data-hover-preview
+				data-hover-slug={slug}
+				style:position="fixed"
+				style:z-index="400"
+				style:top="{hoverCard.y}px"
+				style:left="{hoverCard.x}px"
+				in:fly={enter}
+				aria-hidden="true"
+			>
+				<img src={src} alt="" width="320" height="180" />
+				<div class="meta">
+					<span class="name">{item.name}</span>
+					<span class="kind">SCROLL</span>
+				</div>
+			</div>
+		{/if}
+	{/key}
 {/if}
 
 <style>
