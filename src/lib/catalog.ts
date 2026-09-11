@@ -91,7 +91,7 @@ export const blocks: BlockEntry[] = [
 		kind: 'pin',
 		extraDep: 'pnpm add gsap',
 		editField: 'lead',
-		editDefault: 'Ink',
+		editDefault: 'Rooms pin.',
 		component: ChapterPin,
 		files: [{ name: 'ChapterPin.svelte', source: chapterPinSource }]
 	},

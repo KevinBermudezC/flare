@@ -68,19 +68,51 @@
 		});
 	}
 
-	function paintRoom(index: number, progress: number, count: number) {
+	function paintRoom(index: number, progress: number, count: number, words?: HTMLElement[]) {
 		const room = count <= 0 ? 0 : Math.max(0, Math.min(count - 1, index));
 		const next = roomFills(count, room, progress);
 		active = room;
 		fills = next;
+		words?.forEach((node, i) => {
+			node.style.setProperty('--fill', `${unitFill(next[i] ?? 0) * 100}%`);
+		});
 	}
 
-	function roomComplete(self: ScrollTrigger, walk: ScrollTrigger): boolean {
-		return (
-			self.progress >= 0.999 ||
-			walk.progress >= 0.999 ||
-			window.scrollY >= ScrollTrigger.maxScroll(window) - 2
-		);
+	function roomBounds(walk: ScrollTrigger, steps: HTMLElement[]): number[] {
+		const y = walk.scroll();
+		const start = walk.start;
+		const end = walk.end;
+		const bounds = [start];
+		for (let i = 1; i < steps.length; i++) {
+			bounds.push(y + steps[i].getBoundingClientRect().top);
+		}
+		bounds.push(end);
+		for (let i = 1; i < bounds.length - 1; i++) {
+			bounds[i] = Math.max(bounds[i - 1], Math.min(end, Math.max(start, bounds[i])));
+		}
+		return bounds;
+	}
+
+	function walkRoom(
+		y: number,
+		progress: number,
+		bounds: number[],
+		count: number
+	): { room: number; fill: number } {
+		if (count <= 0 || progress <= 0) return { room: 0, fill: 0 };
+		if (progress >= 1) return { room: count - 1, fill: 1 };
+		let room = 0;
+		for (let i = 0; i < count; i++) {
+			const next = bounds[i + 1] ?? bounds[bounds.length - 1];
+			if (y >= next) room = Math.min(count - 1, i + 1);
+			else {
+				room = i;
+				break;
+			}
+		}
+		const a = bounds[room] ?? 0;
+		const b = bounds[room + 1] ?? a;
+		return { room, fill: b <= a ? 1 : (y - a) / (b - a) };
 	}
 
 	$effect(() => {
@@ -99,8 +131,9 @@
 			untrack(() => {
 				ctx = gsap.context(() => {
 					const steps = gsap.utils.toArray<HTMLElement>('.room');
+					const words = gsap.utils.toArray<HTMLElement>('.word');
 					const count = steps.length;
-					paintRoom(0, 0, count);
+					paintRoom(0, 0, count, words);
 
 					if (reduced) {
 						steps.forEach((step, i) => {
@@ -120,7 +153,17 @@
 					gsap.set('.word', { opacity: 1, x: 0, y: 0 });
 
 					const stacked = el.clientWidth <= 768;
-					const walk = ScrollTrigger.create({
+					const applyWalk = (self: ScrollTrigger) => {
+						const { room, fill } = walkRoom(
+							self.scroll(),
+							self.progress,
+							roomBounds(self, steps),
+							count
+						);
+						paintRoom(room, fill, count, words);
+					};
+
+					ScrollTrigger.create({
 						trigger: stacked ? el : left,
 						start: 'top top',
 						endTrigger: right,
@@ -133,33 +176,12 @@
 						onRefreshInit: () => {
 							gsap.set('.word', { opacity: 1, x: 0, y: 0 });
 						},
+						onRefresh: (self) => {
+							applyWalk(self);
+						},
 						onUpdate: (self) => {
-							const p = unitFill(self.progress);
-							if (p <= 0) paintRoom(0, 0, count);
-							else if (p >= 1) paintRoom(count - 1, 1, count);
+							applyWalk(self);
 						}
-					});
-
-					steps.forEach((step, i) => {
-						const isFirst = i === 0;
-						const isLast = i === count - 1;
-
-						ScrollTrigger.create({
-							trigger: step,
-							start: isFirst ? () => walk.start : 'top 45%',
-							end: isLast ? 'max' : 'bottom 45%',
-							scrub: true,
-							invalidateOnRefresh: true,
-							onUpdate: (self) => {
-								paintRoom(i, isLast && roomComplete(self, walk) ? 1 : self.progress, count);
-							},
-							onLeave: (self) => {
-								if (self.direction > 0) paintRoom(i, 1, count);
-							},
-							onLeaveBack: (self) => {
-								if (self.direction < 0) paintRoom(i, 0, count);
-							}
-						});
 					});
 				}, el);
 			});

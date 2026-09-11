@@ -6,9 +6,8 @@
 
 	let { current = null }: { current?: ChapterSlug | null } = $props();
 
-	const previewW = 320;
 	const previewH = 236;
-	const previewGap = 16;
+	const previewGap = 8;
 	const selected = $derived(current ?? 'introduction');
 
 	let allowHover = $state(false);
@@ -16,6 +15,7 @@
 	let hoverSlug = $state<ChapterSlug | null>(null);
 	let cardX = $state(0);
 	let cardY = $state(0);
+	let railEl: HTMLElement | undefined = $state();
 	let openTimer = 0;
 	let closeTimer = 0;
 
@@ -48,20 +48,16 @@
 
 	function place(el: HTMLElement, slug: ChapterSlug) {
 		const row = el.getBoundingClientRect();
-		const rail = el.closest('.rail')?.getBoundingClientRect();
+		const rail = (railEl ?? el.closest('.rail'))?.getBoundingClientRect();
 		const nav = document.querySelector('.shell-nav')?.getBoundingClientRect();
 		const bar = document.querySelector('.flare-chrome.bar')?.getBoundingClientRect();
-		const pad = 12;
-		const topClear = Math.max(pad, (nav?.bottom ?? 0) + 8, bar ? bar.bottom + 8 : 0);
+		const pad = 8;
+		const topClear = Math.max(pad, (nav?.bottom ?? 0) + pad, bar ? bar.bottom + pad : 0);
 		const floor = window.innerHeight - previewH - pad;
-		const originRight = rail?.right ?? row.right;
-		let x = originRight + previewGap;
-		let y = Math.min(Math.max(topClear, row.top), floor);
-		if (x + previewW > window.innerWidth - pad) {
-			x = Math.max(pad, (rail?.left ?? row.left) - previewW - previewGap);
-		}
+		const x = (rail?.right ?? row.right) + previewGap;
+		const centered = row.top + row.height / 2 - previewH / 2;
 		cardX = x;
-		cardY = y;
+		cardY = Math.min(Math.max(topClear, centered), floor);
 		hoverSlug = slug;
 	}
 
@@ -111,7 +107,7 @@
 		</select>
 	</label>
 
-	<aside class="rail">
+	<aside bind:this={railEl} class="rail">
 		<nav aria-label="Chapters">
 			<div class="group">
 				<p class="section">Start</p>
@@ -140,22 +136,22 @@
 				{/each}
 			</div>
 		</nav>
-		{#if allowCard}
-			<HoverPreview
-				open={Boolean(hovered)}
-				name={hovered?.name ?? ''}
-				still={hovered ? CHAPTER_STILLS[hovered.slug] : ''}
-				x={cardX}
-				y={cardY}
-				onclose={() => {
-					window.clearTimeout(openTimer);
-					window.clearTimeout(closeTimer);
-					hoverSlug = null;
-				}}
-			/>
-		{/if}
 	</aside>
 </div>
+{#if allowCard}
+	<HoverPreview
+		open={Boolean(hovered)}
+		name={hovered?.name ?? ''}
+		still={hovered ? CHAPTER_STILLS[hovered.slug] : ''}
+		x={cardX}
+		y={cardY}
+		onclose={() => {
+			window.clearTimeout(openTimer);
+			window.clearTimeout(closeTimer);
+			hoverSlug = null;
+		}}
+	/>
+{/if}
 
 <style>
 	.nav-stack {

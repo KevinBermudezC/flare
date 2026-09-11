@@ -12,7 +12,7 @@
 	}
 
 	let {
-		lead = 'Ink',
+		lead = 'Rooms pin.',
 		accent = 'ember',
 		reduceMotion = false
 	}: {
@@ -23,19 +23,25 @@
 
 	const rooms = $derived([
 		{
-			word: lead.trim() || 'Ink',
-			field: 'lock',
-			lines: ['The field is ink.', 'The rail keeps count.', 'Scroll pins the room.', 'Nothing else', 'enters here.']
+			title: lead.trim() || 'Rooms pin.',
+			body: 'The rail keeps count. Ink stays put.',
+			fig: 'FIG 01',
+			mark: 'ROOM 01 - ACTIVE',
+			live: 0
 		},
 		{
-			word: 'Ember',
-			field: 'grid',
-			lines: ['A thin ember line', 'is enough mark.', 'Leave the rest', 'in ink.', 'Preview holds.']
+			title: 'Ember holds.',
+			body: 'One outline. The rest stays ink.',
+			fig: 'FIG 02',
+			mark: 'ROOM 02 - ACTIVE',
+			live: 1
 		},
 		{
-			word: 'Copy',
-			field: 'flare',
-			lines: ['Copy the chapter.', 'When the pin', 'lets go, the file', 'is yours.', 'Paste and run.']
+			title: 'Copy the file.',
+			body: 'When the pin lets go, the chapter is yours.',
+			fig: 'FIG 03',
+			mark: 'ROOM 03 - ACTIVE',
+			live: 2
 		}
 	]);
 
@@ -72,7 +78,6 @@
 					if (last) return;
 					gsap.to(card, {
 						scale: 0.97,
-						opacity: 0.5,
 						ease: 'none',
 						scrollTrigger: {
 							trigger: cards[i + 1],
@@ -104,26 +109,43 @@
 	class:paper={accent === 'paper'}
 	class:reduce={reduceMotion}
 >
-	<ol class="ticks" aria-label="Chapters">
-		{#each rooms as room, i (room.field)}
+	<ol class="ticks" aria-label="Rooms">
+		{#each rooms as room, i (room.fig)}
 			<li>
 				<a href="#room-{i + 1}" class:on={i === active}>
 					<span class="tick"></span>
 					{String(i + 1).padStart(2, '0')}
-					<span class="sr">{room.word}</span>
+					<span class="sr">{room.title}</span>
 				</a>
 			</li>
 		{/each}
 	</ol>
 
-	{#each rooms as room, i (room.field)}
-		<article class="room" id="room-{i + 1}" data-field={room.field}>
-			<h2>{room.word}</h2>
-			<p>
-				{#each room.lines as line (line)}
-					<span>{line}</span>
-				{/each}
-			</p>
+	{#each rooms as room, i (room.fig)}
+		<article class="room" id="room-{i + 1}">
+			<div class="frame" aria-hidden="true">
+				<span class="corner tl"></span>
+				<span class="corner tr"></span>
+				<span class="corner bl"></span>
+				<span class="corner br"></span>
+				<span class="hair"></span>
+			</div>
+			<p class="fig">{room.fig}</p>
+			<div class="band">
+				<div class="copy">
+					<h2>{room.title}</h2>
+					<p>{room.body}</p>
+				</div>
+				<div class="plates" aria-hidden="true">
+					{#each [0, 1, 2] as plate (plate)}
+						<span class="plate" class:ember={plate === room.live} style:--i={plate}>
+							{#if plate === room.live}
+								<span class="mark">{room.mark}</span>
+							{/if}
+						</span>
+					{/each}
+				</div>
+			</div>
 		</article>
 	{/each}
 </section>
@@ -133,6 +155,8 @@
 		--ink: #09090b;
 		--paper: #f5f0ea;
 		--accent: #ff5a1f;
+		--card: #111113;
+		--hairline: rgba(245, 240, 234, 0.2);
 		position: relative;
 		background: var(--ink);
 		color: var(--paper);
@@ -197,38 +221,132 @@
 		min-height: 100dvh;
 		flex-direction: column;
 		justify-content: center;
-		padding: 12vh 22vw 12vh 8vw;
+		padding: 12vh 18vw 12vh 7vw;
 		background: var(--ink);
 		transform-origin: center top;
 	}
 
-	.room[data-field='lock'] {
-		background:
-			radial-gradient(circle at 78% 18%, color-mix(in oklab, var(--accent) 32%, transparent), transparent 32%),
-			var(--ink);
+	.frame {
+		position: absolute;
+		inset: 1.1rem 4.5rem 1.1rem 1.4rem;
+		pointer-events: none;
 	}
 
-	.room[data-field='grid'] {
-		background:
-			repeating-linear-gradient(
-				0deg,
-				transparent 0 47px,
-				rgba(245, 240, 234, 0.06) 47px 48px
-			),
-			#111113;
+	.corner {
+		position: absolute;
+		width: 14px;
+		height: 14px;
+		border-color: var(--paper);
+		border-style: solid;
+		border-width: 0;
 	}
 
-	.room[data-field='flare'] {
-		background: #101012;
-		box-shadow: inset 0 -8px 0 var(--accent);
+	.tl {
+		top: 0;
+		left: 0;
+		border-top-width: 1px;
+		border-left-width: 1px;
+	}
+
+	.tr {
+		top: 0;
+		right: 0;
+		border-top-width: 1px;
+		border-right-width: 1px;
+	}
+
+	.bl {
+		bottom: 0;
+		left: 0;
+		border-bottom-width: 1px;
+		border-left-width: 1px;
+	}
+
+	.br {
+		bottom: 0;
+		right: 0;
+		border-bottom-width: 1px;
+		border-right-width: 1px;
+	}
+
+	.hair {
+		position: absolute;
+		top: 0;
+		left: 1.35rem;
+		width: 18px;
+		height: 1px;
+		background: var(--accent);
+	}
+
+	.fig {
+		position: relative;
+		margin: 0 0 2.2rem;
+		font-family: 'IBM Plex Mono', ui-monospace, monospace;
+		font-size: 11px;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: #8b8278;
+	}
+
+	.band {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(12rem, 22rem);
+		gap: 2.5rem 3rem;
+		align-items: center;
+	}
+
+	.copy {
+		min-width: 0;
 	}
 
 	h2 {
 		margin: 0;
-		font-size: clamp(4rem, 10vw, 7.5rem);
-		font-weight: 760;
-		line-height: 0.86;
+		max-width: 9ch;
+		font-size: clamp(2.6rem, 6vw, 4.6rem);
+		font-weight: 720;
+		line-height: 0.92;
 		letter-spacing: -0.05em;
+		text-wrap: pretty;
+	}
+
+	p {
+		margin: 1rem 0 0;
+		max-width: 28ch;
+		font-family: var(--font-body, 'IBM Plex Sans', ui-sans-serif, sans-serif);
+		font-size: 15px;
+		line-height: 1.5;
+		color: #c4bbb0;
+	}
+
+	.plates {
+		position: relative;
+		min-height: 14rem;
+	}
+
+	.plate {
+		position: absolute;
+		right: calc(var(--i) * 1.15rem);
+		bottom: calc(var(--i) * 1.05rem);
+		width: 78%;
+		height: 68%;
+		border: 1px solid var(--hairline);
+		background: var(--card);
+	}
+
+	.plate.ember {
+		border-color: var(--accent);
+	}
+
+	.mark {
+		position: absolute;
+		right: 0.85rem;
+		bottom: 0.75rem;
+		left: 0.85rem;
+		font-family: 'IBM Plex Mono', ui-monospace, monospace;
+		font-size: 11px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--paper);
 	}
 
 	@media (max-width: 768px) {
@@ -236,26 +354,27 @@
 			padding: 10vh 4.75rem 10vh 1.25rem;
 		}
 
-		h2 {
-			font-size: clamp(2.8rem, 16vw, 4.2rem);
+		.frame {
+			inset: 0.9rem 3.6rem 0.9rem 0.85rem;
 		}
-	}
 
-	p {
-		display: flex;
-		flex-direction: column;
-		margin: 1.5rem 0 0;
-		max-width: 22rem;
-		font-family: var(--font-body, 'IBM Plex Sans', ui-sans-serif, sans-serif);
-		font-size: 14px;
-		line-height: 1.55;
-		color: var(--paper);
+		.band {
+			grid-template-columns: 1fr;
+			gap: 1.75rem;
+		}
+
+		.plates {
+			min-height: 11rem;
+		}
+
+		h2 {
+			font-size: clamp(2.2rem, 12vw, 3.2rem);
+		}
 	}
 
 	.stack.reduce .room {
 		position: relative;
 		transform: none;
-		opacity: 1;
 	}
 
 	.stack.reduce .ticks {
@@ -270,7 +389,6 @@
 		.room {
 			position: relative;
 			transform: none;
-			opacity: 1;
 		}
 
 		.ticks {

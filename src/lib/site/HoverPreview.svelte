@@ -19,7 +19,8 @@
 	} = $props();
 
 	const enter = $derived({
-		y: prefersReducedMotion.current ? 0 : 4,
+		x: prefersReducedMotion.current ? 0 : 8,
+		y: 0,
 		duration: prefersReducedMotion.current ? 0 : 150
 	});
 	const exit = $derived({
@@ -33,6 +34,8 @@
 	}
 
 	function portal(node: HTMLElement) {
+		node.style.position = 'fixed';
+		node.style.zIndex = 'var(--z-hover)';
 		document.body.appendChild(node);
 		return () => {
 			node.remove();
@@ -46,6 +49,7 @@
 	<div
 		{@attach portal}
 		class="flare-chrome hover-card"
+		style:position="fixed"
 		style:top="{y}px"
 		style:left="{x}px"
 		in:fly={enter}
