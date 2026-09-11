@@ -4,6 +4,7 @@
   Type: Unbounded + IBM Plex Sans (host loads fontsource). IBM Plex Mono for HUD/meta.
 -->
 <script lang="ts">
+	import { untrack } from 'svelte';
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -68,8 +69,10 @@
 	}
 
 	function paintRoom(index: number, progress: number, count: number) {
-		active = count <= 0 ? 0 : Math.max(0, Math.min(count - 1, index));
-		fills = roomFills(count, active, progress);
+		const room = count <= 0 ? 0 : Math.max(0, Math.min(count - 1, index));
+		const next = roomFills(count, room, progress);
+		active = room;
+		fills = next;
 	}
 
 	function roomComplete(self: ScrollTrigger, walk: ScrollTrigger): boolean {
@@ -93,71 +96,73 @@
 			if (cancelled || !root || !rail || !track) return;
 			const reduced = forced || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-			ctx = gsap.context(() => {
-				const steps = gsap.utils.toArray<HTMLElement>('.room');
-				const count = steps.length;
-				paintRoom(0, 0, count);
+			untrack(() => {
+				ctx = gsap.context(() => {
+					const steps = gsap.utils.toArray<HTMLElement>('.room');
+					const count = steps.length;
+					paintRoom(0, 0, count);
 
-				if (reduced) {
+					if (reduced) {
+						steps.forEach((step, i) => {
+							ScrollTrigger.create({
+								trigger: step,
+								start: 'top 45%',
+								end: 'bottom 45%',
+								invalidateOnRefresh: true,
+								onToggle: (self) => {
+									if (self.isActive) active = i;
+								}
+							});
+						});
+						return;
+					}
+
+					gsap.set('.word', { opacity: 1, x: 0, y: 0 });
+
+					const stacked = el.clientWidth <= 768;
+					const walk = ScrollTrigger.create({
+						trigger: stacked ? el : left,
+						start: 'top top',
+						endTrigger: right,
+						end: 'bottom bottom',
+						pin: stacked ? false : true,
+						pinSpacing: false,
+						scrub: true,
+						invalidateOnRefresh: true,
+						refreshPriority: -1,
+						onRefreshInit: () => {
+							gsap.set('.word', { opacity: 1, x: 0, y: 0 });
+						},
+						onUpdate: (self) => {
+							const p = unitFill(self.progress);
+							if (p <= 0) paintRoom(0, 0, count);
+							else if (p >= 1) paintRoom(count - 1, 1, count);
+						}
+					});
+
 					steps.forEach((step, i) => {
+						const isFirst = i === 0;
+						const isLast = i === count - 1;
+
 						ScrollTrigger.create({
 							trigger: step,
-							start: 'top 45%',
-							end: 'bottom 45%',
+							start: isFirst ? () => walk.start : 'top 45%',
+							end: isLast ? 'max' : 'bottom 45%',
+							scrub: true,
 							invalidateOnRefresh: true,
-							onToggle: (self) => {
-								if (self.isActive) active = i;
+							onUpdate: (self) => {
+								paintRoom(i, isLast && roomComplete(self, walk) ? 1 : self.progress, count);
+							},
+							onLeave: (self) => {
+								if (self.direction > 0) paintRoom(i, 1, count);
+							},
+							onLeaveBack: (self) => {
+								if (self.direction < 0) paintRoom(i, 0, count);
 							}
 						});
 					});
-					return;
-				}
-
-				gsap.set('.word', { opacity: 1, x: 0, y: 0 });
-
-				const stacked = el.clientWidth <= 768;
-				const walk = ScrollTrigger.create({
-					trigger: stacked ? el : left,
-					start: 'top top',
-					endTrigger: right,
-					end: 'bottom bottom',
-					pin: stacked ? false : true,
-					pinSpacing: false,
-					scrub: true,
-					invalidateOnRefresh: true,
-					refreshPriority: -1,
-					onRefreshInit: () => {
-						gsap.set('.word', { opacity: 1, x: 0, y: 0 });
-					},
-					onUpdate: (self) => {
-						const p = unitFill(self.progress);
-						if (p <= 0) paintRoom(0, 0, count);
-						else if (p >= 1) paintRoom(count - 1, 1, count);
-					}
-				});
-
-				steps.forEach((step, i) => {
-					const isFirst = i === 0;
-					const isLast = i === count - 1;
-
-					ScrollTrigger.create({
-						trigger: step,
-						start: isFirst ? () => walk.start : 'top 45%',
-						end: isLast ? 'max' : 'bottom 45%',
-						scrub: true,
-						invalidateOnRefresh: true,
-						onUpdate: (self) => {
-							paintRoom(i, isLast && roomComplete(self, walk) ? 1 : self.progress, count);
-						},
-						onLeave: (self) => {
-							if (self.direction > 0) paintRoom(i, 1, count);
-						},
-						onLeaveBack: (self) => {
-							if (self.direction < 0) paintRoom(i, 0, count);
-						}
-					});
-				});
-			}, el);
+				}, el);
+			});
 
 			void document.fonts?.ready.then(() => {
 				if (!cancelled) ScrollTrigger.refresh();
