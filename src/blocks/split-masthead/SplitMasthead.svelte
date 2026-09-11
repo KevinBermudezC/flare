@@ -100,7 +100,9 @@
 		count: number
 	): { room: number; fill: number } {
 		if (count <= 0 || progress <= 0) return { room: 0, fill: 0 };
-		if (progress >= 1) return { room: count - 1, fill: 1 };
+		if (progress >= 0.999) return { room: count - 1, fill: 1 };
+		const end = bounds[bounds.length - 1];
+		if (end !== undefined && y >= end - 2) return { room: count - 1, fill: 1 };
 		let room = 0;
 		for (let i = 0; i < count; i++) {
 			const next = bounds[i + 1] ?? bounds[bounds.length - 1];

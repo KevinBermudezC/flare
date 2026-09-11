@@ -327,6 +327,7 @@
 		position: absolute;
 		right: calc(var(--i) * 1.15rem);
 		bottom: calc(var(--i) * 1.05rem);
+		z-index: calc(1 + var(--i));
 		width: 78%;
 		height: 68%;
 		border: 1px solid var(--hairline);
@@ -334,6 +335,7 @@
 	}
 
 	.plate.ember {
+		z-index: 5;
 		border-color: var(--accent);
 	}
 
