@@ -7,8 +7,6 @@ export const HOME_DESCRIPTION =
 export const CHAPTERS_TITLE = 'Flare · Chapters';
 export const CHAPTERS_DESCRIPTION =
 	'Browse six Flare chapters. Preview each gesture live, then copy the `.svelte` into your project.';
-export const INTRO_DESCRIPTION =
-	'Flare is a gallery of scroll chapters for Svelte 5. Open a chapter, watch the motion, copy the file. Preview. Copy. Chapters.';
 
 export const CHAPTER_TITLES: Record<ChapterSlug, string> = {
 	'split-masthead': 'Flare · Split Masthead',
