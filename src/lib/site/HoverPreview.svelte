@@ -1,22 +1,11 @@
 <script lang="ts">
 	import { prefersReducedMotion } from 'svelte/motion';
 	import { fade, fly } from 'svelte/transition';
+	import { CHAPTER_STILLS, blocks } from '$lib/catalog';
+	import { hideHoverCard, hoverCard } from './hover-preview.svelte';
 
-	let {
-		open,
-		name,
-		still,
-		x,
-		y,
-		onclose
-	}: {
-		open: boolean;
-		name: string;
-		still: string;
-		x: number;
-		y: number;
-		onclose?: () => void;
-	} = $props();
+	const block = $derived(blocks.find((item) => item.slug === hoverCard.slug));
+	const open = $derived(Boolean(block) && !prefersReducedMotion.current);
 
 	const enter = $derived({
 		x: prefersReducedMotion.current ? 0 : 8,
@@ -28,37 +17,41 @@
 	});
 
 	function onKeydown(event: KeyboardEvent) {
-		if (event.key === 'Escape' && open) {
-			onclose?.();
-		}
+		if (event.key === 'Escape' && open) hideHoverCard();
 	}
 
 	function portal(node: HTMLElement) {
-		node.style.position = 'fixed';
-		node.style.zIndex = 'var(--z-hover)';
+		const home = node.parentNode;
+		const marker = document.createComment('flare-hover');
+		home?.insertBefore(marker, node);
+		node.style.setProperty('position', 'fixed', 'important');
+		node.style.setProperty('z-index', '400', 'important');
 		document.body.appendChild(node);
 		return () => {
-			node.remove();
+			marker.parentNode?.insertBefore(node, marker);
+			marker.remove();
 		};
 	}
 </script>
 
 <svelte:window onkeydown={onKeydown} />
 
-{#if open && still}
+{#if open && block}
 	<div
 		{@attach portal}
 		class="flare-chrome hover-card"
+		data-hover-preview
 		style:position="fixed"
-		style:top="{y}px"
-		style:left="{x}px"
+		style:z-index="400"
+		style:top="{hoverCard.y}px"
+		style:left="{hoverCard.x}px"
 		in:fly={enter}
 		out:fade={exit}
 		aria-hidden="true"
 	>
-		<img src={still} alt="" width="320" height="180" />
+		<img src={CHAPTER_STILLS[block.slug]} alt="" width="320" height="180" />
 		<div class="meta">
-			<span class="name">{name}</span>
+			<span class="name">{block.name}</span>
 			<span class="kind">SCROLL</span>
 		</div>
 	</div>
@@ -67,7 +60,7 @@
 <style>
 	.hover-card {
 		position: fixed;
-		z-index: var(--z-hover);
+		z-index: 400;
 		isolation: isolate;
 		width: 320px;
 		overflow: hidden;

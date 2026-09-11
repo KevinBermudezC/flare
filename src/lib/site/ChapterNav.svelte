@@ -1,28 +1,21 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { prefersReducedMotion } from 'svelte/motion';
-	import { blocks, CHAPTER_STILLS, type ChapterSlug } from '$lib/catalog';
-	import HoverPreview from './HoverPreview.svelte';
+	import { blocks, type ChapterSlug } from '$lib/catalog';
+	import { hideHoverCard, hoverCard, showHoverCard } from './hover-preview.svelte';
 
 	let { current = null }: { current?: ChapterSlug | null } = $props();
 
-	const previewH = 236;
 	const previewGap = 8;
 	const selected = $derived(current ?? 'introduction');
 
 	let allowHover = $state(false);
 	const allowCard = $derived(allowHover && !prefersReducedMotion.current);
-	let hoverSlug = $state<ChapterSlug | null>(null);
-	let cardX = $state(0);
-	let cardY = $state(0);
-	let railEl: HTMLElement | undefined = $state();
 	let openTimer = 0;
 	let closeTimer = 0;
 
-	const hovered = $derived(blocks.find((block) => block.slug === hoverSlug));
-
 	$effect(() => {
-		if (!allowCard) hoverSlug = null;
+		if (!allowCard) hideHoverCard();
 	});
 
 	$effect(() => {
@@ -31,7 +24,7 @@
 
 		const sync = () => {
 			allowHover = fine.matches && !coarse.matches;
-			if (!allowHover || prefersReducedMotion.current) hoverSlug = null;
+			if (!allowHover || prefersReducedMotion.current) hideHoverCard();
 		};
 
 		sync();
@@ -43,29 +36,20 @@
 			coarse.removeEventListener('change', sync);
 			window.clearTimeout(openTimer);
 			window.clearTimeout(closeTimer);
+			hideHoverCard();
 		};
 	});
 
 	function place(el: HTMLElement, slug: ChapterSlug) {
 		const row = el.getBoundingClientRect();
-		const rail = (railEl ?? el.closest('.rail'))?.getBoundingClientRect();
-		const pad = 8;
-		const floor = window.innerHeight - previewH - pad;
-		const x = (rail?.right ?? row.right) + previewGap;
-		// Flush with the row, right of the rail. Do not clear `.bar` / `.shell-nav`:
-		// those sit in the main column and dump high rows (type-charge) under the
-		// row. The card portals above both via `--z-hover`.
-		const preferred = row.top;
-		cardX = x;
-		cardY = Math.min(Math.max(pad, preferred), Math.max(pad, floor));
-		hoverSlug = slug;
+		showHoverCard(slug, row.right + previewGap, row.top);
 	}
 
 	function closePreview() {
 		window.clearTimeout(openTimer);
 		window.clearTimeout(closeTimer);
 		closeTimer = window.setTimeout(() => {
-			hoverSlug = null;
+			hideHoverCard();
 		}, 120);
 	}
 
@@ -73,7 +57,7 @@
 		if (slug === current || !allowCard) return;
 		window.clearTimeout(openTimer);
 		window.clearTimeout(closeTimer);
-		if (hoverSlug) {
+		if (hoverCard.slug) {
 			place(el, slug);
 			return;
 		}
@@ -107,7 +91,7 @@
 		</select>
 	</label>
 
-	<aside bind:this={railEl} class="rail">
+	<aside class="rail">
 		<nav aria-label="Chapters">
 			<div class="group">
 				<p class="section">Start</p>
@@ -138,20 +122,6 @@
 		</nav>
 	</aside>
 </div>
-{#if allowCard}
-	<HoverPreview
-		open={Boolean(hovered)}
-		name={hovered?.name ?? ''}
-		still={hovered ? CHAPTER_STILLS[hovered.slug] : ''}
-		x={cardX}
-		y={cardY}
-		onclose={() => {
-			window.clearTimeout(openTimer);
-			window.clearTimeout(closeTimer);
-			hoverSlug = null;
-		}}
-	/>
-{/if}
 
 <style>
 	.nav-stack {

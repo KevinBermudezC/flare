@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import HoverPreview from '$lib/site/HoverPreview.svelte';
 	import SiteShell from '$lib/site/SiteShell.svelte';
 	import './layout.css';
 
@@ -18,4 +19,5 @@
 	<SiteShell>
 		{@render children()}
 	</SiteShell>
+	<HoverPreview />
 {/if}

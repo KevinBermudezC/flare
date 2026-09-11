@@ -28,7 +28,7 @@
 	--sidebar-w: 260px;
 	--z-toolbar: 30;
 	--z-nav: 40;
-	--z-hover: 200;
+	--z-hover: 400;
 }
 
 @media (max-width: 390px) {
