@@ -49,15 +49,15 @@
 	function place(el: HTMLElement, slug: ChapterSlug) {
 		const row = el.getBoundingClientRect();
 		const rail = (railEl ?? el.closest('.rail'))?.getBoundingClientRect();
-		const nav = document.querySelector('.shell-nav')?.getBoundingClientRect();
-		const bar = document.querySelector('.flare-chrome.bar')?.getBoundingClientRect();
 		const pad = 8;
-		const topClear = Math.max(pad, (nav?.bottom ?? 0) + pad, bar ? bar.bottom + pad : 0);
 		const floor = window.innerHeight - previewH - pad;
 		const x = (rail?.right ?? row.right) + previewGap;
-		const centered = row.top + row.height / 2 - previewH / 2;
+		// Flush with the row, right of the rail. Do not clear `.bar` / `.shell-nav`:
+		// those sit in the main column and dump high rows (type-charge) under the
+		// row. The card portals above both via `--z-hover`.
+		const preferred = row.top;
 		cardX = x;
-		cardY = Math.min(Math.max(topClear, centered), floor);
+		cardY = Math.min(Math.max(pad, preferred), Math.max(pad, floor));
 		hoverSlug = slug;
 	}
 
