@@ -10,7 +10,6 @@
 
 <svelte:head>
 	<link rel="icon" href="/favicon.svg" />
-	<title>Flare</title>
 </svelte:head>
 
 {#if embed}

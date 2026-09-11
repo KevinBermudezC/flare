@@ -26,9 +26,9 @@
 				<a class="cta" class:on={onChapters} href="/chapters">Chapters</a>
 			</nav>
 		</header>
-		<div class="shell-body">
+		<main class="shell-body">
 			{@render children()}
-		</div>
+		</main>
 		<footer class="shell-foot">
 			<div class="foot-top">
 				<div class="ident">

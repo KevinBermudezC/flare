@@ -1,11 +1,10 @@
 <script lang="ts">
 	import ChapterNav from '$lib/site/ChapterNav.svelte';
-
+	import SeoHead from '$lib/site/SeoHead.svelte';
+	import { CHAPTERS_DESCRIPTION, CHAPTERS_TITLE, OG } from '$lib/site/seo';
 </script>
 
-<svelte:head>
-	<title>Chapters - Flare</title>
-</svelte:head>
+<SeoHead title={CHAPTERS_TITLE} description={CHAPTERS_DESCRIPTION} image={OG.chapters} />
 
 <div class="layout">
 	<ChapterNav />

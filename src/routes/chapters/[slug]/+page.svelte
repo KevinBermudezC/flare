@@ -4,6 +4,8 @@
 	import ChapterNav from '$lib/site/ChapterNav.svelte';
 	import CopyButton from '$lib/site/CopyButton.svelte';
 	import CopyPanel from '$lib/site/CopyPanel.svelte';
+	import SeoHead from '$lib/site/SeoHead.svelte';
+	import { chapterDescription, chapterOg, chapterTitle } from '$lib/site/seo';
 	import type { Accent } from '$lib/site/ChapterPlayground.svelte';
 	import {
 		appliedViewportWidth,
@@ -68,15 +70,19 @@
 	}
 </script>
 
-<svelte:head>
-	<title>{data.name} - Flare</title>
-</svelte:head>
+{#if block}
+	<SeoHead
+		title={chapterTitle(block.slug)}
+		description={chapterDescription(block.slug)}
+		image={chapterOg(block.slug)}
+	/>
+{/if}
 
 {#if block && primary}
 	<div class="layout">
 		<ChapterNav current={block.slug} />
 
-		<div class="main">
+		<article class="main">
 			<header class="head">
 				<p class="crumb">
 					<a href="/">FLARE</a>
@@ -170,7 +176,7 @@
 					</label>
 				</div>
 			</section>
-		</div>
+		</article>
 	</div>
 {/if}
 

@@ -3,7 +3,9 @@
 	import { onMount } from 'svelte';
 	import { getBlock } from '$lib/catalog';
 	import ChapterPlayground from '$lib/site/ChapterPlayground.svelte';
+	import SeoHead from '$lib/site/SeoHead.svelte';
 	import { readEmbedSearch } from '$lib/site/chapter-embed';
+	import { OG, chapterDescription, chapterTitle } from '$lib/site/seo';
 
 	let { data } = $props();
 	const block = $derived(getBlock(data.slug));
@@ -15,9 +17,14 @@
 	});
 </script>
 
-<svelte:head>
-	<title>{data.name} preview - Flare</title>
-</svelte:head>
+{#if block}
+	<SeoHead
+		title="{chapterTitle(block.slug)} preview"
+		description={chapterDescription(block.slug)}
+		image={OG.fallback}
+		index={false}
+	/>
+{/if}
 
 {#if block && primed}
 	<div class="embed">

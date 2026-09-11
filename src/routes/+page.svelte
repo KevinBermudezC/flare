@@ -3,6 +3,8 @@
 	import HomeHero from '$lib/site/HomeHero.svelte';
 	import HomeInside from '$lib/site/HomeInside.svelte';
 	import HomeMotion from '$lib/site/HomeMotion.svelte';
+	import SeoHead from '$lib/site/SeoHead.svelte';
+	import { HOME_DESCRIPTION, HOME_TITLE, OG } from '$lib/site/seo';
 
 	const count = String(blocks.length).padStart(2, '0');
 
@@ -11,9 +13,7 @@
 	}
 </script>
 
-<svelte:head>
-	<title>Flare - Preview. Copy.</title>
-</svelte:head>
+<SeoHead title={HOME_TITLE} description={HOME_DESCRIPTION} image={OG.home} />
 
 <HomeHero />
 <HomeInside />
