@@ -4,8 +4,10 @@
 	import { CHAPTER_STILLS, blocks } from '$lib/catalog';
 	import { hideHoverCard, hoverCard } from './hover-preview.svelte';
 
-	const slug = $derived(hoverCard.slug);
-	const open = $derived(Boolean(slug) && !prefersReducedMotion.current);
+	const hoverSlug = $derived(hoverCard.slug);
+	const open = $derived(Boolean(hoverSlug) && !prefersReducedMotion.current);
+	const item = $derived(hoverSlug ? blocks.find((entry) => entry.slug === hoverSlug) : undefined);
+	const src = $derived(hoverSlug ? CHAPTER_STILLS[hoverSlug] : undefined);
 
 	const enter = $derived({
 		x: prefersReducedMotion.current ? 0 : 8,
@@ -18,6 +20,9 @@
 	}
 
 	function portal(node: HTMLElement) {
+		for (const prev of document.querySelectorAll('[data-hover-preview]')) {
+			if (prev !== node) prev.remove();
+		}
 		node.style.setProperty('position', 'fixed', 'important');
 		node.style.setProperty('z-index', '400', 'important');
 		document.body.appendChild(node);
@@ -29,30 +34,26 @@
 
 <svelte:window onkeydown={onKeydown} />
 
-{#if open && slug}
-	{#key slug}
-		{@const item = blocks.find((entry) => entry.slug === slug)}
-		{@const src = CHAPTER_STILLS[slug]}
-		{#if item && src}
-			<div
-				{@attach portal}
-				class="flare-chrome hover-card"
-				data-hover-preview
-				data-hover-slug={slug}
-				style:position="fixed"
-				style:z-index="400"
-				style:top="{hoverCard.y}px"
-				style:left="{hoverCard.x}px"
-				in:fly={enter}
-				aria-hidden="true"
-			>
-				<img src={src} alt="" width="320" height="180" />
-				<div class="meta">
-					<span class="name">{item.name}</span>
-					<span class="kind">SCROLL</span>
-				</div>
+{#if open && hoverSlug && item && src}
+	{#key hoverSlug}
+		<div
+			{@attach portal}
+			class="flare-chrome hover-card"
+			data-hover-preview
+			data-hover-slug={hoverSlug}
+			style:position="fixed"
+			style:z-index="400"
+			style:top="{hoverCard.y}px"
+			style:left="{hoverCard.x}px"
+			in:fly={enter}
+			aria-hidden="true"
+		>
+			<img src={src} alt="" width="320" height="180" />
+			<div class="meta">
+				<span class="name">{item.name}</span>
+				<span class="kind">SCROLL</span>
 			</div>
-		{/if}
+		</div>
 	{/key}
 {/if}
 
