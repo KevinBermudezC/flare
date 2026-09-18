@@ -109,17 +109,19 @@
 	class:paper={accent === 'paper'}
 	class:reduce={reduceMotion}
 >
-	<ol class="ticks" aria-label="Rooms">
-		{#each rooms as room, i (room.fig)}
-			<li>
-				<a href="#room-{i + 1}" class:on={i === active}>
-					<span class="tick"></span>
-					{String(i + 1).padStart(2, '0')}
-					<span class="sr">{room.title}</span>
-				</a>
-			</li>
-		{/each}
-	</ol>
+	<div class="ticks-layer">
+		<ol class="ticks" aria-label="Rooms">
+			{#each rooms as room, i (room.fig)}
+				<li>
+					<a href="#room-{i + 1}" class:on={i === active}>
+						<span class="tick"></span>
+						{String(i + 1).padStart(2, '0')}
+						<span class="sr">{room.title}</span>
+					</a>
+				</li>
+			{/each}
+		</ol>
+	</div>
 
 	{#each rooms as room, i (room.fig)}
 		<article class="room" id="room-{i + 1}">
@@ -167,6 +169,13 @@
 		--accent: #f5f0ea;
 	}
 
+	.ticks-layer {
+		position: absolute;
+		inset: 0;
+		z-index: 3;
+		pointer-events: none;
+	}
+
 	.ticks {
 		position: sticky;
 		top: 0;
@@ -175,11 +184,12 @@
 		flex-direction: column;
 		justify-content: center;
 		gap: 0.85rem;
-		float: right;
+		margin: 0 0 0 auto;
+		width: fit-content;
 		height: 100dvh;
-		margin: 0;
 		padding: 0 1.25rem 0 0;
 		list-style: none;
+		pointer-events: auto;
 		font-family: 'IBM Plex Mono', ui-monospace, monospace;
 		font-size: 12px;
 		color: #8b8278;
