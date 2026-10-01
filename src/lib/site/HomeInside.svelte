@@ -17,7 +17,7 @@
 		<li>
 			<p class="n">03</p>
 			<h3>Scroll</h3>
-			<p>Six chapters. GSAP where it earns it.</p>
+			<p>Eight chapters. GSAP where it earns it.</p>
 		</li>
 	</ul>
 </section>

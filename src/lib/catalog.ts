@@ -3,6 +3,8 @@ import ChapterPin from '../blocks/chapter-pin/ChapterPin.svelte';
 import chapterPinSource from '../blocks/chapter-pin/ChapterPin.svelte?raw';
 import DeckPin from '../blocks/deck-pin/DeckPin.svelte';
 import deckPinSource from '../blocks/deck-pin/DeckPin.svelte?raw';
+import LaneMorph from '../blocks/lane-morph/LaneMorph.svelte';
+import laneMorphSource from '../blocks/lane-morph/LaneMorph.svelte?raw';
 import LaneScrub from '../blocks/lane-scrub/LaneScrub.svelte';
 import laneScrubSource from '../blocks/lane-scrub/LaneScrub.svelte?raw';
 import MaskReveal from '../blocks/mask-reveal/MaskReveal.svelte';
@@ -11,6 +13,8 @@ import SplitMasthead from '../blocks/split-masthead/SplitMasthead.svelte';
 import splitMastheadSource from '../blocks/split-masthead/SplitMasthead.svelte?raw';
 import TypeCharge from '../blocks/type-charge/TypeCharge.svelte';
 import typeChargeSource from '../blocks/type-charge/TypeCharge.svelte?raw';
+import TypeLinger from '../blocks/type-linger/TypeLinger.svelte';
+import typeLingerSource from '../blocks/type-linger/TypeLinger.svelte?raw';
 
 export type ChapterSlug =
 	| 'split-masthead'
@@ -18,7 +22,9 @@ export type ChapterSlug =
 	| 'lane-scrub'
 	| 'chapter-pin'
 	| 'mask-reveal'
-	| 'deck-pin';
+	| 'deck-pin'
+	| 'lane-morph'
+	| 'type-linger';
 
 export type ChapterKind = 'masthead' | 'type' | 'lane' | 'pin' | 'mask' | 'deck';
 
@@ -47,7 +53,9 @@ export const CHAPTER_STILLS: Record<ChapterSlug, string> = {
 	'lane-scrub': '/stills/lane-scrub.webp',
 	'chapter-pin': '/stills/chapter-pin.webp',
 	'mask-reveal': '/stills/mask-reveal.webp',
-	'deck-pin': '/stills/deck-pin.webp'
+	'deck-pin': '/stills/deck-pin.webp',
+	'lane-morph': '/stills/lane-morph.webp',
+	'type-linger': '/stills/type-linger.webp'
 };
 
 export const blocks: BlockEntry[] = [
@@ -116,6 +124,28 @@ export const blocks: BlockEntry[] = [
 		editDefault: 'Preview',
 		component: DeckPin,
 		files: [{ name: 'DeckPin.svelte', source: deckPinSource }]
+	},
+	{
+		slug: 'lane-morph',
+		name: 'Lane Morph',
+		tagline: 'Stage pins. The lane walks. Type remaps with the scrub.',
+		kind: 'lane',
+		extraDep: 'pnpm add gsap',
+		editField: 'word',
+		editDefault: 'LANE',
+		component: LaneMorph,
+		files: [{ name: 'LaneMorph.svelte', source: laneMorphSource }]
+	},
+	{
+		slug: 'type-linger',
+		name: 'Type Linger',
+		tagline: 'Rooms stack. Letters linger as the next title forms.',
+		kind: 'type',
+		extraDep: 'pnpm add gsap',
+		editField: 'word',
+		editDefault: 'CHARGE',
+		component: TypeLinger,
+		files: [{ name: 'TypeLinger.svelte', source: typeLingerSource }]
 	}
 ];
 

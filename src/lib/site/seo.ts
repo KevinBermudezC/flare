@@ -2,11 +2,11 @@ import { blocks, type ChapterSlug } from '$lib/catalog';
 
 export const HOME_TITLE = 'Flare · Preview. Copy. Chapters.';
 export const HOME_DESCRIPTION =
-	'Svelte 5 scroll chapters. Live preview. Copy the `.svelte`. Six gestures: pin, scrub, masthead, type, mask, deck.';
+	'Svelte 5 scroll chapters. Live preview. Copy the `.svelte`. Eight chapters: pin, scrub, masthead, type, mask, deck.';
 
 export const CHAPTERS_TITLE = 'Flare · Chapters';
 export const CHAPTERS_DESCRIPTION =
-	'Browse six Flare chapters. Preview each gesture live, then copy the `.svelte` into your project.';
+	'Browse eight Flare chapters. Preview each gesture live, then copy the `.svelte` into your project.';
 
 export const CHAPTER_TITLES: Record<ChapterSlug, string> = {
 	'split-masthead': 'Flare · Split Masthead',
@@ -14,7 +14,9 @@ export const CHAPTER_TITLES: Record<ChapterSlug, string> = {
 	'lane-scrub': 'Flare · Lane Scrub',
 	'chapter-pin': 'Flare · Chapter Pin',
 	'mask-reveal': 'Flare · Mask Reveal',
-	'deck-pin': 'Flare · Deck Pin'
+	'deck-pin': 'Flare · Deck Pin',
+	'lane-morph': 'Flare · Lane Morph',
+	'type-linger': 'Flare · Type Linger'
 };
 
 export const OG = {
@@ -29,7 +31,9 @@ const CHAPTER_OG: Record<ChapterSlug, string> = {
 	'lane-scrub': '/og/og-lane-scrub.png',
 	'chapter-pin': '/og/og-chapter-pin.png',
 	'mask-reveal': '/og/og-mask-reveal.png',
-	'deck-pin': '/og/og-deck-pin.png'
+	'deck-pin': '/og/og-deck-pin.png',
+	'lane-morph': '/og/og-lane-morph.png',
+	'type-linger': '/og/og-type-linger.png'
 };
 
 export function chapterTitle(slug: ChapterSlug): string {

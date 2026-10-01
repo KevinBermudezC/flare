@@ -1,10 +1,12 @@
 <script lang="ts">
 	import ChapterPin from '../../blocks/chapter-pin/ChapterPin.svelte';
 	import DeckPin from '../../blocks/deck-pin/DeckPin.svelte';
+	import LaneMorph from '../../blocks/lane-morph/LaneMorph.svelte';
 	import LaneScrub from '../../blocks/lane-scrub/LaneScrub.svelte';
 	import MaskReveal from '../../blocks/mask-reveal/MaskReveal.svelte';
 	import SplitMasthead from '../../blocks/split-masthead/SplitMasthead.svelte';
 	import TypeCharge from '../../blocks/type-charge/TypeCharge.svelte';
+	import TypeLinger from '../../blocks/type-linger/TypeLinger.svelte';
 	import type { ChapterSlug } from '../catalog';
 
 	export type Accent = 'ember' | 'paper';
@@ -22,6 +24,10 @@
 		accent: Accent;
 		reduceMotion: boolean;
 	} = $props();
+
+	function unhandled(slug: never): never {
+		throw new Error(`Unknown chapter ${slug}`);
+	}
 </script>
 
 {#key `${slug}-${replay}-${title}-${accent}-${reduceMotion}`}
@@ -37,5 +43,11 @@
 		<MaskReveal headline={title} {accent} {reduceMotion} mediaSrc="/blocks/mask-yard.jpg" />
 	{:else if slug === 'deck-pin'}
 		<DeckPin lead={title} {accent} {reduceMotion} />
+	{:else if slug === 'lane-morph'}
+		<LaneMorph word={title} {accent} {reduceMotion} />
+	{:else if slug === 'type-linger'}
+		<TypeLinger word={title} {accent} {reduceMotion} />
+	{:else}
+		{unhandled(slug)}
 	{/if}
 {/key}
