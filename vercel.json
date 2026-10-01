@@ -1,4 +1,7 @@
 {
-	"framework": "sveltekit",
-	"installCommand": "pnpm i"
+  "framework": "sveltekit",
+  "installCommand": "pnpm i",
+  "redirects": [
+    { "source": "/chapters/introduction", "destination": "/chapters", "permanent": true }
+  ]
 }
