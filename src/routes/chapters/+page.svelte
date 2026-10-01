@@ -24,7 +24,7 @@
 			<div class="lede">
 				<p>
 					Flare is a Svelte 5 gallery of scroll chapters. Live preview. Copy the whole
-					<code>.svelte</code>. Six chapters.
+					<code>.svelte</code>. Eight chapters.
 				</p>
 				<p>Official gsap where the gesture earns it. Open a chapter. Pin and scrub at real height.</p>
 			</div>
@@ -72,7 +72,7 @@
 						<span class="dot" aria-hidden="true"></span>
 						<div class="item">
 							<strong>Gallery site</strong>
-							<p>Six scroll chapters, live at real height.</p>
+							<p>Eight scroll chapters, live at real height.</p>
 						</div>
 					</li>
 					<li>

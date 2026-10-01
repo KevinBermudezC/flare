@@ -32,6 +32,8 @@ Each folder is independent. No cross-imports. No `$lib/ui`. Recorte 1 chapters n
 | `chapter-pin` | Rooms pin. The rail keeps count. |
 | `mask-reveal` | An ink window opens on the frame. |
 | `deck-pin` | Cards stick. The top one keeps the line. |
+| `lane-morph` | Stage pins. The lane walks. Type remaps with the scrub. |
+| `type-linger` | Rooms stack. Letters linger as the next title forms. |
 
 ## Deploy
 
