@@ -39,6 +39,14 @@ Each chapter MUST be a **section**, not a primitive Button/Input/Dialog. The rep
 - **THEN** they see three rooms with different titles and fields
 - **AND** the pin gesture still runs
 
+#### Scenario: Deck pin keeps the line on the card in view
+
+- **WHEN** a visitor scrolls `deck-pin` at 1440, 768, or 390
+- **THEN** the card that covers the viewport shows its own title and body
+- **AND** the incoming card is not an empty face while its copy is still below the fold
+- **AND** a settled card keeps its title and body in the lower part of the card
+- **AND** with reduced motion, pin and scrub do not run, and each card still shows its title and body while that card is on screen
+
 ### Requirement: Copy-paste renders
 
 A copied chapter file MUST render in a SvelteKit 5 + Tailwind v4 app that has `gsap` installed. All motion used by the chapter MUST live in that file (or in other files in the same folder that are copied with it).
