@@ -5,7 +5,7 @@
 	"description": "Svelte 5 gallery of scroll chapters. Preview, copy the .svelte, it's yours.",
 	"packageManager": "pnpm@10.33.3",
 	"engines": {
-		"node": ">=22"
+		"node": "22.x"
 	},
 	"type": "module",
 	"scripts": {
