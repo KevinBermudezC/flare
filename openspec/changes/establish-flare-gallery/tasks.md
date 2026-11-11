@@ -12,6 +12,7 @@
 - [x] 2.4 Add `chapter-pin` (pinned chapters that zoom or stack) and verify each chapter remains in layout under reduced motion
 - [x] 2.5 Add `mask-reveal` (type mask that zooms on scroll) and verify the word remains visible under reduced motion
 - [x] 2.6 Add `deck-pin` (sticky stacking cards) and verify the stack does not collapse under reduced motion
+- [x] 2.9 Keep each `deck-pin` card's title and body inside the viewport while that card covers it, including reduced motion
 - [x] 2.7 Delete the mixed ten-section folders (and `slat-expand` if present) and verify they are gone from `src/blocks` and the catalog
 - [x] 2.8 Grep `src/blocks` for `$lib`, `framer-motion`, `motion/react`, `motion-sv`, and imported `Button` and verify zero matches
 
